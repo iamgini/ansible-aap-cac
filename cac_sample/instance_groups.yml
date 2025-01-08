@@ -27,6 +27,3 @@ controller_instance_groups:
               requests:
                 cpu: 250m
                 memory: 100Mi
-
-
-...

@@ -4,4 +4,3 @@ controller_groups:
     inventory: localhost
     variables:
       my_var: true
-...

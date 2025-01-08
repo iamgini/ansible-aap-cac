@@ -38,7 +38,7 @@
         apply:
           tags: organizations
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_organizations is defined
       tags:
         - organizations
@@ -76,7 +76,7 @@
         apply:
           tags: credentialtypes
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       # when: controller_credential_types is defined
       tags:
         - credentialtypes
@@ -87,7 +87,7 @@
         apply:
           tags: credentials
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_credentials is defined
       tags:
         - credentials
@@ -98,7 +98,7 @@
         apply:
           tags: projects
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_projects is defined
       tags:
         - projects
@@ -109,7 +109,7 @@
         apply:
           tags: inventories
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_inventories is defined
       tags:
         - inventories
@@ -129,7 +129,7 @@
         apply:
           tags: hosts
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_hosts is defined
       tags:
         - hosts
@@ -140,7 +140,7 @@
         apply:
           tags: templates
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_templates is defined
       tags:
         - templates
@@ -151,7 +151,7 @@
         apply:
           tags: workflows
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_workflows is defined
       tags:
         - workflows
@@ -162,7 +162,7 @@
         apply:
           tags: roles
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_roles is defined
       tags:
         - roles
@@ -173,7 +173,7 @@
         apply:
           tags: instancegroups
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_instance_groups is defined
       tags:
         - instancegroups
@@ -184,7 +184,7 @@
         apply:
           tags: inventorysources
       vars:
-        # controller_organizations: "{{ controller_organization_list }}"
+      # controller_organizations: "{{ controller_organization_list }}"
       when: controller_inventory_sources is defined
       tags:
         - inventorysources
