@@ -4,4 +4,3 @@ controller_inventory_sources:
     inventory: Demo Inventory
     source: scm
     source_project: Demo Project
-...

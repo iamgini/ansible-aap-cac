@@ -1,9 +1,10 @@
+---
 # export_items:
 #   - credentials
 
 configure_organizations:
-  - 'Awesome Corp'
-  - 'ACME'
+  - Awesome Corp
+  - ACME
 
 configure_credentials: all
 
