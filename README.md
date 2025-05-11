@@ -50,7 +50,7 @@ export CONTROLLER_HOST=https://ansiblecontroller22-1.lab.local
 ### Method 1: Using `ansible-playbook`
 
 ```shell
-$ ansible-plabook controller_configure.yaml -t <tag>
+$ ansible-playbook controller_configure.yaml -t <tag>
 ```
 
 ### Method 2: Using `ansible-navigator`
