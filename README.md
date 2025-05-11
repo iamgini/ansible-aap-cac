@@ -1,4 +1,4 @@
-# Configuration as Code for Automation Controllers
+# Configuration as Code for Automation Automation Platform
 
 This Ansible playbooks and roles allows for easy interaction with an Ansible Controller server via Ansible roles using the Controller collection modules.
 
