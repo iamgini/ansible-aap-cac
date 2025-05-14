@@ -110,52 +110,7 @@ Note:
 
 ## Troubleshooting
 
-```shell
-$ ldapsearch -x  -H ldap://win -D "CN=josie,CN=Users,DC=website,DC=com" -b "dc=website,dc=com" -w Josie4Cloud
-```
-
-Note: The ldapsearch utility is not automatically pre-installed with automation controller, however, you can install it from the `openldap-clients `package.
-
-If you cannot install the package (if you are running it inside Container or OpenShift), then test the connectivity using curl command as follows.
-
-In this scenario, we have an Automation Controller running using Podman (containerized AAP).
-
-Test `389` or `636` depends on the port you are using.
-
-```shell
-[devops@aap-rhel-92-1 ~]$ podman exec -it automation-controller-task /bin/bash
-bash-4.4$  podman exec -it automation-controller-task /bin/bash
-bash-4.4$ curl -kv http://WIN2019.example.com:636
-* Rebuilt URL to: http://WIN2019.example.com:636/
-*   Trying 192.168.57.137...
-* TCP_NODELAY set
-* Connected to WIN2019.example.com (192.168.57.137) port 636 (#0)
-> GET / HTTP/1.1
-> Host: WIN2019.example.com:636
-> User-Agent: curl/7.61.1
-> Accept: */*
->
-* Recv failure: Connection reset by peer
-* Closing connection 0
-curl: (56) Recv failure: Connection reset by peer
-
-bash-4.4$ curl -kv http://WIN2019.example.com:389
-* Rebuilt URL to: http://WIN2019.example.com:389/
-*   Trying 192.168.57.137...
-* TCP_NODELAY set
-* Connected to WIN2019.example.com (192.168.57.137) port 389 (#0)
-> GET / HTTP/1.1
-> Host: WIN2019.example.com:389
-> User-Agent: curl/7.61.1
-> Accept: */*
->
-* Recv failure: Connection reset by peer
-* Closing connection 0
-curl: (56) Recv failure: Connection reset by peer
-```
-
-
-
+(If any)
 
 ## References
 
