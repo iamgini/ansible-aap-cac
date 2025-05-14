@@ -1,0 +1,48 @@
+---
+controller_configuration_projects_async_retries: 60
+controller_configuration_projects_async_delay: 5
+controller_projects:
+
+  - name: Ansible-Real-Life-Cac
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-real-life
+    scm_branch: main
+    scm_clean: false
+    description: Demo Project Created using CaC
+    organization: Cac-Demo-Org
+    wait: true
+    update_project: true
+    # credential: GH-Dev
+
+  # - name: NEW PROJECT FOR DEMO
+  #   scm_type: git
+  #   scm_url: https://github.com/iamgini/ansible-real-lifell
+  #   scm_branch: main
+  #   scm_clean: false
+  #   description: Demo Project Created using CaC
+  #   organization: Cac-Demo-Org
+  #   wait: true
+  #   update_project: true
+    # credential: GH-Dev
+
+  - name: Network-Automation-CaC
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-real-life
+    scm_branch: main
+    scm_clean: false
+    description: Demo project for network automation
+    organization: Network-Ops
+    wait: true
+    update_project: true
+
+  - name: AAP-Use-Case-Demos-Cac
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-aap-demos
+    scm_branch: main
+    scm_clean: false
+    description: AAP Demos Created using CaC
+    organization: Cac-Demo-Org
+    wait: true
+    update_project: true
+    # credential: GH-Dev
+...

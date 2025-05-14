@@ -1,0 +1,18 @@
+---
+controller_teams:
+  - name: cac-team-101
+    organization: Cac-Demo-Org
+  - name: cac-team-102
+    organization: Cac-Demo-Org
+  - name: cac-operators
+    organization: XYZCorp-CaC
+  - name: cac-admins
+    organization: XYZCorp-CaC
+
+  # multi-tenancy example
+  - name: network-admins
+    organization: Network-Ops
+
+  - name: network-operators
+    organization: Network-Ops
+...

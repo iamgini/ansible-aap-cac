@@ -1,0 +1,126 @@
+---
+# Only Job name, type, project and playbook are required
+# Survey spec can be exported from existing job template querying the API.
+# Find the ID of the job template and use the following URL:
+# https://<controller_url>/api/v2/job_templates/<ID>/survey_spec/
+controller_templates:
+
+  - name: 000-List-to-String
+    description: Simple template
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    # labels:
+    #   - Dev
+    # credentials: Dev Access
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-list-to-string/site.yml
+    verbosity: 0
+    extra_vars:
+      # target_hosts: localhost
+    ask_inventory_on_launch: false
+    ask_execution_environment_on_launch: false
+    ask_forks_on_launch: false
+    ask_instance_groups_on_launch: false
+    ask_job_slice_count_on_launch: false
+    ask_labels_on_launch: false
+    ask_timeout_on_launch: false
+    ask_limit_on_launch: false
+    prevent_instance_group_fallback: false
+    # survey_spec:
+    #   name: ''
+    #   description: ''
+    #   spec:
+    #     - question_name: Target Host
+    #       question_description: Target host is required for playbook to work, this host
+    #         needs to exist in the inventory
+    #       required: true
+    #       type: text
+    #       variable: target_hosts
+    #       min: 0
+    #       max: 1024
+    #       default: node-01.example.com
+    #       choices: ''
+    #       new_question: true
+
+  - name: 000-List-to-String
+    description: Simple template
+    job_type: run
+    inventory: NetOps-Inventory
+    # labels:
+    #   - Dev
+    # credentials: Dev Access
+    project: Network-Automation-CaC
+    playbook: ansible-list-to-string/site.yml
+    verbosity: 0
+    extra_vars:
+      # target_hosts: localhost
+    ask_inventory_on_launch: false
+    ask_execution_environment_on_launch: false
+    ask_forks_on_launch: false
+    ask_instance_groups_on_launch: false
+    ask_job_slice_count_on_launch: false
+    ask_labels_on_launch: false
+    ask_timeout_on_launch: false
+    ask_limit_on_launch: false
+    prevent_instance_group_fallback: false
+
+  - name: 001-List-to-String-CaC
+    description: Another Simple template
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    # labels:
+    #   - Dev
+    # credentials: Dev Access
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-list-to-string/site.yml
+    verbosity: 0
+    extra_vars:
+      # target_hosts: localhost
+    ask_inventory_on_launch: false
+    ask_execution_environment_on_launch: false
+    ask_forks_on_launch: false
+    ask_instance_groups_on_launch: false
+    ask_job_slice_count_on_launch: false
+    ask_labels_on_launch: false
+    ask_timeout_on_launch: false
+    ask_limit_on_launch: false
+    prevent_instance_group_fallback: false
+    # survey_spec:
+    #   name: ''
+    #   description: ''
+    #   spec:
+    #     - question_name: Target Host
+    #       question_description: Target host is required for playbook to work, this host
+    #         needs to exist in the inventory
+    #       required: true
+    #       type: text
+    #       variable: target_hosts
+    #       min: 0
+    #       max: 1024
+    #       default: node-01.example.com
+    #       choices: ''
+    #       new_question: true
+
+
+  # - name: Custom-Module-Demo-CaC
+  #   description:
+  #   job_type: run
+  #   inventory: Cac-Demo-Inventory
+  #   # labels:
+  #   #   - Dev
+  #   # credentials: Dev Access
+  #   project: AAP-Use-Case-Demos-Cac
+  #   playbook: ansible-custom-module-basic/3-hello-python.yaml
+  #   verbosity: 0
+  #   extra_vars:
+  #     # target_hosts: localhost
+  #   ask_inventory_on_launch: false
+  #   ask_execution_environment_on_launch: false
+  #   ask_forks_on_launch: false
+  #   ask_instance_groups_on_launch: false
+  #   ask_job_slice_count_on_launch: false
+  #   ask_labels_on_launch: false
+  #   ask_timeout_on_launch: false
+  #   ask_limit_on_launch: false
+  #   prevent_instance_group_fallback: false
+...

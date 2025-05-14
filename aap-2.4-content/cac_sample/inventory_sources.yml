@@ -1,0 +1,17 @@
+---
+controller_configuration_inventory_source_update_async_retries: 60
+controller_configuration_inventory_source_update_async_delay: 2
+controller_inventory_sources:
+  - name: Dynamic-Inventory-Source-CaC
+    source: scm
+    source_project: Ansible-Real-Life-Cac
+    source_path: demohosts.ini
+    inventory: Cac-Demo-Inventory
+    organization: Cac-Demo-Org
+    # credential: admin@internal-RHVM-01
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
+    wait: true
+    # more options can be provided but for scm source we are using, we need only this much.
+...

@@ -44,7 +44,7 @@ When using `ansible-playbook` or `ansible-navigator`, the credential can be pass
 ```shell
 export CONTROLLER_USERNAME=admin
 export CONTROLLER_PASSWORD=secretpassword
-export CONTROLLER_HOST=https://aap25.lab.iamgini.com
+export CONTROLLER_HOST=https://ansiblecontroller22-1.lab.local
 ```
 
 ### Method 1: Using `ansible-playbook`
@@ -56,7 +56,7 @@ $ ansible-playbook controller_configure.yaml -t <tag>
 ### Method 2: Using `ansible-navigator`
 
 ```shell
-$ ansible-navigator run playbooks/configure-aap.yaml --penv CONTROLLER_USERNAME --penv CONTROLLER_PASSWORD --penv CONTROLLER_HOST -t <tag>
+$ ansible-navigator run controller_configure.yaml --penv CONTROLLER_USERNAME --penv CONTROLLER_PASSWORD --penv CONTROLLER_HOST -t <tag>
 ```
 
 ### Method 3: Using automation controller job template

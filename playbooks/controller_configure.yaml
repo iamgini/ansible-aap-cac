@@ -1,0 +1,199 @@
+---
+- name: Ansible controller configuration
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - vars/general.yaml
+    - vars/controller_configuration_control.yaml
+  # collections:
+  #   # - awx.awx
+  #   - ansible.controller
+  tasks:
+    - name: Include vars from configs directory - {{ aap_configs_dir | basename }}
+      ansible.builtin.include_vars:
+        dir: "{{ controller_configs_dir }}"
+        # ignore_files: [controller_config.yml.template]
+        extensions:
+          - yaml
+          - yml
+      tags:
+        - always
+
+    - name: Add Controller Settings Individually
+      ansible.builtin.include_role:
+        name: controller-settings
+        apply:
+          tags: settings
+      vars:
+        controller_settings: "{{ controller_settings_individuale }}"
+      when: controller_settings_individuale is defined
+      tags:
+        - settings
+
+    - name: Add organizations
+      ansible.builtin.include_role:
+        name: controller-organizations
+        apply:
+          tags: organizations
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_organizations is defined
+      tags:
+        - organizations
+
+    - name: Add notifications
+      ansible.builtin.include_role:
+        name: notification-notification-templates
+        apply:
+          tags: notifications
+      when: controller_notifications is defined
+      tags:
+        - notifications
+
+    - name: Add teams
+      ansible.builtin.include_role:
+        name: controller-teams
+        apply:
+          tags: teams
+      when: controller_teams is defined
+      tags:
+        - teams
+
+    - name: Add users
+      ansible.builtin.include_role:
+        name: controller-users
+        apply:
+          tags: users
+      when: controller_user_accounts is defined
+      tags:
+        - users
+
+    - name: Add credential types
+      ansible.builtin.include_role:
+        name: controller-credential-types
+        apply:
+          tags: credentialtypes
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      # when: controller_credential_types is defined
+      tags:
+        - credentialtypes
+
+    - name: Add credentials
+      ansible.builtin.include_role:
+        name: controller-credentials
+        apply:
+          tags: credentials
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_credentials is defined
+      tags:
+        - credentials
+
+    - name: Add projects
+      ansible.builtin.include_role:
+        name: controller-projects
+        apply:
+          tags: projects
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_projects is defined
+      tags:
+        - projects
+
+    - name: Add inventories
+      ansible.builtin.include_role:
+        name: controller-inventories
+        apply:
+          tags: inventories
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_inventories is defined
+      tags:
+        - inventories
+
+    - name: Add groups
+      ansible.builtin.include_role:
+        name: controller-groups
+        apply:
+          tags: groups
+      when: controller_groups is defined
+      tags:
+        - groups
+
+    - name: Add managed hosts
+      ansible.builtin.include_role:
+        name: controller-hosts
+        apply:
+          tags: hosts
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_hosts is defined
+      tags:
+        - hosts
+
+    - name: Add templates
+      ansible.builtin.include_role:
+        name: controller-job-templates
+        apply:
+          tags: templates
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_templates is defined
+      tags:
+        - templates
+
+    - name: Add workflows
+      ansible.builtin.include_role:
+        name: controller-workflow-job-templates
+        apply:
+          tags: workflows
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_workflows is defined
+      tags:
+        - workflows
+
+    - name: Add Roles
+      ansible.builtin.include_role:
+        name: controller-roles
+        apply:
+          tags: roles
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_roles is defined
+      tags:
+        - roles
+
+    - name: Add Instance Groups
+      ansible.builtin.include_role:
+        name: controller-instance_groups
+        apply:
+          tags: instancegroups
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_instance_groups is defined
+      tags:
+        - instancegroups
+
+    - name: Add Inventory Sources
+      ansible.builtin.include_role:
+        name: controller-inventory_sources
+        apply:
+          tags: inventorysources
+      vars:
+        # controller_organizations: "{{ controller_organization_list }}"
+      when: controller_inventory_sources is defined
+      tags:
+        - inventorysources
+
+    - name: Add Schedules
+      ansible.builtin.include_role:
+        name: controller-schedules
+        apply:
+          tags: schedules
+      when: controller_schedules is defined
+      tags:
+        - schedules

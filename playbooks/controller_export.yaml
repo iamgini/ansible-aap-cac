@@ -1,0 +1,28 @@
+---
+- name: Ansible Controller Export
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  # collections:
+  #   # - awx.awx
+  #   - ansible.controller
+  # environment:
+  #   CONTROLLER_HOST: http://192.168.49.2:30080
+  #   CONTROLLER_USERNAME: admin
+  #   CONTROLLER_PASSWORD: WiM0KVWpO4brRVuMe6FxlFHEKkaTn4GB
+  #   CONTROLLER_VERIFY_SSL: False
+
+  # vars:
+  #   controller_validate_certs: false
+  #   controller_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+  #   controller_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+  #   controller_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+
+  vars_files:
+    - vars/general.yaml
+    - vars/controller_export_control.yaml
+
+  tasks:
+    - name: Export the configurations
+      ansible.builtin.include_role:
+        name: controller-export

@@ -1,0 +1,29 @@
+---
+controller_user_accounts:
+  - user: cac-user-101
+    is_superuser: false
+    # password: password
+    email: cac-user-101@example.com
+    first_name: User 101
+    last_name: CaC
+    organization: Cac-Demo-Org
+    update_secrets: false
+
+  - user: cac-john
+    is_superuser: false
+    password: password
+    email: cac-john@example.com
+    first_name: John
+    last_name: CaC
+    organization: Cac-Demo-Org
+    update_secrets: true
+
+  - user: cac-lina
+    is_superuser: false
+    password: password
+    email: cac-lina@example.com
+    first_name: Lina
+    last_name: CaC
+    organization: Cac-Demo-Org
+    update_secrets: true
+...

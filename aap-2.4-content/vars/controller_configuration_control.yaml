@@ -1,0 +1,16 @@
+# export_items:
+#   - credentials
+
+configure_organizations:
+  - 'Awesome Corp'
+  - 'ACME'
+
+configure_credentials: all
+
+configure_credential_types: all
+
+configure_inventories: all
+
+configure_projects: all
+
+configure_job_templates: all

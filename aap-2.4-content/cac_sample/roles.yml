@@ -1,0 +1,91 @@
+---
+controller_roles:
+  # add cac-user-101to the team cac-team-101
+  - user: cac-user-101
+    target_team: cac-team-101
+    role: member
+
+  # enable cac-team-101 team access Cac-Demo-Inventory
+  - inventory: Cac-Demo-Inventory
+    team: cac-team-101
+    role: admin
+
+  - inventory: Cac-Demo-Inventory
+    team: cac-team-102
+    role: use
+  # - inventory:  RHVM-02
+  #   team: satlab-admin
+  #   roles:
+  #     - admin
+  #     - use
+  # - workflow:  Test workflow 1
+  #   team: satellite-qe
+  #   role: execute
+  # - credential: test-vault-creds
+  #   team: satellite-qe
+  #   role: use
+  - project: Ansible-Real-Life-Cac
+    team: cac-team-101
+    role: admin
+  # - project: Test Project
+  #   team: satlab-admin
+  #   role: admin
+  - job_template: 000-List-to-String
+    team: cac-team-101
+    role: execute
+
+  - job_template: 001-List-to-String-CaC
+    team: cac-team-102
+    role: execute
+
+  # Multi tenancy example:  network-admins as the org admin for Network-Ops
+  - organization: Network-Ops
+    team: network-admins
+    role: execute
+
+  - organization: Network-Ops
+    team: network-admins
+    role: project_admin
+
+  - organization: Network-Ops
+    team: network-admins
+    role: inventory_admin
+
+  - organization: Network-Ops
+    team: network-admins
+    role: credential_admin
+
+  - organization: Network-Ops
+    team: network-admins
+    role: workflow_admin
+
+  - organization: Network-Ops
+    team: network-admins
+    role: notification_admin
+
+  - organization: Network-Ops
+    team: network-admins
+    role: job_template_admin
+
+  - organization: Network-Ops
+    team: network-admins
+    role: execution_environment_admin
+
+  - organization: Network-Ops
+    team: network-admins
+    role: auditor
+
+  - organization: Network-Ops
+    team: network-admins
+    role: read
+
+  - organization: Network-Ops
+    team: network-admins
+    role: approval
+
+  - organization: Network-Ops
+    team: network-operators
+    role: execute
+
+# admin, read, member, execute, adhoc, update, use, approval, auditor, project_admin, inventory_admin, credential_admin, workflow_admin, notification_admin, job_template_admin, execution_environment_admin, got: project_admin_role",
+...

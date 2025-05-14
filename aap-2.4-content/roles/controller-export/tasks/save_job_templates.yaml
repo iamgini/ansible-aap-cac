@@ -1,0 +1,27 @@
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: "{{ export_dir }}/organizations/{{ jt_item.project.organization.name }}/job_templates"
+    state: directory
+    mode: '0755'
+  when: jt_item.project.organization.name is defined
+
+- name: Save the content inside the directory
+  ansible.builtin.copy:
+    content: "{{ jt_item | to_nice_yaml }}"
+    dest: "{{ export_dir }}/organizations/{{ jt_item.project.organization.name }}/job_templates/{{ jt_item.name | regex_replace('/', '_') }}.yaml"
+    mode: '0755'
+  when: jt_item.project.organization.name is defined
+
+# - name: Ensure directory exists for NULLORGANIZATION
+#   ansible.builtin.file:
+#     path: "{{ export_dir }}/organizations/NULLORGANIZATION/credentials"
+#     state: directory
+#     mode: '0755'
+#   when: not cred_item.organization.name is defined
+
+# - name: Save the content inside the directory
+#   ansible.builtin.copy:
+#     content: "{{ cred_item | to_nice_yaml }}"
+#     dest: "{{ export_dir }}/organizations/NULLORGANIZATION/credentials/{{ cred_item.name }}.yaml"
+#     mode: '0755'
+#   when: not cred_item.organization.name is defined

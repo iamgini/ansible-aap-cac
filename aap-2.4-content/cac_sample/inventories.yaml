@@ -1,0 +1,13 @@
+---
+# Commented out content is serving as example for you to add new content.
+controller_inventories:
+  - name: Cac-Demo-Inventory
+    organization: Cac-Demo-Org
+    description: Created by Ansible CaC
+    prevent_instance_group_fallback: false
+
+  - name: NetOps-Inventory
+    organization: Network-Ops
+    description: Created by Ansible CaC
+    prevent_instance_group_fallback: false
+...

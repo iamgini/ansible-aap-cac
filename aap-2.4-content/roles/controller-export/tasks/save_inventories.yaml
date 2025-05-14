@@ -1,0 +1,27 @@
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: "{{ export_dir }}/organizations/{{ inventory_item.organization.name }}/inventory"
+    state: directory
+    mode: '0755'
+  when: inventory_item.organization.name is defined
+
+- name: Save the content inside the directory
+  ansible.builtin.copy:
+    content: "{{ inventory_item | to_nice_yaml }}"
+    dest: "{{ export_dir }}/organizations/{{ inventory_item.organization.name }}/inventory/{{ inventory_item.name | regex_replace('/', '_') }}.yaml"
+    mode: '0755'
+  when: inventory_item.organization.name is defined
+
+- name: Ensure directory exists for NULLORGANIZATION
+  ansible.builtin.file:
+    path: "{{ export_dir }}/organizations/NULLORGANIZATION/inventory"
+    state: directory
+    mode: '0755'
+  when: not inventory_item.organization.name is defined
+
+- name: Save the content inside the directory
+  ansible.builtin.copy:
+    content: "{{ inventory_item | to_nice_yaml }}"
+    dest: "{{ export_dir }}/organizations/NULLORGANIZATION/inventory/{{ inventory_item.name | regex_replace('/', '_') }}.yaml"
+    mode: '0755'
+  when: not inventory_item.organization.name is defined

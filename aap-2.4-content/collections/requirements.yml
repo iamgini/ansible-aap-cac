@@ -1,0 +1,11 @@
+---
+collections:
+  # - name: ansible.controller
+  #   # version: 4.6.2 --> only if AAP 2.5
+  #   version: 4.5.12
+  #   source: published
+  - name: infra.controller_configuration
+    source: https://galaxy.ansible.com
+  # - name: ansible.platform
+  # - name: ansible.hub
+  # - name: ansible.eda
