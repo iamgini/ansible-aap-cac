@@ -12,6 +12,7 @@ controller_projects:
     organization: Cac-Demo-Org
     wait: true
     update_project: true
+    update: true
     # credential: GH-Dev
 
   # - name: NEW PROJECT FOR DEMO
@@ -34,6 +35,7 @@ controller_projects:
     organization: Network-Ops
     wait: true
     update_project: true
+    update: true
 
   - name: AAP-Use-Case-Demos-Cac
     scm_type: git
