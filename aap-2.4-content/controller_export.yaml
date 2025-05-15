@@ -9,7 +9,7 @@
   # environment:
   #   CONTROLLER_HOST: http://192.168.49.2:30080
   #   CONTROLLER_USERNAME: admin
-  #   CONTROLLER_PASSWORD: WiM0KVWpO4brRVuMe6FxlFHEKkaTn4GB
+  #   CONTROLLER_PASSWORD: replace-me
   #   CONTROLLER_VERIFY_SSL: False
 
   # vars:
