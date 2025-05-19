@@ -2,9 +2,8 @@
 # defaults file for global_vars
 operation_translate:
   present:
-    verb: "Create/Update"
-    action: "creation"
+    verb: Create/Update
+    action: creation
   absent:
-    verb: "Remove"
-    action: "deletion"
-...
+    verb: Remove
+    action: deletion

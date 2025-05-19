@@ -4,7 +4,8 @@
 - name: Export configurations
   block:
     - name: Gather information from controller
-      ansible.controller.export:
+      register: export_results
+      awx.awx.export:
         validate_certs: false
         # all: True
         organizations: "{{ export_organizations }}"
@@ -13,13 +14,12 @@
         inventory: "{{ export_inventories }}"
         projects: "{{ export_projects }}"
         job_templates: "{{ export_job_templates }}"
-      register: export_results
 
     - name: Save content to file # debug
       ansible.builtin.copy:
         content: "{{ export_results | to_nice_yaml( width=50, explicit_start=True, explicit_end=True) }}"
         dest: controller-config_debug.yaml
-        mode: '0755'
+        mode: "0755"
 
     # - name: Display content (debug)
     #   ansible.builtin.debug:

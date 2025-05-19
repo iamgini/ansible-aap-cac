@@ -4,10 +4,10 @@
 #   ansible.builtin.include_vars: "{{ cac_dir }}/settings.yaml"
 
 - name: Update Ansible Controller Settings from dictionary or list of dictionaries
-  ansible.controller.settings:    
-    settings:                 "{{ __controller_setting_item.settings | default(omit, true) }}"
-    name:                     "{{ __controller_setting_item.name | default(omit, true) }}"
-    value:                    "{{ __controller_setting_item.value | default(omit) }}"
+  ansible.controller.settings:
+    settings: "{{ __controller_setting_item.settings | default(omit, true) }}"
+    name: "{{ __controller_setting_item.name | default(omit, true) }}"
+    value: "{{ __controller_setting_item.value | default(omit) }}"
 
     # Role Standard Options
     # controller_config_file:   "{{ controller_config_file | default(omit, true) }}"
@@ -16,7 +16,7 @@
     # controller_username:      "{{ controller_username | default(omit, true) }}"
     # controller_oauthtoken:    "{{ controller_oauthtoken | default(omit, true) }}"
     # request_timeout:          "{{ controller_request_timeout | default(omit, true) }}"
-    validate_certs:           "{{ controller_validate_certs | default(omit) }}"
+    validate_certs: "{{ controller_validate_certs | default(omit) }}"
   # controller_settings must be either a dictionary/mapping or a list of dictionaries
   loop: "{{ controller_settings is mapping | ternary([controller_settings], controller_settings) }}"
   loop_control:
@@ -27,9 +27,9 @@
   register: __controller_setting_job_async
   changed_when: not __controller_setting_job_async.changed
   vars:
-    ansible_async_dir: '{{ controller_configuration_async_dir }}'
+    ansible_async_dir: "{{ controller_configuration_async_dir }}"
 
-- name: "Configure Settings | Wait for finish the Settings creation"
+- name: Configure Settings | Wait for finish the Settings creation
   ansible.builtin.async_status:
     jid: "{{ __controller_setting_job_async_results_item.ansible_job_id }}"
   register: __controller_setting_job_async_result
@@ -42,5 +42,4 @@
   when: __controller_setting_job_async_results_item.ansible_job_id is defined
   no_log: "{{ controller_configuration_settings_secure_logging }}"
   vars:
-    ansible_async_dir: '{{ controller_configuration_async_dir }}'
-...
+    ansible_async_dir: "{{ controller_configuration_async_dir }}"

@@ -21,4 +21,3 @@ controller_projects:
     description: ansible-examples
     organization: Satellite
     wait: true
-...
