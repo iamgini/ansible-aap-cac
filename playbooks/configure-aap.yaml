@@ -9,11 +9,10 @@
       ansible.builtin.include_vars:
         dir: "{{ aap_configs_dir | default((lookup('env', 'AAP_CONFIGS_DIR') == '') | ternary('./configs', lookup('env', 'AAP_CONFIGS_DIR'))) }}"
         ignore_files: [controller_config.yml.template]
-        extensions: [yml,yaml]
+        extensions: [yml, yaml]
       tags:
         - always
 
     - name: Call dispatch role
       ansible.builtin.include_role:
         name: infra.aap_configuration.dispatch
-...

@@ -45,8 +45,8 @@ controller_workflows:
   #   notification_templates_approvals: []
   #   survey_spec: {}
 
-# ========= App OnBoarding workflow ==============
-  - name: 000-Test-Workflow-CaC
+  # ========= App OnBoarding workflow ==============
+  - name: "000-Test-Workflow-CaC"
     description: Created by Ansible CaC
     extra_vars: {}
     survey_enabled: true
@@ -74,33 +74,33 @@ controller_workflows:
     simplified_workflow_nodes:
       - all_parents_must_converge: false
         identifier: node201
-        unified_job_template: 000-List-to-String
+        unified_job_template: "000-List-to-String"
         # always_nodes:
         #   - node202
         # success_nodes:
-          # - node202
-      #     - approval101
-      # - identifier: approval101
-      #   approval_node:
-      #     description: "Review the content"
-      #     name: Review & Approve
-      #     timeout: 3600
-      #   success_nodes:
-      #     - approval102
+    # - node202
+    #     - approval101
+    # - identifier: approval101
+    #   approval_node:
+    #     description: "Review the content"
+    #     name: Review & Approve
+    #     timeout: 3600
+    #   success_nodes:
+    #     - approval102
 
-        # instance_groups:
-        #   - default
-        # labels:
-        #   - differential
-        #   - differential2
-        # timeout: 165
+    # instance_groups:
+    #   - default
+    # labels:
+    #   - differential
+    #   - differential2
+    # timeout: 165
     notification_templates_started: []
     notification_templates_success: []
     notification_templates_error: [CaC - Email notification]
     notification_templates_approvals: []
     survey_spec:
-      name: ''
-      description: ''
+      name: ""
+      description: ""
       spec:
         - question_name: Enter your name
           question_description: Sample
@@ -109,11 +109,10 @@ controller_workflows:
           variable: your_name
           min: 0
           max: 1024
-          default: 'iamgini'
+          default: iamgini
           choices: |
             johnsmit
             vinod
             rahima
             iamgini
           new_question: false
-...
