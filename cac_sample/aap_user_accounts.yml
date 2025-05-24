@@ -2,7 +2,7 @@
 platform_state: exists
 aap_user_accounts:
   - username: cac-user-101
-    is_superuser: false
+    superuser: false
     # password: password
     email: cac-user-101@example.com
     first_name: User 101
@@ -11,7 +11,7 @@ aap_user_accounts:
     update_secrets: false
 
   - username: cac-john
-    is_superuser: false
+    superuser: false
     password: password
     email: cac-john@example.com
     first_name: John
@@ -20,7 +20,7 @@ aap_user_accounts:
     update_secrets: true
 
   - username: cac-lina
-    is_superuser: false
+    superuser: false
     password: password
     email: cac-lina@example.com
     first_name: Lina
