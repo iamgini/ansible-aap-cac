@@ -35,9 +35,11 @@ You can use CaC with a GitOps approach to help replicate configurations across a
 
 3. Credential to the Ansible Automation Controller
 
-## How to use this playbook
+## How to use the playbooks
 
 The `controller_configure.yaml` can be executed using `ansible-playbook`, `ansible-navigator` or using a Job template from **Ansible controller** itself.
+
+### Configuring Credential
 
 When using `ansible-playbook` or `ansible-navigator`, the credential can be passed as environment variables; configure the credential as follows.
 
@@ -56,7 +58,10 @@ $ ansible-playbook controller_configure.yaml -t <tag>
 ### Method 2: Using `ansible-navigator`
 
 ```shell
-$ ansible-navigator run playbooks/configure-aap.yaml --penv CONTROLLER_USERNAME --penv CONTROLLER_PASSWORD --penv CONTROLLER_HOST -t <tag>
+$ ansible-navigator run playbooks/configure-aap.yaml \
+  --penv CONTROLLER_USERNAME \
+  --penv CONTROLLER_PASSWORD \
+  --penv CONTROLLER_HOST
 ```
 
 ### Method 3: Using automation controller job template
