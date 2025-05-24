@@ -13,7 +13,7 @@ controller_templates:
     #   - Dev
     # credentials: Dev Access
     project: Ansible-Real-Life-Cac
-    playbook: ansible-list-to-string/site.yml
+    playbook: ansible-list-management/list-to-string.yml
     verbosity: 0
     extra_vars:
       # target_hosts: localhost
@@ -42,15 +42,15 @@ controller_templates:
     #       choices: ''
     #       new_question: true
 
-  - name: 000-List-to-String
-    description: Simple template
+  - name: List-Sorting
+    description: Sort list
     job_type: run
     inventory: NetOps-Inventory
     # labels:
     #   - Dev
     # credentials: Dev Access
     project: Network-Automation-CaC
-    playbook: ansible-list-to-string/site.yml
+    playbook: ansible-list-management/list-sorting.yml
     verbosity: 0
     extra_vars:
       # target_hosts: localhost
@@ -72,7 +72,7 @@ controller_templates:
     #   - Dev
     # credentials: Dev Access
     project: Ansible-Real-Life-Cac
-    playbook: ansible-list-to-string/site.yml
+    playbook: ansible-list-management/list-sorting.yml
     verbosity: 0
     extra_vars:
       # target_hosts: localhost
