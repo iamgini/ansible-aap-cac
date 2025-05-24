@@ -1,7 +1,8 @@
 ---
-controller_teams:
+aap_teams:
   - name: cac-team-101
     organization: Cac-Demo-Org
+    description: My first team
   - name: cac-team-102
     organization: Cac-Demo-Org
   - name: cac-operators
