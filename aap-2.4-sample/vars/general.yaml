@@ -1,9 +1,0 @@
-controller_validate_certs: false
-controller_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
-controller_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
-controller_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
-
-export_dir: controller_config_export
-
-controller_configs_dir: cac_sample
-controller_dependency_check: false
