@@ -19,4 +19,3 @@ aap_organizations:
     max_hosts: 100
     description: Configuration as Code - Demo
     # custom_virtualenv: []
-...
