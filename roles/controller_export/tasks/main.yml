@@ -9,10 +9,10 @@
         # all: true
         organizations: "{{ export_organizations }}"
         credentials: "{{ export_credentials }}"
-        # credential_types: "{{ export_credential_types }}"
-        # inventory: "{{ export_inventories }}"
-        # projects: "{{ export_projects }}"
-        # job_templates: "{{ export_job_templates }}"
+        credential_types: "{{ export_credential_types }}"
+        inventory: "{{ export_inventories }}"
+        projects: "{{ export_projects }}"
+        job_templates: "{{ export_job_templates }}"
       register: export_results
 
     - name: Save content to file # debug
