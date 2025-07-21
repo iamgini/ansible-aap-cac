@@ -6,89 +6,117 @@
     - name: Gather information from controller
       ansible.controller.export: # or awx.awx.export
         validate_certs: false
+        request_timeout: 120
         # all: true
-        organizations: "{{ export_organizations }}"
-        credentials: "{{ export_credentials }}"
-        credential_types: "{{ export_credential_types }}"
-        inventory: "{{ export_inventories }}"
-        projects: "{{ export_projects }}"
-        job_templates: "{{ export_job_templates }}"
+        applications: "{{ export_applications | default('all') }}"
+        credentials: "{{ export_credentials | default('all') }}"
+        credential_types: "{{ export_credential_types | default('all') }}"
+        execution_environments: "{{ export_execution_environments | default('all') }}"
+        inventory: "{{ export_inventories | default('all') }}"
+        inventory_sources: "{{ export_inventory_sources | default('all') }}"
+        job_templates: "{{ export_job_templates | default('all') }}"
+        notification_templates: "{{ export_notification_templates | default('all') }}"
+        organizations: "{{ export_organizations | default('all') }}"
+        projects: "{{ export_projects | default('all') }}"
+        schedules: "{{ export_schedules | default('all') }}"
+        teams: "{{ export_teams | default('all') }}"
+        users: "{{ export_users | default('all') }}"
+        workflow_job_templates: "{{ export_workflow_job_templates | default('all') }}"
       register: export_results
 
     - name: Save content to file # debug
       ansible.builtin.copy:
-        content: "{{ export_results | to_nice_yaml( width=50, explicit_start=True, explicit_end=True) }}"
+        content: "{{ export_results | to_nice_yaml(width=50, explicit_start=True, explicit_end=True, indent=2) }}"
         dest: "{{ export_controller_target_dir }}/controller-config_debug.yaml"
         mode: '0755'
 
-    # - name: Display content (debug)
-    #   ansible.builtin.debug:
-    #     var: export_results
     - name: Save organization
       ansible.builtin.include_tasks:
         file: save_organizations.yaml
       when:
-        # - export_results.assets.organizations | length > 0
         - export_results.assets.organizations is defined
       loop: "{{ export_results.assets.organizations }}"
       loop_control:
         loop_var: org_item
         label: "{{ org_item.name }}"
 
-    - name: Save credentials
+    - name: Save resources
       ansible.builtin.include_tasks:
-        file: save_credentials.yaml
-      when:
-        # - export_results.assets.credentials | length > 0
-        - export_results.assets.credentials is defined
-      loop: "{{ export_results.assets.credentials }}"
+        file: save_resource.yaml
+      when: export_results.assets[resource_item] is defined
+      with_items:
+        - applications
+        - credentials
+        - credential_types
+        - execution_environments
+        - inventory
+        - inventory_sources
+        - job_templates
+        - notification_templates
+        - organizations
+        - projects
+        - schedules
+        - teams
+        - users
+        - workflow_job_templates
       loop_control:
-        loop_var: cred_item
-        label: "{{ cred_item.name }}"
+        loop_var: resource_item
+        label: "{{ resource_item }}"
 
-    - name: Save credential types
-      ansible.builtin.include_tasks:
-        file: save_credential_types.yaml
-      when:
-        # - export_results.assets.credential_types | length > 0
-        - export_results.assets.credential_types is defined
-      loop: "{{ export_results.assets.credential_types }}"
-      loop_control:
-        loop_var: cred_type_item
-        label: "{{ cred_type_item.name }}"
+    # - name: Save credentials
+    #   ansible.builtin.include_tasks:
+    #     file: save_credentials.yaml
+    #   when:
+    #     # - export_results.assets.credentials | length > 0
+    #     - export_results.assets.credentials is defined
+    #   loop: "{{ export_results.assets.credentials }}"
+    #   loop_control:
+    #     loop_var: cred_item
+    #     label: "{{ cred_item.name }}"
 
-    - name: Save inventories
-      ansible.builtin.include_tasks:
-        file: save_inventories.yaml
-      when:
-        # - export_results.assets.credential_types | length > 0
-        - export_results.assets.inventory is defined
-      loop: "{{ export_results.assets.inventory }}"
-      loop_control:
-        loop_var: inventory_item
-        label: "{{ inventory_item.name }}"
+    # - name: Save credential types
+    #   ansible.builtin.include_tasks:
+    #     file: save_credential_types.yaml
+    #   when:
+    #     # - export_results.assets.credential_types | length > 0
+    #     - export_results.assets.credential_types is defined
+    #   loop: "{{ export_results.assets.credential_types }}"
+    #   loop_control:
+    #     loop_var: cred_type_item
+    #     label: "{{ cred_type_item.name }}"
 
-    - name: Save projects
-      ansible.builtin.include_tasks:
-        file: save_projects.yaml
-      when:
-        # - export_results.assets.credential_types | length > 0
-        - export_results.assets.projects is defined
-      loop: "{{ export_results.assets.projects }}"
-      loop_control:
-        loop_var: project_item
-        label: "{{ project_item.name }}"
+    # - name: Save inventories
+    #   ansible.builtin.include_tasks:
+    #     file: save_inventories.yaml
+    #   when:
+    #     # - export_results.assets.credential_types | length > 0
+    #     - export_results.assets.inventory is defined
+    #   loop: "{{ export_results.assets.inventory }}"
+    #   loop_control:
+    #     loop_var: inventory_item
+    #     label: "{{ inventory_item.name }}"
 
-    - name: Save job templates
-      ansible.builtin.include_tasks:
-        file: save_job_templates.yaml
-      when:
-        # - export_results.assets.credential_types | length > 0
-        - export_results.assets.job_templates is defined
-      loop: "{{ export_results.assets.job_templates }}"
-      loop_control:
-        loop_var: jt_item
-        label: "{{ jt_item.name }}"
+    # - name: Save projects
+    #   ansible.builtin.include_tasks:
+    #     file: save_projects.yaml
+    #   when:
+    #     # - export_results.assets.credential_types | length > 0
+    #     - export_results.assets.projects is defined
+    #   loop: "{{ export_results.assets.projects }}"
+    #   loop_control:
+    #     loop_var: project_item
+    #     label: "{{ project_item.name }}"
+
+    # - name: Save job templates
+    #   ansible.builtin.include_tasks:
+    #     file: save_job_templates.yaml
+    #   when:
+    #     # - export_results.assets.credential_types | length > 0
+    #     - export_results.assets.job_templates is defined
+    #   loop: "{{ export_results.assets.job_templates }}"
+    #   loop_control:
+    #     loop_var: jt_item
+    #     label: "{{ jt_item.name }}"
 
 # - name: Include task to save credentials
 #   ansible.builtin.include_tasks:

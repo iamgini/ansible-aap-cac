@@ -13,7 +13,7 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
 > Use the new collection `infra.aap_configuration` ([Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration)) for AAP 2.5
 >
 > - `infra.aap_configuration`: [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration) | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/content/)
-> - [awx.awx on GtiHub](https://github.com/ansible/awx/tree/devel/awx_collection) | [ansible.controller on Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) :	Automation controller modules
+> -
 > - [Ansible Hub Configuration](https://github.com/ansible/automation_hub_collection):	Automation hub configuration
 > -
 > - [AAP installation Utilities](https://github.com/redhat-cop/aap_utilities):	Ansible Automation Platform Utilities
@@ -55,7 +55,7 @@ You can use CaC with a GitOps approach to help replicate configurations across a
 1. `awxkit >= 9.3.0`
 
 ```shell
-$ pip3 install awxkit
+$ pip3 install awxkit --user
 ```
 
 2. Ansible Automation Platform Collections
@@ -66,15 +66,15 @@ TODO
 
 **Ansible Automation Platform Collections**
 
-|                                      Collection Name                                |            Purpose            |
-|:-----------------------------------------------------------------------------------:|:-----------------------------:|
-| ansible.platform repo (no public repo for this collection)                          | gateway/platform modules      |
-| [ansible.hub repo](https://github.com/ansible-collections/ansible_hub)              | Automation hub modules        |
-| [ansible.controller repo](https://github.com/ansible/awx/tree/devel/awx_collection) | Automation controller modules |
-| [ansible.eda repo](https://github.com/ansible/event-driven-ansible)                 | Event Driven Ansible modules  |
+| Collection Name | Purpose  | Resources |
+|:---------|:------------|:------------|
+| `ansible.platform` | gateway/platform modules | (no public repo for this collection) |
+| `ansible.hub` | Automation hub modules | [GitHub](https://github.com/ansible-collections/ansible_hub),  |
+| `ansible.controller` | Automation controller modules | [awx.awx on GtiHub](https://github.com/ansible/awx/tree/devel/awx_collection), [GitHub](https://github.com/ansible/awx/tree/devel/awx_collection), [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) |
+| `ansible.eda` | Event Driven Ansible modules | [GitHub](https://github.com/ansible/event-driven-ansible) |
 
 
-3. Credential to the Ansible Automation Controller
+1. Credential to the Ansible Automation Controller
 
 
 ## Configuring Credential

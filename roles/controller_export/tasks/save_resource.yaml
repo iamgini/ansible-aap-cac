@@ -1,0 +1,7 @@
+- name: Save resources content - {{ resource_item }}
+  ansible.builtin.include_tasks:
+    file: save_resource_content.yaml
+  loop: "{{ export_results.assets[resource_item] }}"
+  loop_control:
+    loop_var: resource_content
+    label: "{{ resource_content.name | default(resource_item) }}"
