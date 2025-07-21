@@ -12,4 +12,5 @@ collections:
   - name: ansible.controller
   - name: ansible.eda
   - name: infra.aap_configuration
+    # version: 4.5.11
     # source: https://galaxy.ansible.com

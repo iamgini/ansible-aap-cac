@@ -4,18 +4,42 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
 
 > ⚠️ **Important Note:** AAP Version Dependency.
 >
-> Refer to the Be sure to use [`ansible.controller 4.5.12`](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) for AAP 2.4
+> Be sure to use [`ansible.controller 4.5.12`](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) for AAP 2.4
+
+
+
+> [ansible.controller 4.6.x](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) is for AAP 2.5.
 >
-> [4.6.x](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) is for AAP 2.5.
+> Use the new collection `infra.aap_configuration` ([Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration)) for AAP 2.5
 >
-> Use the new collection [`infra.aap_configuration`](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration/) for AAP 2.5
->
-> - [awx.awx/Ansible.controller](https://github.com/ansible/awx/tree/devel/awx_collection):	Automation controller modules
+> - `infra.aap_configuration`: [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration) | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/content/)
+> - [awx.awx on GtiHub](https://github.com/ansible/awx/tree/devel/awx_collection) | [ansible.controller on Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) :	Automation controller modules
 > - [Ansible Hub Configuration](https://github.com/ansible/automation_hub_collection):	Automation hub configuration
-> - [infra.aap_configuration](https://github.com/redhat-cop/infra.aap_configuration) (formerely Controller Configuration):	Automation controller configuration
-> - [EE Utilities](https://github.com/redhat-cop/ee_utilities): Execution Environment creation utilities
+> -
 > - [AAP installation Utilities](https://github.com/redhat-cop/aap_utilities):	Ansible Automation Platform Utilities
 > - [AAP Configuration Template](https://github.com/redhat-cop/aap_configuration_template):	Configuration Template for this suite
+
+**Quick links:**
+
+- `infra.aap_configuration` ([GitHub](https://github.com/redhat-cop/infra.aap_configuration)): A collection of roles to manage Ansible Automation Platform 2.5+ with code
+- `ansible.platform` ([Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/platform/)): This collection contains modules that can be used to automate the creation of resources on an install of Ansible Automation Platform.
+- `infra.ee_utilities` [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/ee_utilities/) | [GitHub](https://github.com/redhat-cop/ee_utilities): Execution Environment creation utilities
+
+**Table of Content**
+
+- [Configuration as Code for Automation Automation Platform](#configuration-as-code-for-automation-automation-platform)
+  - [What is Configuration as Code (CaC) in Ansible Automation Platform?](#what-is-configuration-as-code-cac-in-ansible-automation-platform)
+  - [Requirements](#requirements)
+  - [Configuring Credential](#configuring-credential)
+  - [How to use the playbooks for configuring AAP](#how-to-use-the-playbooks-for-configuring-aap)
+    - [Method 1: Using `ansible-playbook`](#method-1-using-ansible-playbook)
+    - [Method 2: Using `ansible-navigator`](#method-2-using-ansible-navigator)
+    - [Method 3: Using automation controller job template](#method-3-using-automation-controller-job-template)
+    - [Controlling the controller configurations](#controlling-the-controller-configurations)
+  - [How to use the playbooks for Exporting content from AAP](#how-to-use-the-playbooks-for-exporting-content-from-aap)
+  - [Using ngrok for exposing AAP and enable GitHub webhook](#using-ngrok-for-exposing-aap-and-enable-github-webhook)
+  - [Troubleshooting](#troubleshooting)
+  - [References](#references)
 
 
 ## What is Configuration as Code (CaC) in Ansible Automation Platform?
@@ -29,17 +53,31 @@ You can use CaC with a GitOps approach to help replicate configurations across a
 ## Requirements
 
 1. `awxkit >= 9.3.0`
-2. [ansible.controller](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) collection - 4.4.2 or later if any.
+
+```shell
+$ pip3 install awxkit
+```
+
+2. Ansible Automation Platform Collections
+
+TODO
 
 `ansible-galaxy collection install ansible.controller`
 
+**Ansible Automation Platform Collections**
+
+|                                      Collection Name                                |            Purpose            |
+|:-----------------------------------------------------------------------------------:|:-----------------------------:|
+| ansible.platform repo (no public repo for this collection)                          | gateway/platform modules      |
+| [ansible.hub repo](https://github.com/ansible-collections/ansible_hub)              | Automation hub modules        |
+| [ansible.controller repo](https://github.com/ansible/awx/tree/devel/awx_collection) | Automation controller modules |
+| [ansible.eda repo](https://github.com/ansible/event-driven-ansible)                 | Event Driven Ansible modules  |
+
+
 3. Credential to the Ansible Automation Controller
 
-## How to use the playbooks
 
-The `controller_configure.yaml` can be executed using `ansible-playbook`, `ansible-navigator` or using a Job template from **Ansible controller** itself.
-
-### Configuring Credential
+## Configuring Credential
 
 When using `ansible-playbook` or `ansible-navigator`, the credential can be passed as environment variables; configure the credential as follows.
 
@@ -48,6 +86,10 @@ export CONTROLLER_USERNAME=admin
 export CONTROLLER_PASSWORD=secretpassword
 export CONTROLLER_HOST=https://aap25.lab.iamgini.com
 ```
+
+## How to use the playbooks for configuring AAP
+
+The `controller_configure.yaml` can be executed using `ansible-playbook`, `ansible-navigator` or using a Job template from **Ansible controller** itself.
 
 ### Method 1: Using `ansible-playbook`
 
@@ -91,6 +133,12 @@ Step 1: Launch the job template `CaC-Controller-Configuration` with the followin
 Step 2: Login to the target automation controller (if this is a different controller), edit the source control credentials with correct password (this is for syncing the project with correct credentials). You can also update other credential passwords and tokens at this time.
 
 Step 3. Continue the CaC configuration with the remaining tags: `projects`, `inventories`, `hosts`, `templates`, `workflows` etc.
+
+## How to use the playbooks for Exporting content from AAP
+
+Refer to the [Automation Controller Export Documentation](https://github.com/redhat-cop/infra.aap_configuration/blob/devel/docs/EXPORT_README.md) and [export module documentation](https://docs.ansible.com/ansible/latest/collections/awx/awx/export_module.html)
+
+
 
 ## Using ngrok for exposing AAP and enable GitHub webhook
 

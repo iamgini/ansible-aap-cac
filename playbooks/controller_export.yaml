@@ -18,11 +18,20 @@
   #   controller_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
   #   controller_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
 
-  vars_files:
-    - vars/general.yaml
-    - vars/controller_export_control.yaml
+  # export_items:
+#   - credentials
+  vars:
+    export_controller_target_dir: "{{ playbook_dir }}/cac_exported"
+    export_organizations:
+      - 'AwesomeCorp'
+      # - 'ACME'
+    export_credentials: all
+    export_credential_types: all
+    export_inventories: all
+    export_projects: all
+    export_job_templates: all
 
   tasks:
     - name: Export the configurations
       ansible.builtin.include_role:
-        name: controller-export
+        name: controller_export
