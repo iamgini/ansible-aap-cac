@@ -10,18 +10,16 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
 
 > [ansible.controller 4.6.x](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) is for AAP 2.5.
 >
-> Use the new collection `infra.aap_configuration` ([Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration)) for AAP 2.5
+> Use the new collection `infra.aap_configuration` for AAP 2.5
 >
-> - `infra.aap_configuration`: [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration) | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/content/)
-> -
-> - [Ansible Hub Configuration](https://github.com/ansible/automation_hub_collection):	Automation hub configuration
+> - :	Automation hub configuration
 > -
 > - [AAP installation Utilities](https://github.com/redhat-cop/aap_utilities):	Ansible Automation Platform Utilities
 > - [AAP Configuration Template](https://github.com/redhat-cop/aap_configuration_template):	Configuration Template for this suite
 
 **Quick links:**
 
-- `infra.aap_configuration` ([GitHub](https://github.com/redhat-cop/infra.aap_configuration)): A collection of roles to manage Ansible Automation Platform 2.5+ with code
+-
 - `ansible.platform` ([Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/platform/)): This collection contains modules that can be used to automate the creation of resources on an install of Ansible Automation Platform.
 - `infra.ee_utilities` [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/ee_utilities/) | [GitHub](https://github.com/redhat-cop/ee_utilities): Execution Environment creation utilities
 
@@ -30,6 +28,7 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
 - [Configuration as Code for Automation Automation Platform](#configuration-as-code-for-automation-automation-platform)
   - [What is Configuration as Code (CaC) in Ansible Automation Platform?](#what-is-configuration-as-code-cac-in-ansible-automation-platform)
   - [Requirements](#requirements)
+  - [Ansible Automation Platform CaC Collections](#ansible-automation-platform-cac-collections)
   - [Configuring Credential](#configuring-credential)
   - [How to use the playbooks for configuring AAP](#how-to-use-the-playbooks-for-configuring-aap)
     - [Method 1: Using `ansible-playbook`](#method-1-using-ansible-playbook)
@@ -58,23 +57,44 @@ You can use CaC with a GitOps approach to help replicate configurations across a
 $ pip3 install awxkit --user
 ```
 
-2. Ansible Automation Platform Collections
+2. Credential to the Ansible Automation Controller
 
-TODO
+3. Ansible Automation Platform Collections
 
-`ansible-galaxy collection install ansible.controller`
+Install required collections as per `requirements.yaml`
 
-**Ansible Automation Platform Collections**
+```yaml
+---
+collections:
+  - name: ansible.platform
+  - name: ansible.hub
+  - name: ansible.controller
+  - name: ansible.eda
+  - name: infra.aap_configuration
+```
+
+```shell
+$ ansible-galaxy collection install -r requirements.yaml
+```
+
+(Or download and install for disconnected environment)
+
+## Ansible Automation Platform CaC Collections
 
 | Collection Name | Purpose  | Resources |
 |:---------|:------------|:------------|
+| `infra.aap_configuration` | Main collection of roles to manage Ansible Automation Platform 2.5+ with code | [GitHub](https://github.com/redhat-cop/infra.aap_configuration), [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration), [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/content/) |
 | `ansible.platform` | gateway/platform modules | (no public repo for this collection) |
-| `ansible.hub` | Automation hub modules | [GitHub](https://github.com/ansible-collections/ansible_hub),  |
+| `ansible.hub` | Automation hub modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/ah_configuration/), [GitHub](https://github.com/ansible-collections/ansible_hub),  |
 | `ansible.controller` | Automation controller modules | [awx.awx on GtiHub](https://github.com/ansible/awx/tree/devel/awx_collection), [GitHub](https://github.com/ansible/awx/tree/devel/awx_collection), [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) |
 | `ansible.eda` | Event Driven Ansible modules | [GitHub](https://github.com/ansible/event-driven-ansible) |
 
+| `aap_configuration_extended` |  | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration_extended/)
 
-1. Credential to the Ansible Automation Controller
+
+Old collections (before AAP 2.5):
+
+- [Ansible Hub Configuration](https://github.com/ansible/automation_hub_collection)
 
 
 ## Configuring Credential
