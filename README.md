@@ -57,7 +57,7 @@ You can use CaC with a GitOps approach to help replicate configurations across a
 $ pip3 install awxkit --user
 ```
 
-2. Credential to the Ansible Automation Controller
+2. Credential to access the Ansible Automation Platform
 
 3. Ansible Automation Platform Collections
 
@@ -156,13 +156,18 @@ Step 3. Continue the CaC configuration with the remaining tags: `projects`, `inv
 
 ## How to use the playbooks for Exporting content from AAP
 
+```shell
+$ ansible-playbook playbooks/controller_export.yaml
+```
+
 Refer to the [Automation Controller Export Documentation](https://github.com/redhat-cop/infra.aap_configuration/blob/devel/docs/EXPORT_README.md) and [export module documentation](https://docs.ansible.com/ansible/latest/collections/awx/awx/export_module.html)
+
 
 
 
 ## Using ngrok for exposing AAP and enable GitHub webhook
 
-Since the Ansible controller is running locally (on workstation my lab setup), I need to create tunnel (using [ngrok](https://ngrok.com/) here) so that GitHub can reach my Ansible controller over internet.
+If the Ansible Automation Platform is running locally (e.g: on workstation or without a public IP), we need to create tunnel (using [ngrok](https://ngrok.com/) here) so that GitHub can reach the Ansible Automation Platform over internet.
 
 ```shell
 export NGROK_AUTH_TOKEN=Your-Authtoken
@@ -190,3 +195,4 @@ Note:
 - [Red Hat Communities of Practice Controller Configuration Collection](https://github.com/redhat-cop/controller_configuration/tree/devel)
 - [Automation controller workflow deployment as code](https://www.ansible.com/blog/automation-controller-workflow-deployment-as-code)
 - [Ansible Automation Platform 2.3 Configuration as Code Improvements](https://www.ansible.com/blog/ansible-automation-platform-2.3-configuration-as-code-improvements) - blog
+- [Automation Controller using a Continuous Deployment approach](https://automationiberia.github.io/controller-casc-cd/controller-casc-cd/index.html) ([GitHub](https://github.com/automationiberia/controller-casc-cd))
