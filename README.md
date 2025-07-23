@@ -20,7 +20,7 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
 **Quick links:**
 
 -
-- `ansible.platform` ([Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/platform/)): This collection contains modules that can be used to automate the creation of resources on an install of Ansible Automation Platform.
+- `ansible.platform` (): This collection contains modules that can be used to automate the creation of resources on an install of Ansible Automation Platform.
 - `infra.ee_utilities` [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/ee_utilities/) | [GitHub](https://github.com/redhat-cop/ee_utilities): Execution Environment creation utilities
 
 **Table of Content**
@@ -84,10 +84,10 @@ $ ansible-galaxy collection install -r requirements.yaml
 | Collection Name | Purpose  | Resources |
 |:---------|:------------|:------------|
 | `infra.aap_configuration` | Main collection of roles to manage Ansible Automation Platform 2.5+ with code | [GitHub](https://github.com/redhat-cop/infra.aap_configuration), [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration), [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/content/) |
-| `ansible.platform` | gateway/platform modules | (no public repo for this collection) |
+| `ansible.platform` | gateway/platform modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/platform/) (no public repo for this collection) |
 | `ansible.hub` | Automation hub modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/ah_configuration/), [GitHub](https://github.com/ansible-collections/ansible_hub),  |
-| `ansible.controller` | Automation controller modules | [awx.awx on GtiHub](https://github.com/ansible/awx/tree/devel/awx_collection), [GitHub](https://github.com/ansible/awx/tree/devel/awx_collection), [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) |
-| `ansible.eda` | Event Driven Ansible modules | [GitHub](https://github.com/ansible/event-driven-ansible) |
+| `ansible.controller` | Automation controller modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/), [awx.awx on GtiHub](https://github.com/ansible/awx/tree/devel/awx_collection), [GitHub](https://github.com/ansible/awx/tree/devel/awx_collection) |
+| `ansible.eda` | Event Driven Ansible modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/)[GitHub](https://github.com/ansible/event-driven-ansible) |
 
 | `aap_configuration_extended` |  | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration_extended/)
 
@@ -161,8 +161,6 @@ $ ansible-playbook playbooks/controller_export.yaml
 ```
 
 Refer to the [Automation Controller Export Documentation](https://github.com/redhat-cop/infra.aap_configuration/blob/devel/docs/EXPORT_README.md) and [export module documentation](https://docs.ansible.com/ansible/latest/collections/awx/awx/export_module.html)
-
-
 
 
 ## Using ngrok for exposing AAP and enable GitHub webhook
