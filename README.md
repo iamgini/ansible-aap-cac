@@ -29,6 +29,7 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
   - [What is Configuration as Code (CaC) in Ansible Automation Platform?](#what-is-configuration-as-code-cac-in-ansible-automation-platform)
   - [Requirements](#requirements)
   - [Ansible Automation Platform CaC Collections](#ansible-automation-platform-cac-collections)
+  - [Other Configuration Collections for Ansible Automation Platform](#other-configuration-collections-for-ansible-automation-platform)
   - [Configuring Credential](#configuring-credential)
   - [How to use the playbooks for configuring AAP](#how-to-use-the-playbooks-for-configuring-aap)
     - [Method 1: Using `ansible-playbook`](#method-1-using-ansible-playbook)
@@ -83,18 +84,26 @@ $ ansible-galaxy collection install -r requirements.yaml
 
 | Collection Name | Purpose  | Resources |
 |:---------|:------------|:------------|
-| `infra.aap_configuration` | Main collection of roles to manage Ansible Automation Platform 2.5+ with code | [GitHub](https://github.com/redhat-cop/infra.aap_configuration), [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration), [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/content/) |
+| `infra.aap_configuration` | Main collection of roles to manage Ansible Automation Platform 2.5+ with code | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/content/), [GitHub](https://github.com/redhat-cop/infra.aap_configuration), [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/aap_configuration) |
 | `ansible.platform` | gateway/platform modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/platform/) (no public repo for this collection) |
-| `ansible.hub` | Automation hub modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/ah_configuration/), [GitHub](https://github.com/ansible-collections/ansible_hub),  |
+| `ansible.hub` | Automation hub modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/hub/) , [GitHub](https://github.com/ansible-collections/ansible_hub),  |
 | `ansible.controller` | Automation controller modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/), [awx.awx on GtiHub](https://github.com/ansible/awx/tree/devel/awx_collection), [GitHub](https://github.com/ansible/awx/tree/devel/awx_collection) |
 | `ansible.eda` | Event Driven Ansible modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/)[GitHub](https://github.com/ansible/event-driven-ansible) |
 
-| `aap_configuration_extended` |  | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration_extended/)
 
 
-Old collections (before AAP 2.5):
 
-- [Ansible Hub Configuration](https://github.com/ansible/automation_hub_collection)
+## Other Configuration Collections for Ansible Automation Platform
+
+| Collection Name  |  Purpose  | Resources |
+|:------------|:-----------|:-----------|
+| `aap_configuration_extended` | Where other useful roles that don't fit here live | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration_extended/)
+| [EE Utilities](https://github.com/redhat-cop/ee_utilities)                                            | Execution Environment creation utilities          |
+| [AAP installation Utilities](https://github.com/redhat-cop/aap_utilities)                             | Ansible Automation Platform Utilities             |
+| [AAP Configuration Template](https://github.com/redhat-cop/aap_configuration_template)                | Configuration Template for this suite             |
+| [Ansible Validated Gitlab Workflows](https://gitlab.com/redhat-cop/infra/ansible_validated_workflows) | Gitlab CI/CD Workflows for ansible content        |
+| [Ansible Validated Github Workflows](https://github.com/redhat-cop/infra.ansible_validated_workflows) | Github CI/CD Workflows for ansible content        |
+| `infra.ah_configuration` | Old collections (before AAP 2.5) | [GitHub](https://github.com/ansible/automation_hub_collection), [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/ah_configuration/) |
 
 
 ## Configuring Credential
