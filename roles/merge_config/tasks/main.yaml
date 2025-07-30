@@ -1,0 +1,16 @@
+- name: Merge into all_vars
+  ansible.builtin.include_tasks:
+    file: config_merge.yaml
+  vars:
+    merge_config_path: "{{ cac_config_path_common }}"
+
+- name: Merge into all_vars
+  ansible.builtin.include_tasks:
+    file: config_merge.yaml
+  vars:
+    merge_config_path: "{{ cac_config_path_env }}"
+  when: aap_env != 'none'
+
+- name: Register cac_all_vars as facts
+  ansible.builtin.set_fact: "{{ item.key }}={{ item.value }}"
+  loop: "{{ cac_all_vars | dict2items }}"

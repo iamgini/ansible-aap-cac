@@ -118,12 +118,12 @@ export CONTROLLER_HOST=https://aap25.lab.iamgini.com
 
 ## How to use the playbooks for configuring AAP
 
-The `controller_configure.yaml` can be executed using `ansible-playbook`, `ansible-navigator` or using a Job template from **Ansible controller** itself.
+The `playbooks/configure-aap.yaml` can be executed using `ansible-playbook`, `ansible-navigator` or using a Job template from **Ansible controller** itself.
 
 ### Method 1: Using `ansible-playbook`
 
 ```shell
-$ ansible-playbook controller_configure.yaml -t <tag>
+$ ansible-playbook playbooks/configure-aap.yaml
 ```
 
 ### Method 2: Using `ansible-navigator`

@@ -2,16 +2,34 @@
 - name: Playbook to configure ansible controller post installation
   hosts: localhost
   connection: local
+  gather_facts: false
+  vars:
+    aap_env: "{{ lookup('env', 'AAP_ENV') | default('none') }}"
+    cac_config_path_common: "{{ aap_configs_dir }}/common"
+    cac_config_path_env: "{{ aap_configs_dir }}/{{ aap_env }}"
+    cac_all_vars: {}
+
   vars_files:
     - vars/general.yaml
   tasks:
-    - name: Include vars from configs directory
-      ansible.builtin.include_vars:
-        dir: "{{ aap_configs_dir | default((lookup('env', 'AAP_CONFIGS_DIR') == '') | ternary('./configs', lookup('env', 'AAP_CONFIGS_DIR'))) }}"
-        ignore_files: [controller_config.yml.template]
-        extensions: [yml, yaml]
-      tags:
-        - always
+    # ---- old method for single flat file config ---
+    # - name: Include vars from configs directory
+    #   ansible.builtin.include_vars:
+    #     dir: "{{ aap_configs_dir | default((lookup('env', 'AAP_CONFIGS_DIR') == '') | ternary('./configs', lookup('env', 'AAP_CONFIGS_DIR'))) }}"
+    #     ignore_files: [controller_config.yml.template]
+    #     extensions: [yml, yaml]
+    #   tags:
+    #     - always
+
+    - name: Merge config from multiple files and environments
+      ansible.builtin.include_role:
+        name: merge_config
+
+    # - debug:
+    #     msg:
+    #       - "{{ cac_all_vars }}"
+    #       - "{{ aap_organizations }}"
+    #       - "{{ aap_teams }}"
 
     - name: Call dispatch role
       ansible.builtin.include_role:

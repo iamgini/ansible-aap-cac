@@ -9,11 +9,4 @@ aap_teams:
     organization: XYZCorp-CaC
   - name: cac-admins
     organization: XYZCorp-CaC
-
-  # multi-tenancy example
-  - name: network-admins
-    organization: Network-Ops
-
-  - name: network-operators
-    organization: Network-Ops
 ...

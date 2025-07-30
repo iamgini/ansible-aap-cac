@@ -1,0 +1,25 @@
+- name: Find all config files from path - {{ merge_config_path }}
+  ansible.builtin.find:
+    paths: "{{ merge_config_path }}"
+    patterns: "*.yml,*.yaml"
+    recurse: false
+  register: merge_files
+
+- name: Load variable from each files -  {{ merge_config_path }}
+  ansible.builtin.include_vars:
+    file: "{{ merge_file_item.path }}"
+    name: temp_vars
+  loop: "{{ merge_files.files }}"
+  loop_control:
+    label: "{{ merge_file_item.path }}"
+    loop_var: merge_file_item
+  register: loaded_vars
+
+- name: Merge into all_vars
+  ansible.builtin.include_tasks:
+    file: config_append.yaml
+  loop: "{{ loaded_vars.results }}"
+  loop_control:
+    label: "{{ file_content_item.ansible_included_var_files }}"
+    loop_var: file_content_item
+  when: file_content_item.ansible_facts.temp_vars is defined

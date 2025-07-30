@@ -1,0 +1,32 @@
+# - debug:
+#     msg: "{{ file_content_item.ansible_facts.temp_vars }}"
+
+- name: Set category name
+  ansible.builtin.set_fact:
+    cac_category_name: "{{ file_content_item.ansible_facts.temp_vars.keys() | list | first }}"
+
+- name: Merge item into cac_all_vars - list, dict, or scalar
+  ansible.builtin.set_fact:
+    cac_all_vars: >-
+      {{
+        cac_all_vars | default({}) |
+        combine({
+          cac_category_name:
+          (
+            cac_all_vars[cac_category_name] | default([])
+            + file_content_item.ansible_facts.temp_vars[cac_category_name]
+          )
+        }, recursive=True)
+      }}
+  when: file_content_item.ansible_facts.temp_vars[cac_category_name] is iterable and
+        file_content_item.ansible_facts.temp_vars[cac_category_name] is not string
+
+- name: Merge scalar into cac_all_vars
+  ansible.builtin.set_fact:
+    cac_all_vars: >-
+      {{
+        cac_all_vars | default({}) |
+        combine(file_content_item.ansible_facts.temp_vars, recursive=True)
+      }}
+  when: file_content_item.ansible_facts.temp_vars[cac_category_name] is not iterable or
+        file_content_item.ansible_facts.temp_vars[cac_category_name] is string
