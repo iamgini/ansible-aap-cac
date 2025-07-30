@@ -5,3 +5,4 @@ collections:
   - name: ansible.controller
   - name: ansible.eda
   - name: infra.aap_configuration
+  - name: infra.aap_configuration_extended

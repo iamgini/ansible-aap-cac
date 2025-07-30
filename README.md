@@ -4,22 +4,18 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
 
 > ⚠️ **Important Note:** AAP Version Dependency.
 >
+> Use the new collection `infra.aap_configuration` for AAP 2.5
+>
+> [ansible.controller 4.6.x](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) is for AAP 2.5.
+>
 > Be sure to use [`ansible.controller 4.5.12`](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) for AAP 2.4
 
 
-
-> [ansible.controller 4.6.x](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) is for AAP 2.5.
->
-> Use the new collection `infra.aap_configuration` for AAP 2.5
->
-> - :	Automation hub configuration
-> -
 > - [AAP installation Utilities](https://github.com/redhat-cop/aap_utilities):	Ansible Automation Platform Utilities
 > - [AAP Configuration Template](https://github.com/redhat-cop/aap_configuration_template):	Configuration Template for this suite
 
 **Quick links:**
 
--
 - `ansible.platform` (): This collection contains modules that can be used to automate the creation of resources on an install of Ansible Automation Platform.
 - `infra.ee_utilities` [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/infra/ee_utilities/) | [GitHub](https://github.com/redhat-cop/ee_utilities): Execution Environment creation utilities
 
@@ -72,6 +68,7 @@ collections:
   - name: ansible.controller
   - name: ansible.eda
   - name: infra.aap_configuration
+  - name: infra.aap_configuration_extended
 ```
 
 ```shell
@@ -89,9 +86,6 @@ $ ansible-galaxy collection install -r requirements.yaml
 | `ansible.hub` | Automation hub modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/hub/) , [GitHub](https://github.com/ansible-collections/ansible_hub),  |
 | `ansible.controller` | Automation controller modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/), [awx.awx on GtiHub](https://github.com/ansible/awx/tree/devel/awx_collection), [GitHub](https://github.com/ansible/awx/tree/devel/awx_collection) |
 | `ansible.eda` | Event Driven Ansible modules | [Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/)[GitHub](https://github.com/ansible/event-driven-ansible) |
-
-
-
 
 ## Other Configuration Collections for Ansible Automation Platform
 

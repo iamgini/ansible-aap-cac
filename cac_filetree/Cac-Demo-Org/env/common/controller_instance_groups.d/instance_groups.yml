@@ -1,0 +1,32 @@
+---
+# controller_instance_groups:
+#   - name: instance-group-CaC
+
+#   - name: Container-Group-CaC
+#     is_container_group: true
+#     max_concurrent_jobs: 10
+#     max_forks: 50
+#     # credential: #Credential to authenticate with Kubernetes or OpenShift. Must be of type "OpenShift or Kubernetes API Bearer Token".
+#     pod_spec_override: |
+#       apiVersion: v1
+#       kind: Pod
+#       metadata:
+#         namespace: default
+#       spec:
+#         serviceAccountName: default
+#         automountServiceAccountToken: false
+#         containers:
+#           - image: >-
+#               registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest
+#             name: worker
+#             args:
+#               - ansible-runner
+#               - worker
+#               - '--private-data-dir=/runner'
+#             resources:
+#               requests:
+#                 cpu: 250m
+#                 memory: 100Mi
+
+
+...

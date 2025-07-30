@@ -1,0 +1,9 @@
+---
+aap_teams:
+  # multi-tenancy example
+  - name: network-admins
+    organization: Network-Ops
+
+  - name: network-operators
+    organization: Network-Ops
+...

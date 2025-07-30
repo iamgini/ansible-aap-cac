@@ -1,0 +1,74 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: false
+  vars:
+    controller_configuration_projects_async_retries: 60
+    controller_configuration_projects_async_delay: 2
+    aap_username: "{{ vault_aap_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    aap_password: "{{ vault_aap_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    aap_hostname: "{{ vault_aap_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    controller_validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
+
+  pre_tasks:
+    - name: "Setup authentication (block)"
+      block:
+        - name: "Get the Authentication Token for the future requests"
+          ansible.builtin.uri:
+            url: "{{ aap_hostname }}/api/gateway/v1/tokens/"
+            user: "{{ aap_username }}"
+            password: "{{ aap_password }}"
+            method: POST
+            force_basic_auth: true
+            validate_certs: "{{ controller_validate_certs }}"
+            status_code: 201
+          register: authtoken_res
+
+        - name: "Set the oauth token to be used since now"
+          ansible.builtin.set_fact:
+            aap_oauthtoken: "{{ authtoken_res.json.token }}"
+            aap_oauthtoken_url: "{{ authtoken_res.json.url }}"
+          no_log: true
+      when: aap_oauthtoken is not defined
+      tags:
+        - always
+
+    - block:
+        - name: Include Tasks to load Galaxy credentials to be added to Organizations
+          ansible.builtin.include_role:
+            name: infra.aap_configuration_extended.filetree_read
+            tasks_from: "{{ create_orgs_credentials }}"
+          loop:
+            - organizations.yml
+            - credentials.yml
+          loop_control:
+            loop_var: create_orgs_credentials
+
+        - name: Include Tasks to add Galaxy credentials to Organizations
+          ansible.builtin.include_role:
+            name: infra.aap_configuration_extended.dispatch
+            apply:
+              tags:
+                - organizations
+                - credentials
+          vars:
+            assign_galaxy_credentials_to_org: false
+            controller_configuration_dispatcher_roles:
+              - {role: organizations, var: aap_organizations, tags: organizations}
+              - {role: credentials, var: controller_credentials, tags: credentials}
+
+  roles:
+    - {role: infra.aap_configuration_extended.filetree_read }
+    - {role: infra.aap_configuration.dispatch }
+
+  post_tasks:
+    - name: "Delete the Authentication Token used"
+      ansible.builtin.uri:
+        url: "https://{{ aap_hostname }}{{ aap_oauthtoken_url }}"
+        user: "{{ aap_username }}"
+        password: "{{ aap_password }}"
+        method: DELETE
+        force_basic_auth: true
+        validate_certs: "{{ controller_validate_certs }}"
+        status_code: 204
+      when: aap_oauthtoken_url is defined

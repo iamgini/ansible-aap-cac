@@ -1,0 +1,20 @@
+---
+- name: Ansible Controller Export
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    export_controller_target_dir: "{{ playbook_dir }}/cac_exported"
+    export_organizations:
+      - 'AwesomeCorp'
+      # - 'ACME'
+    export_credentials: all
+    export_credential_types: all
+    export_inventories: all
+    export_projects: all
+    export_job_templates: all
+
+  tasks:
+    - name: Export the configurations
+      ansible.builtin.include_role:
+        name: controller_export
