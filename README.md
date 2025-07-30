@@ -116,9 +116,13 @@ The `playbooks/configure-aap.yaml` can be executed using `ansible-playbook`, `an
 
 ### Method 1: Using `ansible-playbook`
 
+For flattened configuration
+
 ```shell
 $ ansible-playbook playbooks/configure-aap.yaml
 ```
+
+For filetree configuration
 
 ```shell
 $ ansible-playbook playbooks/configure-aap-using-filetree.yaml \
