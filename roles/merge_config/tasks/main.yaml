@@ -12,5 +12,8 @@
   when: aap_env != 'none'
 
 - name: Register cac_all_vars as facts
-  ansible.builtin.set_fact: "{{ item.key }}={{ item.value }}"
+  ansible.builtin.set_fact: "{{ cac_var_item.key }}={{ cac_var_item.value }}"
   loop: "{{ cac_all_vars | dict2items }}"
+  loop_control:
+    label: "{{ cac_var_item.key }}"
+    loop_var: cac_var_item

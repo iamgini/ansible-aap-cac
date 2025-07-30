@@ -22,4 +22,6 @@
   loop_control:
     label: "{{ file_content_item.ansible_included_var_files }}"
     loop_var: file_content_item
-  when: file_content_item.ansible_facts.temp_vars is defined
+  when:
+    - file_content_item.ansible_facts.temp_vars is defined
+    - file_content_item.ansible_facts.temp_vars != {}

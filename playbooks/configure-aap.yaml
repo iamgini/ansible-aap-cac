@@ -25,12 +25,6 @@
       ansible.builtin.include_role:
         name: merge_config
 
-    # - debug:
-    #     msg:
-    #       - "{{ cac_all_vars }}"
-    #       - "{{ aap_organizations }}"
-    #       - "{{ aap_teams }}"
-
     - name: Call dispatch role
       ansible.builtin.include_role:
         name: infra.aap_configuration.dispatch

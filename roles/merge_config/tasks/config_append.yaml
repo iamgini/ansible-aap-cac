@@ -1,5 +1,5 @@
-# - debug:
-#     msg: "{{ file_content_item.ansible_facts.temp_vars }}"
+- debug:
+    msg: "{{ file_content_item.ansible_facts.temp_vars }}"
 
 - name: Set category name
   ansible.builtin.set_fact:
