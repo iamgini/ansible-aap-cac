@@ -120,6 +120,14 @@ The `playbooks/configure-aap.yaml` can be executed using `ansible-playbook`, `an
 $ ansible-playbook playbooks/configure-aap.yaml
 ```
 
+```shell
+$ ansible-playbook playbooks/configure-aap-using-filetree.yaml \
+   -e "{orgs: ${AAP_ORGANIZATION}, dir_orgs_vars: ../cac_filetree, env: ${AAP_ENVIRONMENT} }"  \
+   -e @orgs_vars/env/${ENVIRONMENT}/configure_connection_controller_credentials.yml \
+   --tags ${CONTROLLER_OBJECT} \
+   --vault-password-file ./.vault_pass.txt
+```
+
 ### Method 2: Using `ansible-navigator`
 
 ```shell

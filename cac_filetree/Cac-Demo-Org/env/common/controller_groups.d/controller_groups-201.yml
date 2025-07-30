@@ -1,0 +1,20 @@
+---
+controller_groups:
+  - name: cac-group-201
+    inventory: Cac-Demo-Inventory
+    variables:
+      some_var: some_val
+      ansible_connection: local
+  - name: sat_lab_group
+    inventory: Cac-Demo-Inventory
+    variables:
+      some_var: some_val
+      ansible_connection: local
+    hosts:
+      - node-01.example.com
+      - localhost
+    # children:
+    #   - group1
+    #   - group2
+    #   - group3
+...
