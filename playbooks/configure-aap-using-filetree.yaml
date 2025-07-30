@@ -64,7 +64,7 @@
   post_tasks:
     - name: "Delete the Authentication Token used"
       ansible.builtin.uri:
-        url: "https://{{ aap_hostname }}{{ aap_oauthtoken_url }}"
+        url: "{{ aap_hostname }}{{ aap_oauthtoken_url }}"
         user: "{{ aap_username }}"
         password: "{{ aap_password }}"
         method: DELETE
