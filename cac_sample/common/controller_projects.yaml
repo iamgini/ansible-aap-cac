@@ -2,7 +2,6 @@
 controller_configuration_projects_async_retries: 60
 controller_configuration_projects_async_delay: 5
 controller_projects:
-
   - name: Ansible-Real-Life-Cac
     scm_type: git
     scm_url: https://github.com/iamgini/ansible-real-life
@@ -24,7 +23,7 @@ controller_projects:
   #   organization: Cac-Demo-Org
   #   wait: true
   #   update_project: true
-    # credential: GH-Dev
+  # credential: GH-Dev
 
   - name: Network-Automation-CaC
     scm_type: git
@@ -47,4 +46,3 @@ controller_projects:
     wait: true
     update_project: true
     # credential: GH-Dev
-...
