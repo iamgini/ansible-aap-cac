@@ -3,4 +3,8 @@ aap_organizations:
   - name: Cac-Demo-Org
     max_hosts: 0
     description: Configuration as Code - Demo
+
+  - name: AAAAAA
+    max_hosts: 0
+    description: Configuration as Code - Demo
 ...

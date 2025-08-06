@@ -142,6 +142,9 @@ $ ansible-playbook playbooks/configure-aap-using-filetree.yaml \
    --vault-password-file ./.vault_pass.txt
 ```
 
+Check  'collections/ansible_collections/infra/aap_configuration_extended/roles/filetree_read/defaults/main.yml`
+
+
 ### Method 2: Using `ansible-navigator`
 
 ```shell
