@@ -1,3 +1,4 @@
+---
 - name: Save resources content - {{ resource_item }}
   ansible.builtin.include_tasks:
     file: save_resource_content.yaml

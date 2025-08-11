@@ -60,11 +60,11 @@
   #             - {role: credentials, var: controller_credentials, tags: credentials}
 
   roles:
-    - {role: infra.aap_configuration_extended.filetree_read }
-    - {role: infra.aap_configuration.dispatch }
+    - { role: infra.aap_configuration_extended.filetree_read }
+    - { role: infra.aap_configuration.dispatch }
 
   post_tasks:
-    - name: "Delete the Authentication Token used"
+    - name: Delete the Authentication Token used
       ansible.builtin.uri:
         url: "{{ aap_hostname }}{{ aap_oauthtoken_url }}"
         user: "{{ aap_username }}"
