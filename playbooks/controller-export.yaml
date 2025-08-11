@@ -6,7 +6,7 @@
   vars:
     export_controller_target_dir: "{{ playbook_dir }}/cac_exported"
     export_organizations:
-      - 'AwesomeCorp'
+      - AwesomeCorp
       # - 'ACME'
     export_credentials: all
     export_credential_types: all
