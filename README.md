@@ -231,10 +231,11 @@ $ ansible-playbook playbooks/controller_export.yaml
 
 Refer to the [Automation Controller Export Documentation](https://github.com/redhat-cop/infra.aap_configuration/blob/devel/docs/EXPORT_README.md) and [export module documentation](https://docs.ansible.com/ansible/latest/collections/awx/awx/export_module.html)
 
+## Enable Webhook for automated CaC update.
 
-## Using ngrok for exposing AAP and enable GitHub webhook
+### Using ngrok for exposing AAP and enable GitHub webhook
 
-If the Ansible Automation Platform is running locally (e.g: on workstation or without a public IP), we need to create tunnel (using [ngrok](https://ngrok.com/) here) so that GitHub can reach the Ansible Automation Platform over internet.
+> In my environment, the Ansible Automation Platform is running locally (e.g: on workstation or without a public IP), and I need to create tunnel (using [ngrok](https://ngrok.com/) here) so that GitHub can reach the Ansible Automation Platform over internet.
 
 ```shell
 export NGROK_AUTH_TOKEN=Your-Authtoken
