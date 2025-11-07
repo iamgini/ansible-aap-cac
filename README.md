@@ -27,6 +27,7 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
   - [Ansible Automation Platform CaC Collections](#ansible-automation-platform-cac-collections)
   - [Other Configuration Collections for Ansible Automation Platform](#other-configuration-collections-for-ansible-automation-platform)
   - [Configuring Credential](#configuring-credential)
+  - [Encrypting Sensitive data](#encrypting-sensitive-data)
   - [How to use the playbooks for configuring AAP](#how-to-use-the-playbooks-for-configuring-aap)
     - [Method 1: Using `ansible-playbook`](#method-1-using-ansible-playbook)
     - [Method 2: Using `ansible-navigator`](#method-2-using-ansible-navigator)
@@ -118,7 +119,48 @@ When using `ansible-playbook` or `ansible-navigator`, the credential can be pass
 export CONTROLLER_USERNAME=admin
 export CONTROLLER_PASSWORD=secretpassword
 export CONTROLLER_HOST=https://aap25.lab.iamgini.com
+export CONTROLLER_VERIFY_SSL=false
+
+export AAP_ORGANIZATION=AwesomeCorp
+export AAP_ENVIRONMENT=uat
 ```
+
+## Encrypting Sensitive data
+
+You can use the vaulted files using `ansible-vault` or vaulted text as inline in the config files.
+
+```shell
+$ ansible-vault encrypt_string string_to_encrypt=Awesome123
+New Vault password:            --> I used "ansible" as the vault password here
+Confirm New Vault password:
+Encryption successful
+!vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38636432353066366436633665353033626134353632343436643533353562353266626136666666
+          6334656538383934336535346433646638333664646230660a646563633761316361323662333730
+          33626434333534646264313331636261326532303564353933666562393366643038356536326230
+          6236326566643832350a616138383932613535363130356662313666623033396438313439653266
+          32393330373131643333313630643737336334343764383236383435643337663034
+```
+
+Now, add this vaulted data as inline text as follows.
+
+e.g: `aap-cac-filetree/AwesomeCorp/env/common/aap_users.d/aap_user_accounts.yml`
+
+```yaml
+---
+platform_state: present
+aap_user_accounts:
+  - username: jdoe
+    password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38636432353066366436633665353033626134353632343436643533353562353266626136666666
+          6334656538383934336535346433646638333664646230660a646563633761316361323662333730
+          33626434333534646264313331636261326532303564353933666562393366643038356536326230
+          6236326566643832350a616138383932613535363130356662313666623033396438313439653266
+          32393330373131643333313630643737336334343764383236383435643337663034
+```
+
 
 ## How to use the playbooks for configuring AAP
 
@@ -137,13 +179,12 @@ For filetree configuration
 ```shell
 $ ansible-playbook playbooks/configure-aap-using-filetree.yaml \
    -e "{orgs: ${AAP_ORGANIZATION}, dir_orgs_vars: ../cac_filetree, env: ${AAP_ENVIRONMENT} }"  \
-   -e @orgs_vars/env/${ENVIRONMENT}/configure_connection_controller_credentials.yml \
+   -e @orgs_vars/env/${AAP_ENVIRONMENT}/configure_connection_controller_credentials.yml \
    --tags ${CONTROLLER_OBJECT} \
    --vault-password-file ./.vault_pass.txt
 ```
 
 Check  'collections/ansible_collections/infra/aap_configuration_extended/roles/filetree_read/defaults/main.yml`
-
 
 ### Method 2: Using `ansible-navigator`
 

@@ -12,56 +12,112 @@
 
     controller_validate_certs: false
     aap_validate_certs: false
-  # pre_tasks:
-  #   - name: "Setup authentication (block)"
-  #     block:
-  #       - name: "Get the Authentication Token for the future requests"
-  #         ansible.builtin.uri:
-  #           url: "{{ aap_hostname }}/api/gateway/v1/tokens/"
-  #           user: "{{ aap_username }}"
-  #           password: "{{ aap_password }}"
-  #           method: POST
-  #           force_basic_auth: true
-  #           validate_certs: "{{ controller_validate_certs }}"
-  #           status_code: 201
-  #         register: authtoken_res
 
-  #       - name: "Set the oauth token to be used since now"
-  #         ansible.builtin.set_fact:
-  #           aap_oauthtoken: "{{ authtoken_res.json.token }}"
-  #           aap_oauthtoken_url: "{{ authtoken_res.json.url }}"
-  #         no_log: true
-  #     when: aap_oauthtoken is not defined
-  #     tags:
-  #       - always
+    # Controller Directory Path
+    filetree_controller_settings:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_settings.d/"
+    filetree_aap_organizations:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_organizations.d/"
+    filetree_controller_labels:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_labels.d/"
+    filetree_aap_user_accounts:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/aap_users.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_users.d/"
+    filetree_aap_teams:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_teams.d/"
+    filetree_controller_credential_types:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_credential_types.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credential_types.d/"
+    filetree_controller_credentials:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_credentials.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credentials.d/"
+    filetree_controller_credential_input_sources:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credential_input_sources.d/"
+    filetree_controller_notifications:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_notification_templates.d/"
+    filetree_controller_projects:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_projects.d/"
+    filetree_controller_execution_environments:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_execution_environments.d/"
+    filetree_aap_applications:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_applications.d/"
+    filetree_controller_inventories:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_inventories.d/"
+    filetree_controller_inventory_sources:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_inventory_sources.d/"
+    filetree_controller_instance_groups:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_instance_groups.d/"
+    filetree_controller_hosts:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_hosts.d/"
+    filetree_controller_groups:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_groups.d/"
+    filetree_controller_templates:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_job_templates.d/"
+    filetree_controller_workflow_job_templates:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_workflow_job_templates.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_workflow_job_templates.d/"
+    filetree_controller_schedules:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_schedules.d/"
+    filetree_controller_roles:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_roles.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_roles.d/"
 
-  #   - block:
-  #       - name: Include Tasks to load Galaxy credentials to be added to Organizations
-  #         ansible.builtin.include_role:
-  #           name: infra.aap_configuration_extended.filetree_read
-  #           tasks_from: "{{ create_orgs_credentials }}"
-  #         loop:
-  #           - organizations.yml
-  #           - credentials.yml
-  #         loop_control:
-  #           loop_var: create_orgs_credentials
+  pre_tasks:
+    - name: "Setup authentication (block)"
+      block:
+        - name: "Get the Authentication Token for the future requests"
+          ansible.builtin.uri:
+            url: "{{ aap_hostname }}/api/gateway/v1/tokens/"
+            user: "{{ aap_username }}"
+            password: "{{ aap_password }}"
+            method: POST
+            force_basic_auth: true
+            validate_certs: "{{ controller_validate_certs }}"
+            status_code: 201
+          register: authtoken_res
 
-  #       - name: Include Tasks to add Galaxy credentials to Organizations
-  #         ansible.builtin.include_role:
-  #           name: infra.aap_configuration_extended.dispatch
-  #           apply:
-  #             tags:
-  #               - organizations
-  #               - credentials
-  #         vars:
-  #           assign_galaxy_credentials_to_org: false
-  #           controller_configuration_dispatcher_roles:
-  #             - {role: organizations, var: aap_organizations, tags: organizations}
-  #             - {role: credentials, var: controller_credentials, tags: credentials}
+        - name: "Set the oauth token to be used since now"
+          ansible.builtin.set_fact:
+            aap_oauthtoken: "{{ authtoken_res.json.token }}"
+            aap_oauthtoken_url: "{{ authtoken_res.json.url }}"
+          no_log: true
+      when: aap_oauthtoken is not defined
+      tags:
+        - always
+
+    # - block:
+    #     - name: Include Tasks to load Galaxy credentials to be added to Organizations
+    #       ansible.builtin.include_role:
+    #         name: infra.aap_configuration_extended.filetree_read
+    #         tasks_from: "{{ create_orgs_credentials }}"
+    #       loop:
+    #         - organizations.yml
+    #         - credentials.yml
+    #       loop_control:
+    #         loop_var: create_orgs_credentials
+
+    #     - name: Include Tasks to add Galaxy credentials to Organizations
+    #       ansible.builtin.include_role:
+    #         name: infra.aap_configuration.dispatch
+    #         apply:
+    #           tags:
+    #             - organizations
+    #             - credentials
+    #       vars:
+    #         assign_galaxy_credentials_to_org: false
+    #         controller_configuration_dispatcher_roles:
+    #           - {role: organizations, var: aap_organizations, tags: organizations}
+    #           - {role: credentials, var: controller_credentials, tags: credentials}
 
   roles:
     - {role: infra.aap_configuration_extended.filetree_read }
     - {role: infra.aap_configuration.dispatch }
+  # tasks:
+  #   - name: Apply configuration
+  #     ansible.builtin.include_role:
+  #       name: infra.aap_configuration.dispatch
+  #     tags:
+  #       - always
 
   post_tasks:
     - name: "Delete the Authentication Token used"
@@ -74,3 +130,5 @@
         validate_certs: "{{ controller_validate_certs }}"
         status_code: 204
       when: aap_oauthtoken_url is defined
+      tags:
+        - always
