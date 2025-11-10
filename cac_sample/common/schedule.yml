@@ -2,8 +2,8 @@
 controller_schedules:
   - name: Demo-Schedule-CaC
     description: A demonstration
-    unified_job_template: 001-List-to-String-CaC
-    rrule: "DTSTART:20191219T130551Z RRULE:FREQ=DAILY;INTERVAL=1;COUNT=1"
+    unified_job_template: "001-List-to-String-CaC"
+    rrule: DTSTART:20191219T130551Z RRULE:FREQ=DAILY;INTERVAL=1;COUNT=1
     # execution_environment: My EE
     # forks: 2
     # limit: all
@@ -13,4 +13,3 @@ controller_schedules:
     #   - differential
     #   - differential2
     # timeout: 165
-...

@@ -1,3 +1,4 @@
+---
 - name: Merge into all_vars
   ansible.builtin.include_tasks:
     file: config_merge.yaml
