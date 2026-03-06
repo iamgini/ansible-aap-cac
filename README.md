@@ -9,8 +9,6 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
 > Be sure to use [`ansible.controller 4.5.12`](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) for AAP 2.4
 
 
-
-
 **Quick links:**
 
 - `ansible.platform` (): This collection contains modules that can be used to automate the creation of resources on an install of Ansible Automation Platform.
