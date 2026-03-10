@@ -4,7 +4,8 @@
 - name: Export configurations
   block:
     - name: Gather information from controller
-      ansible.controller.export: # or awx.awx.export
+      register: export_results
+      awx.awx.export: # or awx.awx.export
         validate_certs: false
         request_timeout: 120
         # all: true
@@ -22,13 +23,12 @@
         teams: "{{ export_teams | default('all') }}"
         users: "{{ export_users | default('all') }}"
         workflow_job_templates: "{{ export_workflow_job_templates | default('all') }}"
-      register: export_results
 
     - name: Save content to file # debug
       ansible.builtin.copy:
         content: "{{ export_results | to_nice_yaml(width=50, explicit_start=True, explicit_end=True, indent=2) }}"
         dest: "{{ export_controller_target_dir }}/controller-config_debug.yaml"
-        mode: '0755'
+        mode: "0755"
 
     - name: Save organization
       ansible.builtin.include_tasks:
