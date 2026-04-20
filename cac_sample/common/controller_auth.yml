@@ -5,4 +5,3 @@
 # controller_password: password
 controller_validate_certs: false
 controller_configuration_enforce_defaults: true
-...

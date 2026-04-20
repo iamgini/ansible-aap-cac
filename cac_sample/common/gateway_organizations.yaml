@@ -15,4 +15,3 @@ aap_organizations:
   - name: Network-Ops
     max_hosts: 100
     description: Configuration as Code - Demo
-...

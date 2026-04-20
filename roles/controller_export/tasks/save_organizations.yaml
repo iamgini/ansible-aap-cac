@@ -1,11 +1,12 @@
+---
 - name: Ensure directory exists
   ansible.builtin.file:
     path: "{{ export_controller_target_dir }}/organizations/{{ org_item.name }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Save the content inside the directory
   ansible.builtin.copy:
     content: "{{ org_item | to_nice_yaml }}"
     dest: "{{ export_controller_target_dir }}/organizations/{{ org_item.name }}/organization_config.yaml"
-    mode: '0755'
+    mode: "0755"
