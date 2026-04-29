@@ -14,7 +14,112 @@
     export_projects: all
     export_job_templates: all
 
+    aap_username: "{{ vault_aap_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    aap_password: "{{ vault_aap_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    aap_hostname: "{{ vault_aap_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    aap_validate_certs: "{{ vault_aap_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
+
+    flatten_output: true
+    controller_username: "{{ vault_aap_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    controller_password: "{{ vault_aap_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    controller_hostname: "{{ vault_aap_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    controller_validate_certs: "{{ vault_aap_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
+    output_path: /home/aap/lab/data/flatten_output_24
+    # Let the secrets to be defined externally (and vaulted) through well known variables
+    secrets_as_variables: true
   tasks:
-    - name: Export the configurations
-      ansible.builtin.include_role:
-        name: controller_export
+    - name: Custom Export
+      when: export_type | default('filetree') == 'custom'
+      block:
+        - name: Export the configurations - custom
+          ansible.builtin.include_role:
+            name: controller_export
+
+    - name: Filetree Export 2.4
+      when:
+        - export_type | default('filetree') == 'filetree24'
+        - aap_version | default(lookup('env', 'AAP_VERSION')) == '2.4'
+      block:
+        - name: "Setup authentication (block)"
+          when: controller_oauthtoken is not defined
+          # tags:
+          #   - always
+          block:
+            - name: "Get the Authentication Token for the future requests"
+              ansible.builtin.uri:
+                url: "https://{{ controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}/api/v2/tokens/"
+                user: "{{ controller_username }}"
+                password: "{{ controller_password }}"
+                method: POST
+                force_basic_auth: true
+                validate_certs: "{{ controller_validate_certs }}"
+                status_code: 201
+              register: authtoken_res
+
+            - name: "Set the oauth token to be used since now"
+              ansible.builtin.set_fact:
+                controller_oauthtoken: "{{ authtoken_res.json.token }}"
+                controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
+
+
+        - name: Export Filetree
+          ansible.builtin.include_role:
+            name: infra.aap_configuration_extended.filetree_create
+            vars_from: main.yml      # loads vars/main.yml
+            defaults_from: main.yml  # loads defaults/main.yml
+            handlers_from: main.yml  # loads handlers/main.yml
+
+      always:
+        - name: "Delete the Authentication Token used"
+          ansible.builtin.uri:
+            url: "https://{{ controller_hostname }}{{ controller_oauthtoken_url }}"
+            user: "{{ controller_username }}"
+            password: "{{ controller_password }}"
+            method: DELETE
+            force_basic_auth: true
+            validate_certs: "{{ controller_validate_certs }}"
+            status_code: 204
+          when: controller_oauthtoken_url is defined
+
+    # # ------------------- 2.5+ ------------------------
+    # - name: Filetree Export - AAP 2.5+
+    #   when:
+    #     - export_type | default('filetree') == 'filetree'
+    #     - aap_version | default(lookup('env', 'AAP_VERSION')) == '2.5' or aap_version | default(lookup('env', 'AAP_VERSION')) == '2.6'
+    #   block:
+    #     - name: "Get the Authentication Token for the future requests"
+    #       ansible.builtin.uri:
+    #         url: "https://{{ aap_hostname }}/api/gateway/v1/tokens/"
+    #         user: "{{ aap_username }}"
+    #         password: "{{ aap_password }}"
+    #         method: POST
+    #         force_basic_auth: true
+    #         validate_certs: "{{ aap_validate_certs }}"
+    #         status_code: 201
+    #       register: authtoken_res
+
+    #     - name: "Set the oauth token to be used since now"
+    #       ansible.builtin.set_fact:
+    #         aap_oauthtoken: "{{ authtoken_res.json.token }}"
+    #         aap_oauthtoken_url: "{{ authtoken_res.json.url }}"
+    #       no_log: "{{ controller_configuration_filetree_create_secure_logging | default('false') }}"
+    #       when: aap_oauthtoken is not defined
+    #       tags:
+    #         - always
+
+    #     - name: Export Filetree
+    #       ansible.builtin.include_role:
+    #         name: infra.aap_configuration_extended.filetree_create
+
+
+    #   always:
+    #     - name: "Delete the Authentication Token used"
+    #       ansible.builtin.uri:
+    #         url: "https://{{ aap_hostname }}{{ aap_oauthtoken_url }}"
+    #         user: "{{ aap_username }}"
+    #         password: "{{ aap_password }}"
+    #         method: DELETE
+    #         force_basic_auth: true
+    #         validate_certs: "{{ aap_validate_certs }}"
+    #         status_code: 204
+    #       when: aap_oauthtoken_url is defined

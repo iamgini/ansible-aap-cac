@@ -1,4 +1,9 @@
 ---
+# Execution Environment images for different AAP versions:
+# AAP 2.4: registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest
+# AAP 2.5: registry.redhat.io/ansible-automation-platform-25/ee-supported-rhel9:latest
+# AAP 2.6: registry.redhat.io/ansible-automation-platform-26/ee-supported-rhel9:latest
+# Override with: ansible-navigator run playbook.yml --eei <custom-image>
 ansible-navigator:
   execution-environment:
     container-engine: podman

@@ -1,4 +1,6 @@
 ---
+# Collections for AAP 2.6 (latest)
+# Uses latest versions of all collections
 collections:
   - name: ansible.platform
   - name: ansible.hub

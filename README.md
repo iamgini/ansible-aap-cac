@@ -6,7 +6,7 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
 >
 > Use the new collection `infra.aap_configuration` for AAP 2.5 or later.
 >
-> Be sure to use [`ansible.controller 4.5.12`](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/) for AAP 2.4
+> Be sure to use [`ansible.controller 4.5.12`](https://console.redhat.com/ansible/automation-hub/collections/published/ansible/controller/install?version=4.5.12) for AAP 2.4.
 
 
 **Quick links:**
@@ -28,8 +28,9 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
     - [Method 2: Using `ansible-navigator`](#method-2-using-ansible-navigator)
     - [Method 3: Using automation controller job template](#method-3-using-automation-controller-job-template)
     - [Controlling the controller configurations](#controlling-the-controller-configurations)
-  - [How to use the playbooks for Exporting content from AAP](#how-to-use-the-playbooks-for-exporting-content-from-aap)
-  - [Enable Webhook for automated CaC update.](#enable-webhook-for-automated-cac-update)
+  - [Exporting content from AAP](#exporting-content-from-aap)
+    - [AAP 2.4](#aap-24)
+  - [Enable Webhook for automated CaC update (Local Testing Only)](#enable-webhook-for-automated-cac-update-local-testing-only)
     - [Using ngrok for exposing AAP and enable GitHub webhook](#using-ngrok-for-exposing-aap-and-enable-github-webhook)
   - [Troubleshooting](#troubleshooting)
   - [References](#references)
@@ -219,15 +220,31 @@ Step 2: Login to the target automation controller (if this is a different contro
 
 Step 3. Continue the CaC configuration with the remaining tags: `projects`, `inventories`, `hosts`, `templates`, `workflows` etc.
 
-## How to use the playbooks for Exporting content from AAP
+## Exporting content from AAP
+
+### AAP 2.4
 
 ```shell
-$ ansible-playbook playbooks/controller_export.yaml
+$ ansible-galaxy collection install \
+  -r collections/requirements-aap24.yml
+
+# Either from Automation Hub or use the from this repo
+$ ansible-galaxy collection install backup-collections/ansible-controller-4.5.12.tar.gz --force
 ```
+
+```shell
+# flatten output
+$ ansible-playbook playbooks/controller-export-24.yaml
+
+# filetree
+$ ansible-playbook playbooks/controller-export-24.yaml \
+  -e "flatten_output=false"
+```
+
 
 Refer to the [Automation Controller Export Documentation](https://github.com/redhat-cop/infra.aap_configuration/blob/devel/docs/EXPORT_README.md) and [export module documentation](https://docs.ansible.com/ansible/latest/collections/awx/awx/export_module.html)
 
-## Enable Webhook for automated CaC update.
+## Enable Webhook for automated CaC update (Local Testing Only)
 
 ### Using ngrok for exposing AAP and enable GitHub webhook
 

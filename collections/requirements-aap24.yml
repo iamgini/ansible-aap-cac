@@ -1,0 +1,8 @@
+---
+# Collections for AAP 2.4
+# Use ansible.controller 4.5.12 for AAP 2.4 compatibility
+collections:
+  # - name: ansible.controller
+  #   version: "4.5.12"
+  - name: ansible.hub
+  - name: ansible.eda

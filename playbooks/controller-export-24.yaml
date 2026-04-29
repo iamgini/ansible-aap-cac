@@ -1,0 +1,70 @@
+---
+- name: Ansible Controller Export
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    export_controller_target_dir: "{{ playbook_dir }}/cac_exported"
+    export_organizations:
+      - 'AwesomeCorp'
+      # - 'ACME'
+    export_credentials: all
+    export_credential_types: all
+    export_inventories: all
+    export_projects: all
+    export_job_templates: all
+
+    aap_username: "{{ vault_aap_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    aap_password: "{{ vault_aap_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    aap_hostname: "{{ vault_aap_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    aap_validate_certs: "{{ vault_aap_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
+
+    # flatten_output: true
+    controller_username: "{{ vault_aap_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    controller_password: "{{ vault_aap_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    controller_hostname: "{{ vault_aap_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    controller_validate_certs: "{{ vault_aap_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
+    output_path: "{{ playbook_dir }}/cac_exported_aap24_{{ 'flatten' if flatten_output | default(true) | bool else 'filetree' }}"
+
+    # Let the secrets to be defined externally (and vaulted) through well known variables
+    secrets_as_variables: true
+
+  pre_tasks:
+    # - name: Set output output_path
+    #   ansible.builtin.set_fact:
+    #     output_path: "{{ playbook_dir }}/cac_exported_aap24_{{ 'flatten' if flatten_output | default(true) else 'filetree' }}"
+    - name: "Setup authentication (block)"
+      when: controller_oauthtoken is not defined
+      tags:
+        - always
+      block:
+        - name: "Get the Authentication Token for the future requests"
+          ansible.builtin.uri:
+            url: "https://{{ controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}/api/v2/tokens/"
+            user: "{{ controller_username }}"
+            password: "{{ controller_password }}"
+            method: POST
+            force_basic_auth: true
+            validate_certs: "{{ controller_validate_certs }}"
+            status_code: 201
+          register: authtoken_res
+
+        - name: "Set the oauth token to be used since now"
+          ansible.builtin.set_fact:
+            controller_oauthtoken: "{{ authtoken_res.json.token }}"
+            controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
+
+  roles:
+    - infra.controller_configuration.filetree_create
+
+  post_tasks:
+    - name: "Delete the Authentication Token used"
+      ansible.builtin.uri:
+        url: "https://{{ controller_hostname }}{{ controller_oauthtoken_url }}"
+        user: "{{ controller_username }}"
+        password: "{{ controller_password }}"
+        method: DELETE
+        force_basic_auth: true
+        validate_certs: "{{ controller_validate_certs }}"
+        status_code: 204
+      when: controller_oauthtoken_url is defined
