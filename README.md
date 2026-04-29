@@ -222,7 +222,11 @@ Step 3. Continue the CaC configuration with the remaining tags: `projects`, `inv
 
 ## Exporting content from AAP
 
+Export current AAP configurations to YAML files for version control and migration between environments.
+
 ### AAP 2.4
+
+**Prerequisites**: Install AAP 2.4 compatible collections
 
 ```shell
 $ ansible-galaxy collection install \
@@ -232,17 +236,36 @@ $ ansible-galaxy collection install \
 $ ansible-galaxy collection install backup-collections/ansible-controller-4.5.12.tar.gz --force
 ```
 
-```shell
-# flatten output
-$ ansible-playbook playbooks/controller-export-24.yaml
+**Configure credentials** as environment variables:
 
-# filetree
-$ ansible-playbook playbooks/controller-export-24.yaml \
-  -e "flatten_output=false"
+```shell
+export CONTROLLER_USERNAME=admin
+export CONTROLLER_PASSWORD=secretpassword
+export CONTROLLER_HOST=https://aap24.lab.example.com
+export CONTROLLER_VERIFY_SSL=false
+export AAP_VERSION=2.4
 ```
 
+**Export configurations**:
 
-Refer to the [Automation Controller Export Documentation](https://github.com/redhat-cop/infra.aap_configuration/blob/devel/docs/EXPORT_README.md) and [export module documentation](https://docs.ansible.com/ansible/latest/collections/awx/awx/export_module.html)
+```shell
+# Flatten output (single directory structure)
+$ ansible-playbook playbooks/controller-export-24.yaml
+
+# Filetree output (hierarchical organization-based structure)
+$ ansible-playbook playbooks/controller-export-24.yaml \
+  -e "flatten_output=False"
+```
+
+> **Note**: Use capital `False` (not lowercase `false`) as Ansible treats the string `"false"` as truthy. Alternatively, use JSON format: `-e '{"flatten_output": false}'`
+
+**Output locations**:
+- Flatten: `playbooks/cac_exported_aap24_flatten/`
+- Filetree: `playbooks/cac_exported_aap24_filetree/`
+
+**References**:
+- [Automation Controller Export Documentation](https://github.com/redhat-cop/infra.aap_configuration/blob/devel/docs/EXPORT_README.md)
+- [Export Module Documentation](https://docs.ansible.com/ansible/latest/collections/awx/awx/export_module.html)
 
 ## Enable Webhook for automated CaC update (Local Testing Only)
 
