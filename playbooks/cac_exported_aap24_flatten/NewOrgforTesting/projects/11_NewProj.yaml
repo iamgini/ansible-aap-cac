@@ -1,10 +1,10 @@
 ---
 controller_projects:
-  - name: "Demo Project"
+  - name: "NewProj"
     description: ""
-    organization: "Default"
+    organization: "NewOrgforTesting"
     scm_type: "git"
-    scm_url: "https://github.com/ansible/ansible-tower-samples"
+    scm_url: "https://github.com/iamgini/ansible-real-life"
     scm_branch: ""
     scm_clean: "False"
     scm_delete_on_update: "False"

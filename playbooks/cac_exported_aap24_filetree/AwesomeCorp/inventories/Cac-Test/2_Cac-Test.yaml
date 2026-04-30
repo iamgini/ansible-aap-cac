@@ -1,8 +1,0 @@
----
-controller_inventories:
-  - name: "Cac-Test"
-    description: ""
-    organization: "AwesomeCorp"
-    host_filter: ""
-    prevent_instance_group_fallback: False
-...
