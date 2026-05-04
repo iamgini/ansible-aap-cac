@@ -8,7 +8,6 @@
     cac_config_path_common: "{{ aap_configs_dir }}/common"
     cac_config_path_env: "{{ aap_configs_dir }}/{{ aap_env }}"
     cac_all_vars: {}
-
   vars_files:
     - vars/general.yaml
   tasks:
@@ -28,4 +27,3 @@
     - name: Call dispatch role
       ansible.builtin.include_role:
         name: infra.aap_configuration.dispatch
-...

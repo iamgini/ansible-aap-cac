@@ -10,4 +10,3 @@ controller_inventories:
     organization: Network-Ops
     description: Created by Ansible CaC
     prevent_instance_group_fallback: false
-...

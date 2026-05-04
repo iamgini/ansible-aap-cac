@@ -6,7 +6,7 @@
   vars:
     export_controller_target_dir: "{{ playbook_dir }}/cac_exported"
     export_organizations:
-      - 'AwesomeCorp'
+      - AwesomeCorp
       # - 'ACME'
     export_credentials: all
     export_credential_types: all
@@ -33,14 +33,14 @@
     # - name: Set output output_path
     #   ansible.builtin.set_fact:
     #     output_path: "{{ playbook_dir }}/cac_exported_aap24_{{ 'flatten' if flatten_output | default(true) else 'filetree' }}"
-    - name: "Setup authentication (block)"
+    - name: Setup authentication (block)
       when: controller_oauthtoken is not defined
       tags:
         - always
       block:
-        - name: "Get the Authentication Token for the future requests"
+        - name: Get the Authentication Token for the future requests
           ansible.builtin.uri:
-            url: "https://{{ controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}/api/v2/tokens/"
+            url: https://{{ controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}/api/v2/tokens/
             user: "{{ controller_username }}"
             password: "{{ controller_password }}"
             method: POST
@@ -49,7 +49,7 @@
             status_code: 201
           register: authtoken_res
 
-        - name: "Set the oauth token to be used since now"
+        - name: Set the oauth token to be used since now
           ansible.builtin.set_fact:
             controller_oauthtoken: "{{ authtoken_res.json.token }}"
             controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
@@ -58,9 +58,9 @@
     - infra.controller_configuration.filetree_create
 
   post_tasks:
-    - name: "Delete the Authentication Token used"
+    - name: Delete the Authentication Token used
       ansible.builtin.uri:
-        url: "https://{{ controller_hostname }}{{ controller_oauthtoken_url }}"
+        url: https://{{ controller_hostname }}{{ controller_oauthtoken_url }}
         user: "{{ controller_username }}"
         password: "{{ controller_password }}"
         method: DELETE

@@ -1,3 +1,4 @@
+---
 - name: Find all config files from path - {{ merge_config_path }}
   ansible.builtin.find:
     paths: "{{ merge_config_path }}"

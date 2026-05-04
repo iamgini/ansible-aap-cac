@@ -1,10 +1,10 @@
 ---
 controller_projects:
-  - name: "NewProj"
+  - name: NewProj
     description: ""
-    organization: "NewOrgforTesting"
-    scm_type: "git"
-    scm_url: "https://github.com/iamgini/ansible-real-life"
+    organization: NewOrgforTesting
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-real-life
     scm_branch: ""
     scm_clean: "False"
     scm_delete_on_update: "False"
@@ -14,4 +14,3 @@ controller_projects:
     allow_override: "False"
     update_project: "False"
     timeout: 0
-...

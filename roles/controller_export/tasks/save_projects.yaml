@@ -1,15 +1,16 @@
+---
 - name: Ensure directory exists
   ansible.builtin.file:
     path: "{{ export_controller_target_dir }}/organizations/{{ project_item.organization.name }}/projects"
     state: directory
-    mode: '0755'
+    mode: "0755"
   when: project_item.organization.name is defined
 
 - name: Save the content inside the directory
   ansible.builtin.copy:
     content: "{{ project_item | to_nice_yaml }}"
     dest: "{{ export_controller_target_dir }}/organizations/{{ project_item.organization.name }}/projects/{{ project_item.name | regex_replace('/', '_') }}.yaml"
-    mode: '0755'
+    mode: "0755"
   when: project_item.organization.name is defined
 
 # - name: Ensure directory exists for NULLORGANIZATION

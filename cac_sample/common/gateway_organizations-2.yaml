@@ -3,4 +3,3 @@ aap_organizations:
   - name: Org-from-Another-File
     max_hosts: 0
     description: Configuration as Code - Demo
-...
