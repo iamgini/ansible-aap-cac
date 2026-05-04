@@ -1,20 +1,20 @@
 ---
 controller_templates:
-  - name: "NewJT-for-Testing"
+  - name: NewJT-for-Testing
     description: ""
-    organization: "NewOrgforTesting"
-    project: "NewProj"
-    inventory: "Cac-Test"
-    playbook: "ansible-etc-hosts/site.yml"
+    organization: NewOrgforTesting
+    project: NewProj
+    inventory: Cac-Test
+    playbook: ansible-etc-hosts/site.yml
     scm_branch: ""
     forks: 0
     limit: ""
     verbosity: 0
-    job_type: "run"
+    job_type: run
     job_slice_count: 5
     use_fact_cache: false
     credentials:
-      - "Cac_DevOps"
+      - Cac_DevOps
     allow_simultaneous: false
     ask_scm_branch_on_launch: false
     ask_diff_mode_on_launch: false
@@ -43,4 +43,3 @@ controller_templates:
     diff_mode: false
     webhook_service: ""
     prevent_instance_group_fallback: true
-...

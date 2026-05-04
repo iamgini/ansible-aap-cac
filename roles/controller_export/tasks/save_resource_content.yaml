@@ -1,3 +1,4 @@
+---
 - name: Resources under organization
   when: resource_content.organization.name is defined
   block:
@@ -5,20 +6,22 @@
       ansible.builtin.file:
         path: "{{ export_controller_target_dir }}/organizations/{{ resource_content.organization.name }}/{{ resource_item }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Save the content inside the directory
       ansible.builtin.copy:
         content: "{{ resource_content | to_nice_yaml }}"
-        dest: "{{ export_controller_target_dir }}/organizations/{{ resource_content.organization.name }}/{{ resource_item }}/{{ resource_content.name | regex_replace('/', '_') }}.yaml"
-        mode: '0755'
+        dest: "{{ export_controller_target_dir }}/organizations/{{ resource_content.organization.name }}/{{ resource_item }}/{{ resource_content.name | regex_replace('/',
+          '_') }}.yaml"
+        mode: "0755"
       when: resource_item != 'users'
 
     - name: Save the content inside the directory
       ansible.builtin.copy:
         content: "{{ resource_content | to_nice_yaml }}"
-        dest: "{{ export_controller_target_dir }}/organizations/{{ resource_content.organization.name }}/{{ resource_item }}/{{ resource_content.username | regex_replace('/', '_') }}.yaml"
-        mode: '0755'
+        dest: "{{ export_controller_target_dir }}/organizations/{{ resource_content.organization.name }}/{{ resource_item }}/{{ resource_content.username | regex_replace('/',
+          '_') }}.yaml"
+        mode: "0755"
       when: resource_item == 'users'
 
 - name: Resources under NO organization
@@ -28,18 +31,18 @@
       ansible.builtin.file:
         path: "{{ export_controller_target_dir }}/organizations/NULLORGANIZATION/{{ resource_item }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Save the content inside the directory
       ansible.builtin.copy:
         content: "{{ resource_content | to_nice_yaml }}"
         dest: "{{ export_controller_target_dir }}/organizations/NULLORGANIZATION/{{ resource_item }}/{{ resource_content.name | regex_replace('/', '_') }}.yaml"
-        mode: '0755'
+        mode: "0755"
       when: resource_item != 'users'
 
     - name: Save the content inside the directory
       ansible.builtin.copy:
         content: "{{ resource_content | to_nice_yaml }}"
         dest: "{{ export_controller_target_dir }}/organizations/NULLORGANIZATION/{{ resource_item }}/{{ resource_content.username | regex_replace('/', '_') }}.yaml"
-        mode: '0755'
+        mode: "0755"
       when: resource_item == 'users'

@@ -1,15 +1,14 @@
 ---
 controller_execution_environments:
-  - name: "Minimal execution environment"
+  - name: Minimal execution environment
     description: ""
-    image: "registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest"
+    image: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest
     pull: ""
-  - name: "Default execution environment"
+  - name: Default execution environment
     description: ""
-    image: "registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest"
+    image: registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest
     pull: ""
-  - name: "Control Plane Execution Environment"
+  - name: Control Plane Execution Environment
     description: ""
-    image: "registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest"
+    image: registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest
     pull: ""
-...

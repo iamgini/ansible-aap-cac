@@ -6,7 +6,7 @@
   vars:
     export_controller_target_dir: "{{ playbook_dir }}/cac_exported"
     export_organizations:
-      - 'AwesomeCorp'
+      - AwesomeCorp
       # - 'ACME'
     export_credentials: all
     export_credential_types: all
@@ -40,14 +40,14 @@
         - export_type | default('filetree') == 'filetree24'
         - aap_version | default(lookup('env', 'AAP_VERSION')) == '2.4'
       block:
-        - name: "Setup authentication (block)"
+        - name: Setup authentication (block)
           when: controller_oauthtoken is not defined
           # tags:
           #   - always
           block:
-            - name: "Get the Authentication Token for the future requests"
+            - name: Get the Authentication Token for the future requests
               ansible.builtin.uri:
-                url: "https://{{ controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}/api/v2/tokens/"
+                url: https://{{ controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}/api/v2/tokens/
                 user: "{{ controller_username }}"
                 password: "{{ controller_password }}"
                 method: POST
@@ -56,23 +56,22 @@
                 status_code: 201
               register: authtoken_res
 
-            - name: "Set the oauth token to be used since now"
+            - name: Set the oauth token to be used since now
               ansible.builtin.set_fact:
                 controller_oauthtoken: "{{ authtoken_res.json.token }}"
                 controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
 
-
         - name: Export Filetree
           ansible.builtin.include_role:
             name: infra.aap_configuration_extended.filetree_create
-            vars_from: main.yml      # loads vars/main.yml
-            defaults_from: main.yml  # loads defaults/main.yml
-            handlers_from: main.yml  # loads handlers/main.yml
+            vars_from: main.yml # loads vars/main.yml
+            defaults_from: main.yml # loads defaults/main.yml
+            handlers_from: main.yml # loads handlers/main.yml
 
       always:
-        - name: "Delete the Authentication Token used"
+        - name: Delete the Authentication Token used
           ansible.builtin.uri:
-            url: "https://{{ controller_hostname }}{{ controller_oauthtoken_url }}"
+            url: https://{{ controller_hostname }}{{ controller_oauthtoken_url }}
             user: "{{ controller_username }}"
             password: "{{ controller_password }}"
             method: DELETE
@@ -110,7 +109,6 @@
     #     - name: Export Filetree
     #       ansible.builtin.include_role:
     #         name: infra.aap_configuration_extended.filetree_create
-
 
     #   always:
     #     - name: "Delete the Authentication Token used"

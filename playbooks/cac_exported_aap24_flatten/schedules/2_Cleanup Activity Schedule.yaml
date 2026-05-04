@@ -1,15 +1,15 @@
 ---
 controller_schedules:
-  - name: "Cleanup Activity Schedule"
-    description: "Automatically Generated Schedule"
-    enabled: True
-    unified_job_template: "Cleanup Activity Stream"
+  - name: Cleanup Activity Schedule
+    description: Automatically Generated Schedule
+    enabled: true
+    unified_job_template: Cleanup Activity Stream
     dtstart: "2026-05-05T04:36:30Z"
     dtend: ""
-    timezone: "UTC"
-    rrule: "DTSTART:20260429T043630Z RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=TU"
+    timezone: UTC
+    rrule: DTSTART:20260429T043630Z RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=TU
     extra_data:
-      days: '355'
+      days: "355"
     scm_branch: ""
     forks: 0
     job_slice_count: 0
@@ -19,4 +19,3 @@ controller_schedules:
     skip_tags: ""
     limit: ""
     verbosity: 0
-...

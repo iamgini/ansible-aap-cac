@@ -1,13 +1,12 @@
 ---
 controller_instance_groups:
-  - name: "controlplane"
+  - name: controlplane
     policy_instance_minimum: "0"
     policy_instance_percentage: "100"
     instances:
-      - "13.55.176.159"
-  - name: "default"
+      - 13.55.176.159
+  - name: default
     policy_instance_minimum: "0"
     policy_instance_percentage: "100"
     instances:
-      - "13.55.176.159"
-...
+      - 13.55.176.159

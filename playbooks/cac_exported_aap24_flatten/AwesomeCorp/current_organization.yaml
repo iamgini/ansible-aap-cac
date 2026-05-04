@@ -1,5 +1,4 @@
 ---
 controller_organizations:
-  - name: "AwesomeCorp"
+  - name: AwesomeCorp
     description: ""
-...

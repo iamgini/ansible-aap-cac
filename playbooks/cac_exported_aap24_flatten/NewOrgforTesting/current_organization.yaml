@@ -1,5 +1,4 @@
 ---
 controller_organizations:
-  - name: "NewOrgforTesting"
+  - name: NewOrgforTesting
     description: ""
-...
