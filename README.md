@@ -267,6 +267,293 @@ $ ansible-playbook playbooks/controller-export-24.yaml \
 - [Automation Controller Export Documentation](https://github.com/redhat-cop/infra.aap_configuration/blob/devel/docs/EXPORT_README.md)
 - [Export Module Documentation](https://docs.ansible.com/ansible/latest/collections/awx/awx/export_module.html)
 
+## Migrating AAP Configurations Between Versions (2.4 to 2.5/2.6)
+
+This section documents lessons learned from production migrations and provides a tested workflow for migrating AAP configurations from version 2.4 to 2.5/2.6.
+
+### Migration Strategy: Flatten vs Filetree
+
+**For Migrations**: Use **flattened configuration** approach
+- Simpler, streamlined workflow
+- Easier to troubleshoot and manually fix issues
+- Single directory structure for all resources
+
+**For Ongoing CaC Management**: Use **filetree configuration** approach after migration is complete
+- Better organization for multi-org, multi-environment setups
+- Granular control over configurations
+
+### Known Issues in AAP 2.4 to 2.5/2.6 Migration
+
+#### Issue 1: Variable Name Changes
+
+The export from AAP 2.4 using `infra.controller_configuration` generates variable names that are **incompatible** with AAP 2.5/2.6 import requirements.
+
+**Variable name mapping required**:
+
+| AAP 2.4 Export Variable | AAP 2.5/2.6 Import Variable | File |
+|-------------------------|---------------------------|------|
+| `controller_organizations` | `aap_organizations` | organizations.yaml |
+| `controller_teams` | `aap_teams` | teams.yaml |
+| `controller_user_accounts` | `aap_user_accounts` | users.yaml |
+
+**Automated fix**:
+```bash
+# After exporting from AAP 2.4, run this transformation
+EXPORT_DIR="playbooks/cac_exported_aap24_flatten"
+
+sed -i 's/^controller_organizations:/aap_organizations:/g' ${EXPORT_DIR}/organizations.yaml
+sed -i 's/^controller_teams:/aap_teams:/g' ${EXPORT_DIR}/teams.yaml
+sed -i 's/^controller_user_accounts:/aap_user_accounts:/g' ${EXPORT_DIR}/users.yaml
+```
+
+#### Issue 2: Malformed YAML in Exported Data
+
+**Symptom**: The `hosts.yaml` file contains extra YAML document markers (`---` and `...`) embedded within the file content, causing parsing errors.
+
+**Cause**: Bug in the `infra.controller_configuration` export role.
+
+**Manual fix required**:
+```bash
+# Open the file and remove internal --- and ... markers
+# Keep only the first --- at the top and last ... at the bottom
+vi playbooks/cac_exported_aap24_flatten/hosts.yaml
+```
+
+Example:
+```yaml
+# INCORRECT (as exported - has bug)
+---
+controller_hosts:
+  - name: host1
+---
+...
+  - name: host2
+...
+
+# CORRECT (after manual fix)
+---
+controller_hosts:
+  - name: host1
+  - name: host2
+...
+```
+
+#### Issue 3: Instance Groups Don't Migrate
+
+**Symptom**: Errors like `"Unable to assign instance group 'old-instances' - does not exist"`
+
+**Cause**: Execution instance architecture changed between AAP 2.4 and 2.6. Instance groups from 2.4 don't exist in 2.6 and cannot be automatically migrated.
+
+**Solution**: Remove instance group references before import, then recreate manually after migration.
+
+**Automated cleanup**:
+```bash
+EXPORT_DIR="playbooks/cac_exported_aap24_flatten"
+
+# Remove instance_groups from all resource types
+for file in job_templates.yaml workflow_job_templates.yaml inventories.yaml organizations.yaml
+do
+  if [ -f "${EXPORT_DIR}/${file}" ]; then
+    # Comment out instance_groups (preserves for reference)
+    sed -i 's/^  instance_groups:/#  instance_groups: # REMOVED - reconfigure after migration/g' ${EXPORT_DIR}/${file}
+    sed -i 's/^    - /#    - # REMOVED/g' ${EXPORT_DIR}/${file}
+  fi
+done
+```
+
+**Post-migration**: Recreate instance groups in AAP 2.6 UI, then use CaC to reassign them to resources.
+
+### Recommended Migration Workflow
+
+#### Phase 1: Export from AAP 2.4
+
+```bash
+# Set credentials for source AAP 2.4
+export CONTROLLER_USERNAME=admin
+export CONTROLLER_PASSWORD=secretpassword
+export CONTROLLER_HOST=https://aap24.lab.example.com
+export CONTROLLER_VERIFY_SSL=false
+
+# Export using flatten structure
+ansible-playbook playbooks/controller-export-24.yaml -e "flatten_output=True"
+```
+
+#### Phase 2: Transform Exported Data
+
+```bash
+EXPORT_DIR="playbooks/cac_exported_aap24_flatten"
+
+# Step 1: Fix variable names
+sed -i 's/^controller_organizations:/aap_organizations:/g' ${EXPORT_DIR}/organizations.yaml
+sed -i 's/^controller_teams:/aap_teams:/g' ${EXPORT_DIR}/teams.yaml
+sed -i 's/^controller_user_accounts:/aap_user_accounts:/g' ${EXPORT_DIR}/users.yaml
+
+# Step 2: Remove instance groups (automated)
+for file in job_templates.yaml workflow_job_templates.yaml inventories.yaml organizations.yaml
+do
+  if [ -f "${EXPORT_DIR}/${file}" ]; then
+    sed -i 's/^  instance_groups:/#  instance_groups: # REMOVED/g' ${EXPORT_DIR}/${file}
+  fi
+done
+
+# Step 3: Fix malformed hosts.yaml (MANUAL - open in editor)
+vi ${EXPORT_DIR}/hosts.yaml
+# Remove extra --- and ... markers inside the file
+
+# Step 4: Copy to import location
+mkdir -p cac_sample/migration
+cp -r ${EXPORT_DIR}/* cac_sample/migration/
+```
+
+#### Phase 3: Multi-Stage Import to AAP 2.5/2.6
+
+**Why multi-stage?** Credentials cannot be exported with their secrets (passwords, SSH keys, tokens). They must be manually updated before dependent resources can be created.
+
+**Set credentials for target AAP**:
+```bash
+export CONTROLLER_USERNAME=admin
+export CONTROLLER_PASSWORD=your-password
+export CONTROLLER_HOST=https://aap26.lab.example.com
+export CONTROLLER_VERIFY_SSL=false
+```
+
+**Stage 1: Create foundation resources**
+```bash
+ansible-playbook playbooks/configure-aap.yaml \
+  -e "aap_configs_dir=cac_sample/migration" \
+  --tags organizations,credential_types,credentials
+```
+
+Creates: Organizations, custom credential types, credential shells (without passwords), users, teams.
+
+**Stage 2: Manual credential update (CRITICAL)**
+
+⚠️ **Login to AAP 2.6 UI and update ALL credentials**:
+- Source control credentials: Add Git passwords/tokens/SSH keys
+- Machine credentials: Add SSH private keys and passphrases
+- Cloud credentials: Add API tokens/access keys
+- Custom credentials: Add required secret fields
+
+**Why this matters**: Projects cannot sync without valid SCM credentials. Job templates cannot run without valid machine credentials.
+
+**Stage 3: Create dependent resources**
+```bash
+ansible-playbook playbooks/configure-aap.yaml \
+  -e "aap_configs_dir=cac_sample/migration" \
+  --tags projects,inventories,hosts,groups
+```
+
+**⚠️ Wait for all project syncs to complete** before proceeding. Check project status in AAP UI.
+
+**Stage 4: Create automation resources**
+```bash
+ansible-playbook playbooks/configure-aap.yaml \
+  -e "aap_configs_dir=cac_sample/migration" \
+  --tags templates,workflows,schedules
+```
+
+**Stage 5: RBAC and notifications**
+```bash
+ansible-playbook playbooks/configure-aap.yaml \
+  -e "aap_configs_dir=cac_sample/migration" \
+  --tags roles,notifications
+```
+
+#### Phase 4: Recreate Instance Groups
+
+Instance groups must be manually recreated in AAP 2.6:
+
+1. In AAP UI: Navigate to **Administration → Instance Groups**
+2. Create instance groups matching your architecture needs
+3. Update CaC files to assign instance groups:
+
+Create `cac_sample/migration/instance_group_assignments.yaml`:
+```yaml
+---
+controller_job_templates:
+  - name: "My Job Template"
+    organization: "MyOrg"
+    instance_groups:
+      - "default"
+
+controller_inventories:
+  - name: "Production Inventory"
+    organization: "MyOrg"
+    instance_groups:
+      - "production-instances"
+```
+
+4. Apply assignments:
+```bash
+ansible-playbook playbooks/configure-aap.yaml \
+  -e "aap_configs_dir=cac_sample/migration" \
+  --tags inventories,templates
+```
+
+### Migration Verification Checklist
+
+After migration, verify:
+
+- [ ] All organizations exist in AAP 2.6
+- [ ] Users can login (test a sample of users)
+- [ ] All projects sync successfully (no failed status)
+- [ ] Inventories show correct hosts and groups
+- [ ] Test job templates execute successfully
+- [ ] Workflow templates execute end-to-end
+- [ ] Schedules are active and triggering correctly
+- [ ] Notification integrations work (Slack, email, etc.)
+- [ ] Custom execution environments are available
+- [ ] RBAC permissions are correct (spot-check user access)
+
+### Troubleshooting Migration Issues
+
+**Debug mode for detailed output**:
+```bash
+ansible-playbook playbooks/configure-aap.yaml \
+  -e "aap_configs_dir=cac_sample/migration" \
+  --tags organizations \
+  -vvv
+```
+
+**Validate YAML syntax before import**:
+```bash
+yamllint cac_sample/migration/*.yaml
+
+# Or use Python
+python3 -c "import yaml; yaml.safe_load(open('cac_sample/migration/organizations.yaml'))"
+```
+
+**Check AAP logs for errors**:
+```bash
+# On AAP controller node
+sudo tail -f /var/log/tower/tower.log
+sudo grep -i error /var/log/tower/tower.log | tail -20
+```
+
+**Verify collection versions**:
+```bash
+ansible-galaxy collection list | grep -E "(ansible.platform|ansible.controller|infra.aap)"
+
+# Should show:
+# - infra.aap_configuration (for AAP 2.5+)
+# - ansible.platform (for AAP 2.5+)
+# NOT ansible.controller 4.5.12 (that's for AAP 2.4)
+```
+
+### Post-Migration: Transition to Filetree for Ongoing CaC
+
+After successful migration, consider transitioning to filetree structure for better ongoing management:
+
+```bash
+# Export current AAP 2.6 state to filetree
+ansible-playbook playbooks/export-using-filetree.yaml \
+  -e "orgs=MyOrg" \
+  -e "env=prod"
+
+# This creates a clean filetree structure in cac_filetree/
+# Use this for future CaC updates
+```
+
 ## Enable Webhook for automated CaC update (Local Testing Only)
 
 ### Using ngrok for exposing AAP and enable GitHub webhook
