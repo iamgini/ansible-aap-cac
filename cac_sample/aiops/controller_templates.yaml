@@ -1,0 +1,132 @@
+---
+# AIOps Job Templates Configuration
+# 5 templates: 4 remediation (Cases 1-4) + 1 AI intelligence (Case 5)
+
+controller_templates:
+  # ========================================================================
+  # Case 1: Remediate Disk Space
+  # ========================================================================
+  - name: "Remediate Disk Space"
+    description: "Automatically clean up disk space on high usage - triggered by EDA for disk_full events"
+    job_type: run
+    inventory: AIOps-Production-Linux
+    project: AIOps-Remediation
+    playbook: playbooks/remediation/disk-cleanup.yml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: "disk_full"
+      partition: "/var"
+      usage_percent: 95
+      log_retention_days: 30
+      temp_file_age_days: 7
+    organization: Default
+
+  # ========================================================================
+  # Case 2: Restart Service
+  # ========================================================================
+  - name: "Restart Service"
+    description: "Automatically restart failed services - triggered by EDA for service_down events"
+    job_type: run
+    inventory: AIOps-Production-Linux
+    project: AIOps-Remediation
+    playbook: playbooks/remediation/restart-service.yml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: "service_down"
+      service_name: "httpd"
+      max_restart_attempts: 3
+    organization: Default
+
+  # ========================================================================
+  # Case 3: Investigate High CPU
+  # ========================================================================
+  - name: "Investigate High CPU"
+    description: "Investigate and remediate high CPU usage - triggered by EDA for high_cpu events"
+    job_type: run
+    inventory: AIOps-Production-Linux
+    project: AIOps-Remediation
+    playbook: playbooks/remediation/investigate-cpu.yml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: "high_cpu"
+      cpu_threshold: 80
+      duration_minutes: 10
+      top_processes_count: 20
+    organization: Default
+
+  # ========================================================================
+  # Case 4: Renew SSL Certificate
+  # ========================================================================
+  - name: "Renew SSL Certificate"
+    description: "Automatically renew expiring SSL certificates - triggered by EDA for cert_expiry events"
+    job_type: run
+    inventory: AIOps-Production-Linux
+    project: AIOps-Remediation
+    playbook: playbooks/remediation/renew-certificate.yml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: "certificate_expiry"
+      cert_path: "/etc/ssl/certs/server.crt"
+      days_until_expiry: 30
+      web_service: "httpd"
+    organization: Default
+
+  # ========================================================================
+  # Case 5: AI Intelligence - Unknown Event Remediation
+  # ========================================================================
+  - name: "AI Intelligence - Unknown Event Remediation"
+    description: "AI-powered workflow for unknown events: MCP search → Maya generation → Git push"
+    job_type: run
+    inventory: AIOps-Localhost
+    project: AIOps-Remediation
+    playbook: playbooks/intelligent-aiops-workflow.yml
+    credentials:
+      - AIOps-Integration  # Custom credential with MCP/Git access
+    verbosity: 1
+    ask_variables_on_launch: true
+    extra_vars:
+      # Event context (passed from EDA)
+      event_type: "unknown"
+      event_description: ""
+      event_host: "localhost"
+      event_severity: "medium"
+      event_service: ""
+      event_tags: []
+      event_metric: ""
+      event_value: ""
+      # Maya API configuration
+      maya_api_url: "http://localhost:8000/api/v1/events/generate"
+      # MCP configuration (from credential)
+      # mcp_server_url: injected from credential
+      # mcp_bearer_token: injected from credential
+      # Git configuration (from credential)
+      # git_remote_url: injected from credential
+      # git_token: injected from credential
+      # git_username: injected from credential
+      # git_email: injected from credential
+      # MCP thresholds
+      mcp_confidence_threshold: 100
+      mcp_minimum_score: 50
+    organization: Default
+    timeout: 600  # 10 minutes for AI workflow
+
+# Note: All templates have:
+# - ask_limit_on_launch: true (for EDA to specify target hosts)
+# - ask_variables_on_launch: true (for EDA to pass event data)
+# This allows EDA rulebook to pass event-specific data dynamically

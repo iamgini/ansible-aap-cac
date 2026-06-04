@@ -1,0 +1,20 @@
+---
+# AIOps Controller Projects Configuration
+# Note: EDA projects are configured in eda_projects.yaml (separate file)
+
+controller_configuration_projects_async_retries: 60
+controller_configuration_projects_async_delay: 5
+
+controller_projects:
+  - name: AIOps-Remediation
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-aiops
+    scm_branch: main
+    scm_clean: false
+    scm_update_on_launch: true
+    description: AIOps Intelligent Remediation - Playbooks for automated remediation
+    organization: Default
+    wait: true
+    update_project: true
+    update: true
+    # credential: GitHub-Credential  # Uncomment if private repo
