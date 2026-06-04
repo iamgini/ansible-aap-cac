@@ -6,4 +6,12 @@ aap_organizations:
 
   - name: AAAAAA
     max_hosts: 0
-    description: Configuration as Code - Demo
+    description: Configuration as Code - AAAAAA
+
+  - name: XYZCorp-CaC
+    max_hosts: 0
+    description: Configuration as Code - XYZCorp-CaC
+
+  - name: Network-Ops
+    max_hosts: 0
+    description: Configuration as Code - Network-Ops

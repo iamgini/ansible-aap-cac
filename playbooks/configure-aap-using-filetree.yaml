@@ -1,6 +1,7 @@
 ---
 - hosts: all
-  connection: local
+  # connection: local
+  # connection: ansible.platform.http
   gather_facts: false
   vars:
     controller_configuration_projects_async_retries: 60
@@ -43,11 +44,13 @@
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_applications.d/"
     filetree_controller_inventories:
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_inventories.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_inventories.d/"
     filetree_controller_inventory_sources:
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_inventory_sources.d/"
     filetree_controller_instance_groups:
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_instance_groups.d/"
     filetree_controller_hosts:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_hosts.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_hosts.d/"
     filetree_controller_groups:
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_groups.d/"

@@ -3,8 +3,27 @@
 # Uses latest versions of all collections
 collections:
   - name: ansible.platform
+    source: https://console.redhat.com/api/automation-hub/content/published/
+    # version: ">=2.7.20260515"
+    version: "=2.6.20251106"
+
+
   - name: ansible.hub
+    source: https://console.redhat.com/api/automation-hub/content/published/
+    version: ">=1.0.6"
+
   - name: ansible.controller
+    source: https://console.redhat.com/api/automation-hub/content/published/
+    version: ">=4.8.0"
+
   - name: ansible.eda
+    source: https://console.redhat.com/api/automation-hub/content/published/
+    version: ">=2.12.0"
+
   - name: infra.aap_configuration
+    source: https://console.redhat.com/api/automation-hub/content/validated/
+    version: ">=4.6.0"
+
   - name: infra.aap_configuration_extended
+    source: https://console.redhat.com/api/automation-hub/content/validated/
+    version: ">=4.7.0"
