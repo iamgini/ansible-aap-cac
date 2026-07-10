@@ -1,0 +1,133 @@
+---
+# Enterprise Infrastructure Groups - Hierarchical structure
+# IMPORTANT: Child groups MUST be defined BEFORE parent groups that reference them
+controller_groups:
+- name: web_servers
+  inventory: Enterprise-Inventory
+  description: Web application servers
+  variables:
+    nginx_enabled: true
+    ssl_enabled: true
+- name: web_load_balancers
+  inventory: Enterprise-Inventory
+  description: Load balancers for web tier
+  variables:
+    haproxy_enabled: true
+    keepalived_enabled: true
+- name: web_proxy_servers
+  inventory: Enterprise-Inventory
+  description: Reverse proxy servers
+  variables:
+    nginx_proxy_enabled: true
+- name: app_backend_servers
+  inventory: Enterprise-Inventory
+  description: Backend application servers
+  variables:
+    app_type: backend
+    java_version: '17'
+    heap_size: 4096m
+- name: app_api_servers
+  inventory: Enterprise-Inventory
+  description: REST API servers
+  variables:
+    app_type: api
+    rate_limiting_enabled: true
+    api_gateway: kong
+- name: worker_nodes
+  inventory: Enterprise-Inventory
+  description: Background worker nodes
+  variables:
+    worker_enabled: true
+    celery_enabled: true
+- name: messaging_queue
+  inventory: Enterprise-Inventory
+  description: Message queue servers
+  variables:
+    rabbitmq_cluster_enabled: true
+- name: postgresql_primary
+  inventory: Enterprise-Inventory
+  description: PostgreSQL primary server
+  variables:
+    db_role: primary
+    max_connections: 200
+- name: postgresql_replicas
+  inventory: Enterprise-Inventory
+  description: PostgreSQL replica servers
+  variables:
+    db_role: replica
+    hot_standby: true
+- name: mysql_cluster
+  inventory: Enterprise-Inventory
+  description: MySQL cluster servers
+  variables:
+    db_type: mysql
+    db_port: 3306
+    galera_cluster: true
+- name: mongodb_shards
+  inventory: Enterprise-Inventory
+  description: MongoDB shard servers
+  variables:
+    db_type: mongodb
+    db_port: 27017
+    replica_set_enabled: true
+- name: redis_cache
+  inventory: Enterprise-Inventory
+  description: Redis cache servers
+  variables:
+    redis_port: 6379
+    redis_maxmemory: 4gb
+    redis_eviction_policy: allkeys-lru
+- name: production
+  inventory: Enterprise-Inventory
+  description: Production environment servers
+  variables:
+    environment: production
+    monitoring_level: enhanced
+    backup_frequency: hourly
+- name: datacenter_dc1
+  inventory: Enterprise-Inventory
+  description: Datacenter 1 servers
+  variables:
+    datacenter: dc1
+    region: us-east-1
+- name: datacenter_dc2
+  inventory: Enterprise-Inventory
+  description: Datacenter 2 servers
+  variables:
+    datacenter: dc2
+    region: us-west-2
+- name: datacenter_dr
+  inventory: Enterprise-Inventory
+  description: Disaster Recovery site servers
+  variables:
+    datacenter: dr_site
+    region: eu-central-1
+    is_dr_site: true
+- name: monitoring_targets
+  inventory: Enterprise-Inventory
+  description: All servers monitored by Prometheus
+  variables:
+    node_exporter_enabled: true
+    prometheus_scrape: true
+- name: backup_targets
+  inventory: Enterprise-Inventory
+  description: Servers requiring backup
+  variables:
+    backup_enabled: true
+    backup_tool: bacula
+- name: high_availability
+  inventory: Enterprise-Inventory
+  description: HA cluster members
+  variables:
+    ha_enabled: true
+    pacemaker_enabled: true
+- name: postgresql_cluster
+  inventory: Enterprise-Inventory
+  description: PostgreSQL database cluster
+  variables:
+    db_type: postgresql
+    db_port: 5432
+    streaming_replication: true
+  children:
+  - postgresql_primary
+  - postgresql_replicas

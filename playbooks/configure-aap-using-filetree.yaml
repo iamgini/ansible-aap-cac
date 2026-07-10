@@ -47,6 +47,7 @@
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_inventories.d/"
     filetree_controller_inventory_sources:
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_inventory_sources.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_inventory_sources.d/"
     filetree_controller_instance_groups:
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_instance_groups.d/"
     filetree_controller_hosts:

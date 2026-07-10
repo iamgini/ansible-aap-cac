@@ -1,0 +1,22 @@
+---
+# Host-to-Group assignments for Web Tier
+controller_host_groups:
+  - name: web_servers
+    inventory: Enterprise-Inventory
+    hosts:
+      - web-app-01.example.com
+      - web-app-02.example.com
+      - web-app-03.example.com
+
+  - name: web_load_balancers
+    inventory: Enterprise-Inventory
+    hosts:
+      - lb-web-01.example.com
+      - lb-web-02.example.com
+
+  - name: web_proxy_servers
+    inventory: Enterprise-Inventory
+    hosts:
+      - proxy-01.example.com
+      - proxy-02.example.com
+...

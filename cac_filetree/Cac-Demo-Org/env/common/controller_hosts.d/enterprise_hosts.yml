@@ -1,0 +1,293 @@
+---
+# Enterprise Inventory Hosts - Comprehensive example with multiple tiers
+controller_hosts:
+  # Web Tier Hosts
+  - name: web-app-01.example.com
+    inventory: Enterprise-Inventory
+    description: Web application server - Primary
+    variables:
+      ansible_host: 192.168.100.10
+      tier: web
+      environment: production
+      datacenter: dc1
+
+  - name: web-app-02.example.com
+    inventory: Enterprise-Inventory
+    description: Web application server - Secondary
+    variables:
+      ansible_host: 192.168.100.11
+      tier: web
+      environment: production
+      datacenter: dc2
+
+  - name: web-app-03.example.com
+    inventory: Enterprise-Inventory
+    description: Web application server - Tertiary
+    variables:
+      ansible_host: 192.168.100.12
+      tier: web
+      environment: production
+      datacenter: dc1
+
+  # Load Balancers
+  - name: lb-web-01.example.com
+    inventory: Enterprise-Inventory
+    description: Web load balancer - Primary
+    variables:
+      ansible_host: 192.168.100.5
+      tier: loadbalancer
+      vip: 192.168.100.1
+
+  - name: lb-web-02.example.com
+    inventory: Enterprise-Inventory
+    description: Web load balancer - Secondary
+    variables:
+      ansible_host: 192.168.100.6
+      tier: loadbalancer
+      vip: 192.168.100.1
+
+  # Proxy Servers
+  - name: proxy-01.example.com
+    inventory: Enterprise-Inventory
+    description: Reverse proxy server
+    variables:
+      ansible_host: 192.168.100.20
+      tier: proxy
+
+  - name: proxy-02.example.com
+    inventory: Enterprise-Inventory
+    description: Reverse proxy server - Backup
+    variables:
+      ansible_host: 192.168.100.21
+      tier: proxy
+
+  # Database Tier
+  - name: pg-primary-01.example.com
+    inventory: Enterprise-Inventory
+    description: PostgreSQL Primary Database
+    variables:
+      ansible_host: 192.168.101.10
+      tier: database
+      db_role: primary
+      db_type: postgresql
+      db_version: "15"
+
+  - name: pg-replica-01.example.com
+    inventory: Enterprise-Inventory
+    description: PostgreSQL Replica 1
+    variables:
+      ansible_host: 192.168.101.11
+      tier: database
+      db_role: replica
+      db_type: postgresql
+      db_version: "15"
+      replication_lag_threshold: 100
+
+  - name: pg-replica-02.example.com
+    inventory: Enterprise-Inventory
+    description: PostgreSQL Replica 2
+    variables:
+      ansible_host: 192.168.101.12
+      tier: database
+      db_role: replica
+      db_type: postgresql
+
+  - name: pg-replica-03.example.com
+    inventory: Enterprise-Inventory
+    description: PostgreSQL Replica 3 - DR
+    variables:
+      ansible_host: 192.168.102.10
+      tier: database
+      db_role: replica
+      db_type: postgresql
+      datacenter: dr_site
+
+  # MySQL Cluster
+  - name: mysql-node-01.example.com
+    inventory: Enterprise-Inventory
+    description: MySQL Cluster Node 1
+    variables:
+      ansible_host: 192.168.101.20
+      tier: database
+      db_type: mysql
+      cluster_id: mysql_prod_cluster
+
+  - name: mysql-node-02.example.com
+    inventory: Enterprise-Inventory
+    description: MySQL Cluster Node 2
+    variables:
+      ansible_host: 192.168.101.21
+      tier: database
+      db_type: mysql
+      cluster_id: mysql_prod_cluster
+
+  - name: mysql-node-03.example.com
+    inventory: Enterprise-Inventory
+    description: MySQL Cluster Node 3
+    variables:
+      ansible_host: 192.168.101.22
+      tier: database
+      db_type: mysql
+      cluster_id: mysql_prod_cluster
+
+  # MongoDB Shards
+  - name: mongo-shard-01.example.com
+    inventory: Enterprise-Inventory
+    description: MongoDB Shard Server 1
+    variables:
+      ansible_host: 192.168.101.30
+      tier: database
+      db_type: mongodb
+      shard_key: shard01
+
+  - name: mongo-shard-02.example.com
+    inventory: Enterprise-Inventory
+    description: MongoDB Shard Server 2
+    variables:
+      ansible_host: 192.168.101.31
+      tier: database
+      db_type: mongodb
+      shard_key: shard02
+
+  - name: mongo-shard-03.example.com
+    inventory: Enterprise-Inventory
+    description: MongoDB Shard Server 3
+    variables:
+      ansible_host: 192.168.101.32
+      tier: database
+      db_type: mongodb
+      shard_key: shard03
+
+  # Redis Cache
+  - name: redis-cache-01.example.com
+    inventory: Enterprise-Inventory
+    description: Redis Cache Primary
+    variables:
+      ansible_host: 192.168.101.40
+      tier: cache
+      redis_role: primary
+
+  - name: redis-cache-02.example.com
+    inventory: Enterprise-Inventory
+    description: Redis Cache Replica
+    variables:
+      ansible_host: 192.168.101.41
+      tier: cache
+      redis_role: replica
+
+  # Application Backend Servers
+  - name: app-backend-01.example.com
+    inventory: Enterprise-Inventory
+    description: Application backend server 1
+    variables:
+      ansible_host: 192.168.100.30
+      tier: application
+      app_pool: backend_pool_a
+
+  - name: app-backend-02.example.com
+    inventory: Enterprise-Inventory
+    description: Application backend server 2
+    variables:
+      ansible_host: 192.168.100.31
+      tier: application
+      app_pool: backend_pool_a
+
+  - name: app-backend-03.example.com
+    inventory: Enterprise-Inventory
+    description: Application backend server 3
+    variables:
+      ansible_host: 192.168.100.32
+      tier: application
+      app_pool: backend_pool_b
+
+  - name: app-backend-04.example.com
+    inventory: Enterprise-Inventory
+    description: Application backend server 4
+    variables:
+      ansible_host: 192.168.100.33
+      tier: application
+      app_pool: backend_pool_b
+
+  # API Servers
+  - name: api-server-01.example.com
+    inventory: Enterprise-Inventory
+    description: REST API server 1
+    variables:
+      ansible_host: 192.168.100.40
+      tier: api
+      api_version: v2
+
+  - name: api-server-02.example.com
+    inventory: Enterprise-Inventory
+    description: REST API server 2
+    variables:
+      ansible_host: 192.168.100.41
+      tier: api
+      api_version: v2
+
+  # Message Queue
+  - name: rabbitmq-01.example.com
+    inventory: Enterprise-Inventory
+    description: RabbitMQ node 1
+    variables:
+      ansible_host: 192.168.100.50
+      tier: messaging
+      mq_cluster: rabbitmq_prod
+
+  - name: rabbitmq-02.example.com
+    inventory: Enterprise-Inventory
+    description: RabbitMQ node 2
+    variables:
+      ansible_host: 192.168.100.51
+      tier: messaging
+      mq_cluster: rabbitmq_prod
+
+  - name: rabbitmq-03.example.com
+    inventory: Enterprise-Inventory
+    description: RabbitMQ node 3
+    variables:
+      ansible_host: 192.168.100.52
+      tier: messaging
+      mq_cluster: rabbitmq_prod
+
+  # Worker Nodes
+  - name: worker-01.example.com
+    inventory: Enterprise-Inventory
+    description: Background worker node 1
+    variables:
+      ansible_host: 192.168.100.60
+      tier: worker
+      worker_type: general
+
+  - name: worker-02.example.com
+    inventory: Enterprise-Inventory
+    description: Background worker node 2
+    variables:
+      ansible_host: 192.168.100.61
+      tier: worker
+      worker_type: general
+
+  - name: worker-03.example.com
+    inventory: Enterprise-Inventory
+    description: Background worker node 3 - High Priority
+    variables:
+      ansible_host: 192.168.100.62
+      tier: worker
+      worker_type: high_priority
+
+  - name: worker-04.example.com
+    inventory: Enterprise-Inventory
+    description: Background worker node 4 - Batch Processing
+    variables:
+      ansible_host: 192.168.100.63
+      tier: worker
+      worker_type: batch_processing
+
+  - name: worker-05.example.com
+    inventory: Enterprise-Inventory
+    description: Background worker node 5 - Batch Processing
+    variables:
+      ansible_host: 192.168.100.64
+      tier: worker
+      worker_type: batch_processing
+...

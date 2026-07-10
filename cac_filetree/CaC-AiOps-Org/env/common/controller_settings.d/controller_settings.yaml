@@ -1,0 +1,4 @@
+---
+controller_settings:
+  - name: SCHEDULE_MAX_JOBS
+    value: "10"

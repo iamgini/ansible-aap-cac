@@ -56,3 +56,115 @@ controller_projects:
     wait: true
     update_project: true
     # credential: GH-Dev
+
+  # ==============================================================
+  # Additional Project Type Examples (Commented - For Reference)
+  # ==============================================================
+
+  # Example 1: Manual Project (Project files stored locally on AAP server)
+  # Use Case: Legacy playbooks already on AAP filesystem, not in Git
+  # - name: Legacy-Automation-Project
+  #   scm_type: manual
+  #   local_path: legacy_automation
+  #   description: Legacy playbooks stored on AAP server filesystem
+  #   organization: Cac-Demo-Org
+  #   # Note: Playbooks must exist in /var/lib/awx/projects/legacy_automation/
+  #   # Requires manual copying of files to AAP server
+
+  # Example 2: Archive Project (Download tar/zip from URL)
+  # Use Case: Playbooks distributed as archives, CI/CD builds
+  # - name: Archive-Based-Project
+  #   scm_type: archive
+  #   scm_url: https://example.com/releases/playbooks-v1.2.3.tar.gz
+  #   scm_branch: ""  # Not used for archives
+  #   description: Project from tar.gz archive
+  #   organization: Cac-Demo-Org
+  #   wait: true
+  #   update_project: true
+  #   # Optional: credential for authenticated download
+
+  # Example 3: Git with SSH Key Credential
+  # Use Case: Private Git repos requiring SSH authentication
+  # - name: Private-Git-Repo-Project
+  #   scm_type: git
+  #   scm_url: git@github.com:myorg/private-playbooks.git
+  #   scm_branch: main
+  #   scm_clean: true
+  #   description: Private repository with SSH key auth
+  #   organization: Cac-Demo-Org
+  #   credential: GitHub-SSH-Key  # Source Control credential with SSH private key
+  #   wait: true
+  #   update_project: true
+
+  # Example 4: Git with Personal Access Token
+  # Use Case: GitHub/GitLab private repos with token auth
+  # - name: Private-HTTPS-Repo-Project
+  #   scm_type: git
+  #   scm_url: https://github.com/myorg/private-playbooks.git
+  #   scm_branch: develop
+  #   scm_clean: false
+  #   description: Private HTTPS repo with token authentication
+  #   organization: Cac-Demo-Org
+  #   credential: GitHub-PAT  # Source Control credential with username/token
+  #   wait: true
+  #   update_project: true
+  #   scm_update_on_launch: true  # Auto-update before job launch
+
+  # Example 5: SVN (Subversion) Project
+  # Use Case: Legacy teams still using SVN
+  # - name: SVN-Based-Project
+  #   scm_type: svn
+  #   scm_url: https://svn.example.com/repos/automation/trunk
+  #   scm_branch: ""  # SVN uses revision, not branches in URL
+  #   description: Subversion repository project
+  #   organization: Cac-Demo-Org
+  #   credential: SVN-Credential
+  #   wait: true
+  #   update_project: true
+
+  # Example 6: Git with Specific Commit/Tag
+  # Use Case: Pinned to specific release for stability
+  # - name: Pinned-Release-Project
+  #   scm_type: git
+  #   scm_url: https://github.com/ansible/awx.git
+  #   scm_branch: 23.5.0  # Tag name
+  #   # Or use commit SHA:
+  #   # scm_branch: a1b2c3d4e5f6  # Specific commit
+  #   scm_clean: true
+  #   description: Project pinned to specific release tag
+  #   organization: Cac-Demo-Org
+  #   wait: true
+  #   update_project: true
+  #   allow_override: false  # Prevent branch override in job templates
+
+  # Example 7: Git with Custom Refspec
+  # Use Case: Pull requests, custom refs
+  # - name: Pull-Request-Test-Project
+  #   scm_type: git
+  #   scm_url: https://github.com/myorg/playbooks.git
+  #   scm_branch: pull/123/head  # GitHub PR #123
+  #   scm_clean: true
+  #   scm_refspec: refs/pull/*/head:refs/remotes/origin/pr/*
+  #   description: Test project from GitHub Pull Request
+  #   organization: Cac-Demo-Org
+  #   wait: true
+  #   update_project: true
+
+  # ==============================================================
+  # Project Advanced Options (Common Parameters)
+  # ==============================================================
+  #
+  # scm_type: git | manual | archive | svn | insights
+  # scm_url: Repository URL (not used for manual)
+  # scm_branch: Branch/tag/commit (default: HEAD or main)
+  # scm_refspec: Custom refspec for advanced Git usage
+  # scm_clean: true = delete untracked files on update
+  # scm_delete_on_update: true = delete entire project before update
+  # scm_track_submodules: true = update Git submodules
+  # scm_update_on_launch: true = sync before every job launch
+  # scm_update_cache_timeout: Seconds to cache project (0 = always update)
+  # allow_override: Allow job templates to override branch
+  # timeout: Project update timeout (0 = no timeout)
+  # default_environment: Default execution environment for jobs
+  # signature_validation_credential: GPG key for commit signature validation
+  # credential: Source control credential (SSH key, token, etc.)

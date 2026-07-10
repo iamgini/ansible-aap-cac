@@ -1,0 +1,397 @@
+---
+# Notification Templates for AAP Job/Workflow Alerts
+# Supports: Slack, Email, Webhook, Teams, PagerDuty, IRC, and more
+# Attach to job templates/workflows for automated alerting
+
+controller_notifications:
+  # ==============================================================
+  # Slack Notifications
+  # ==============================================================
+
+  - name: Slack-Operations-Channel
+    description: "Slack notifications to operations team channel"
+    organization: Cac-Demo-Org
+    notification_type: slack
+    notification_configuration:
+      token: "YOUR-SLACK-API-TOKEN-GOES-HERE"  # !vault | (Vault encrypted)
+      #             $ANSIBLE_VAULT;1.1;AES256
+      #             66383234383565643539333866373431626362366164323237633963646264326462393035633939
+            3937363238643866643364613336343463346263653138310a613738363534343131373834336461
+            36333637643937343531323963633937666366373339623438613631633631356536393063343635
+            6338633739656632620a373366323438316334323862373333383061663039623935666464633538
+            38613234323864393763373566353034643834393635653536376234343831633030
+      channels:
+        - "#ops-alerts"
+        - "#automation-jobs"
+      hex_color: "#FF0000"  # Red for errors, can be customized per message
+    messages:
+      started:
+        message: |
+          :rocket: *Job Started*
+          Job: {{ job_friendly_name }}
+          ID: #{{ job.id }}
+          Status: {{ job.status }}
+          Started by: {{ job.created_by }}
+      success:
+        message: |
+          :white_check_mark: *Job Succeeded*
+          Job: {{ job_friendly_name }}
+          ID: #{{ job.id }}
+          Duration: {{ job.elapsed }} seconds
+          Inventory: {{ job.inventory }}
+      error:
+        message: |
+          :x: *Job Failed*
+          Job: {{ job_friendly_name }}
+          ID: #{{ job.id }}
+          Status: {{ job.status }}
+          Error: {{ job.result_traceback }}
+          <{{ job.url }}|View Job Details>
+      workflow_approval:
+        message: |
+          :question: *Workflow Approval Required*
+          Workflow: {{ workflow_job.name }}
+          Approval Node: {{ workflow_approval.name }}
+          Timeout: {{ workflow_approval.timeout }} seconds
+          <{{ workflow_approval.url }}|Approve/Deny>
+
+  - name: Slack-Critical-Alerts
+    description: "Critical production alerts to Slack"
+    organization: Cac-Demo-Org
+    notification_type: slack
+    notification_configuration:
+      token: "YOUR-SLACK-API-TOKEN-GOES-HERE"  # !vault | (Vault encrypted)
+      #             $ANSIBLE_VAULT;1.1;AES256
+      #             66383234383565643539333866373431626362366164323237633963646264326462393035633939
+            3937363238643866643364613336343463346263653138310a613738363534343131373834336461
+            36333637643937343531323963633937666366373339623438613631633631356536393063343635
+            6338633739656632620a373366323438316334323862373333383061663039623935666464633538
+            38613234323864393763373566353034643834393635653536376234343831633030
+      channels:
+        - "#production-alerts"
+    messages:
+      error:
+        message: |
+          :rotating_light: *CRITICAL: Production Job Failed*
+          Job: {{ job_friendly_name }}
+          Environment: PRODUCTION
+          Started: {{ job.started }}
+          Failed: {{ job.finished }}
+          @channel - Immediate attention required!
+
+  # ==============================================================
+  # Email Notifications
+  # ==============================================================
+
+  - name: Email-Operations-Team
+    description: "Email notifications to operations team"
+    organization: Cac-Demo-Org
+    notification_type: email
+    notification_configuration:
+      username: aap-automation@example.com
+      password: "email-password-here"  # !vault | (Vault encrypted)
+      #             $ANSIBLE_VAULT;1.1;AES256
+      #             33346437373766386237616535383666646437626532356633333063333337353235666339633461
+            3637653337663766333038623961393361356430323264630a666635316565313330373530343435
+            38653963313465393635396339313831343636653765333836383837643161653633656136336363
+            3033396166646131390a323031643539623966326433663033333739656363623266303866353634
+            6334
+      host: smtp.example.com
+      port: 587
+      use_tls: true
+      use_ssl: false
+      timeout: 30
+      sender: "AAP Automation <aap-automation@example.com>"
+      recipients:
+        - ops-team@example.com
+        - automation-alerts@example.com
+    messages:
+      started:
+        subject: "[AAP] Job Started: {{ job_friendly_name }}"
+        body: |
+          <html>
+          <body>
+          <h2>Automation Job Started</h2>
+          <table border="1" cellpadding="5">
+            <tr><td><b>Job Name</b></td><td>{{ job_friendly_name }}</td></tr>
+            <tr><td><b>Job ID</b></td><td>#{{ job.id }}</td></tr>
+            <tr><td><b>Job Type</b></td><td>{{ job.job_type }}</td></tr>
+            <tr><td><b>Started By</b></td><td>{{ job.created_by }}</td></tr>
+            <tr><td><b>Inventory</b></td><td>{{ job.inventory }}</td></tr>
+            <tr><td><b>Started At</b></td><td>{{ job.started }}</td></tr>
+            <tr><td><b>Job URL</b></td><td><a href="{{ job.url }}">View in AAP</a></td></tr>
+          </table>
+          </body>
+          </html>
+      success:
+        subject: "[AAP] SUCCESS: {{ job_friendly_name }}"
+        body: |
+          <html>
+          <body style="font-family: Arial, sans-serif;">
+          <h2 style="color: green;">✓ Job Completed Successfully</h2>
+          <table border="1" cellpadding="8" style="border-collapse: collapse;">
+            <tr><td><b>Job Name</b></td><td>{{ job_friendly_name }}</td></tr>
+            <tr><td><b>Status</b></td><td style="color: green;">{{ job.status }}</td></tr>
+            <tr><td><b>Duration</b></td><td>{{ job.elapsed }} seconds</td></tr>
+            <tr><td><b>Hosts</b></td><td>{{ job.limit|default('All') }}</td></tr>
+            <tr><td><b>Completed At</b></td><td>{{ job.finished }}</td></tr>
+          </table>
+          <br>
+          <a href="{{ job.url }}" style="padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none;">View Job Details</a>
+          </body>
+          </html>
+      error:
+        subject: "[AAP] FAILED: {{ job_friendly_name }}"
+        body: |
+          <html>
+          <body style="font-family: Arial, sans-serif;">
+          <h2 style="color: red;">✗ Job Failed</h2>
+          <table border="1" cellpadding="8" style="border-collapse: collapse;">
+            <tr><td><b>Job Name</b></td><td>{{ job_friendly_name }}</td></tr>
+            <tr><td><b>Status</b></td><td style="color: red;">{{ job.status }}</td></tr>
+            <tr><td><b>Failed At</b></td><td>{{ job.finished }}</td></tr>
+            <tr><td><b>Error Message</b></td><td><pre>{{ job.result_traceback|default('See job output for details') }}</pre></td></tr>
+          </table>
+          <br>
+          <a href="{{ job.url }}" style="padding: 10px 20px; background-color: #dc3545; color: white; text-decoration: none;">View Job Details</a>
+          <p style="color: red;"><b>Action Required:</b> Please investigate and remediate.</p>
+          </body>
+          </html>
+
+  # ==============================================================
+  # Webhook Notifications
+  # ==============================================================
+
+  - name: Webhook-ServiceNow-Integration
+    description: "Webhook to ServiceNow for incident creation"
+    organization: Cac-Demo-Org
+    notification_type: webhook
+    notification_configuration:
+      url: "https://servicenow.example.com/api/now/table/incident"
+      http_method: POST
+      headers:
+        Content-Type: "application/json"
+        Accept: "application/json"
+      username: aap_integration
+      password: "email-password-here"  # !vault | (Vault encrypted)
+      #             $ANSIBLE_VAULT;1.1;AES256
+      #             62663330613265643661306139613635313237393335326335383839353439623532653336333239
+            3330613633643738613335386134633062666533663862340a613033623263386531326238613035
+            62393031343130326265326362323863303139613166383932316365373130353739316634376561
+            3863376433656132390a653364353639313134313138303135643963363762386238653837633031
+            3233
+      disable_ssl_verification: false
+    messages:
+      error:
+        message: |
+          {
+            "short_description": "AAP Job Failed: {{ job_friendly_name }}",
+            "description": "Automation job {{ job.id }} failed in AAP.\n\nJob: {{ job_friendly_name }}\nStatus: {{ job.status }}\nTime: {{ job.finished }}\nURL: {{ job.url }}",
+            "urgency": "2",
+            "impact": "2",
+            "category": "Automation",
+            "subcategory": "Ansible",
+            "assignment_group": "Automation Team",
+            "caller_id": "{{ job.created_by }}"
+          }
+
+  - name: Webhook-Generic-REST-API
+    description: "Generic webhook for custom integrations"
+    organization: Cac-Demo-Org
+    notification_type: webhook
+    notification_configuration:
+      url: "https://api.example.com/v1/notifications"
+      http_method: POST
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer {{ lookup('env', 'API_TOKEN') }}"
+    messages:
+      started:
+        message: |
+          {
+            "event": "job_started",
+            "job_id": {{ job.id }},
+            "job_name": "{{ job_friendly_name }}",
+            "job_type": "{{ job.job_type }}",
+            "created_by": "{{ job.created_by }}",
+            "timestamp": "{{ job.started }}"
+          }
+      success:
+        message: |
+          {
+            "event": "job_success",
+            "job_id": {{ job.id }},
+            "job_name": "{{ job_friendly_name }}",
+            "status": "{{ job.status }}",
+            "duration_seconds": {{ job.elapsed }},
+            "timestamp": "{{ job.finished }}"
+          }
+      error:
+        message: |
+          {
+            "event": "job_failed",
+            "job_id": {{ job.id }},
+            "job_name": "{{ job_friendly_name }}",
+            "status": "{{ job.status }}",
+            "error": "{{ job.result_traceback|default('Check job output') }}",
+            "timestamp": "{{ job.finished }}",
+            "requires_attention": true
+          }
+
+  # ==============================================================
+  # Microsoft Teams Notifications
+  # ==============================================================
+
+  - name: Teams-Automation-Channel
+    description: "Microsoft Teams notifications to automation channel"
+    organization: Cac-Demo-Org
+    notification_type: webhook
+    notification_configuration:
+      url: "https://outlook.office.com/webhook/xxxxx-xxxxx-xxxxx/IncomingWebhook/xxxxx/xxxxx"
+      http_method: POST
+      headers:
+        Content-Type: "application/json"
+    messages:
+      success:
+        message: |
+          {
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Job Succeeded",
+            "themeColor": "28a745",
+            "title": "✓ Automation Job Succeeded",
+            "sections": [
+              {
+                "activityTitle": "{{ job_friendly_name }}",
+                "activitySubtitle": "Completed successfully",
+                "facts": [
+                  {"name": "Job ID", "value": "{{ job.id }}"},
+                  {"name": "Duration", "value": "{{ job.elapsed }}s"},
+                  {"name": "Started By", "value": "{{ job.created_by }}"},
+                  {"name": "Completed", "value": "{{ job.finished }}"}
+                ]
+              }
+            ],
+            "potentialAction": [
+              {
+                "@type": "OpenUri",
+                "name": "View Job",
+                "targets": [{"os": "default", "uri": "{{ job.url }}"}]
+              }
+            ]
+          }
+      error:
+        message: |
+          {
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Job Failed",
+            "themeColor": "dc3545",
+            "title": "✗ Automation Job Failed",
+            "sections": [
+              {
+                "activityTitle": "{{ job_friendly_name }}",
+                "activitySubtitle": "Failed - Requires Attention",
+                "facts": [
+                  {"name": "Job ID", "value": "{{ job.id }}"},
+                  {"name": "Status", "value": "{{ job.status }}"},
+                  {"name": "Failed At", "value": "{{ job.finished }}"}
+                ],
+                "text": "**Error:** {{ job.result_traceback|default('See job output for details')|truncate(200) }}"
+              }
+            ],
+            "potentialAction": [
+              {
+                "@type": "OpenUri",
+                "name": "View Job Details",
+                "targets": [{"os": "default", "uri": "{{ job.url }}"}]
+              }
+            ]
+          }
+
+  # ==============================================================
+  # PagerDuty Notifications
+  # ==============================================================
+
+  - name: PagerDuty-Production-Incidents
+    description: "PagerDuty alerts for production job failures"
+    organization: Cac-Demo-Org
+    notification_type: pagerduty
+    notification_configuration:
+      token: "YOUR-SLACK-API-TOKEN-GOES-HERE"  # !vault | (Vault encrypted)
+      #             $ANSIBLE_VAULT;1.1;AES256
+      #             35323837363266363733383336393234343966333338396266656335653938636132633237613138
+            3737633636653739303437326438643562346161373938620a343031326438653239363266326133
+            30396337636464613263373239386430363834643732613665653734623635623064613064653462
+            3333303831303137610a336561633138393338393237616537633834393131636338653537383964
+            3334
+      subdomain: example-company
+      service_key: "pagerduty-key-here"  # !vault | (Vault encrypted)
+      #             $ANSIBLE_VAULT;1.1;AES256
+      #             30633931346134343437363639343937386361653132373039323830613737616134346635643566
+            3636373030363435633164663262336366613563663934300a613632653563323432633435393966
+            63656461363034613864316139336263396562306339323135613035393032616333653261343133
+            3430643738313630360a636538313834343033623030656639643336303234653639393162623437
+            3130
+      client_name: "Ansible Automation Platform"
+    messages:
+      error:
+        message: "AAP Job Failed: {{ job_friendly_name }} (ID: {{ job.id }})"
+
+# ==============================================================
+# Usage: Attaching Notifications to Job Templates
+# ==============================================================
+#
+# In your job template configuration, add:
+#
+# controller_templates:
+#   - name: My-Job-Template
+#     # ... other config ...
+#     notification_templates_started:
+#       - Slack-Operations-Channel
+#     notification_templates_success:
+#       - Slack-Operations-Channel
+#       - Email-Operations-Team
+#     notification_templates_error:
+#       - Slack-Critical-Alerts
+#       - Email-Operations-Team
+#       - PagerDuty-Production-Incidents
+#       - Webhook-ServiceNow-Integration
+#
+# ==============================================================
+# Available Jinja2 Variables in Notifications
+# ==============================================================
+#
+# Job Variables:
+# - {{ job.id }} - Job ID
+# - {{ job.name }} - Job template name
+# - {{ job_friendly_name }} - Display name
+# - {{ job.status }} - Current status
+# - {{ job.created_by }} - Username who started
+# - {{ job.started }} - Start timestamp
+# - {{ job.finished }} - Completion timestamp
+# - {{ job.elapsed }} - Duration in seconds
+# - {{ job.inventory }} - Inventory name
+# - {{ job.limit }} - Host limit
+# - {{ job.url }} - Direct URL to job
+# - {{ job.result_traceback }} - Error details
+#
+# Workflow Variables:
+# - {{ workflow_job.name }}
+# - {{ workflow_job.id }}
+# - {{ workflow_approval.name }}
+# - {{ workflow_approval.timeout }}
+# - {{ workflow_approval.url }}
+#
+# ==============================================================
+# Security Notes
+# ==============================================================
+#
+# 1. Always vault sensitive tokens/passwords
+# 2. Use service accounts with minimal permissions
+# 3. Regularly rotate integration tokens
+# 4. Test notifications in dev before production
+# 5. Set appropriate message retention policies
+# 6. Monitor notification delivery failures
+#
+# ==============================================================

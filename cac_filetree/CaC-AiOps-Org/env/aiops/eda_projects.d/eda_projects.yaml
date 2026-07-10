@@ -1,0 +1,15 @@
+---
+# EDA Projects Configuration
+# These are separate from Controller projects and managed via EDA API
+
+eda_projects:
+  - name: AIOps-Rulebooks
+    description: AIOps EDA Rulebooks for intelligent event routing
+    url: https://github.com/iamgini/ansible-aiops
+    git_hash: main
+    # credential: GitHub-Credential  # Uncomment if private repo
+    # Optional fields:
+    # eda_credential_id: 1  # Reference to credential ID if using credential
+    # signature_validation_credential_id: 1  # For signed commits
+    # import_state: completed
+    # import_task_id: null

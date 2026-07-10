@@ -1,0 +1,126 @@
+---
+# Hello World Demo Job Templates
+# Using ansible-real-life/ansible-hello-world/hello-world.yaml playbook
+# These templates demonstrate various scheduling scenarios
+
+controller_templates:
+  - name: "HW-01-Daily-Morning-Check"
+    description: "Daily morning health check - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 0
+    extra_vars:
+      your_name: "Morning Team"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+    ask_limit_on_launch: false
+
+  - name: "HW-02-Hourly-Monitor"
+    description: "Hourly monitoring job - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 0
+    extra_vars:
+      your_name: "Monitoring System"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+
+  - name: "HW-03-Weekly-Report"
+    description: "Weekly report generation - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 0
+    extra_vars:
+      your_name: "Weekly Report Bot"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+
+  - name: "HW-04-End-of-Day-Cleanup"
+    description: "End of day cleanup task - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 0
+    extra_vars:
+      your_name: "Cleanup Service"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+
+  - name: "HW-05-Monthly-Audit"
+    description: "Monthly audit process - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 1
+    extra_vars:
+      your_name: "Audit Team"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+
+  - name: "HW-06-Backup-Schedule"
+    description: "Backup schedule demo - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 0
+    extra_vars:
+      your_name: "Backup System"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+
+  - name: "HW-07-Weekday-Patching"
+    description: "Weekday patching window - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 0
+    extra_vars:
+      your_name: "Patch Management"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+
+  - name: "HW-08-Weekend-Maintenance"
+    description: "Weekend maintenance window - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 0
+    extra_vars:
+      your_name: "Maintenance Team"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+
+  - name: "HW-09-Business-Hours-Check"
+    description: "Business hours availability check - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 0
+    extra_vars:
+      your_name: "Business Hours Monitor"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true
+
+  - name: "HW-10-Quarterly-Review"
+    description: "Quarterly review process - Hello World demo"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: Ansible-Real-Life-Cac
+    playbook: ansible-hello-world/hello-world.yaml
+    verbosity: 1
+    extra_vars:
+      your_name: "Quarterly Review Team"
+    ask_inventory_on_launch: false
+    ask_variables_on_launch: true

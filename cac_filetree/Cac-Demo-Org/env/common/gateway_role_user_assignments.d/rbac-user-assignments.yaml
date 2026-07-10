@@ -1,0 +1,79 @@
+---
+# Gateway RBAC - User Role Assignments for Cac-Demo-Org
+# Assigns roles to individual users for organizations, teams, and resources
+# AAP 2.5+ uses Platform Gateway for centralized RBAC management
+
+gateway_role_user_assignments:
+  # ============================================================
+  # Organization-Level Roles
+  # ============================================================
+
+  # Organization Admin - Full control over organization and all its resources
+  - role_definition: "Organization Admin"
+    user: gineesh
+    object_id: Cac-Demo-Org
+
+  # Organization Member - Basic access to organization
+  - role_definition: "Organization Member"
+    user: jsmith
+    object_id: Cac-Demo-Org
+
+  - role_definition: "Organization Member"
+    user: jdoe
+    object_id: Cac-Demo-Org
+
+  # ============================================================
+  # Team-Level Roles
+  # ============================================================
+
+  # Team Admin - Can manage team members and permissions
+  - role_definition: "Team Admin"
+    user: jsmith
+    object_id: cac-team-101
+
+  # Team Member - Basic team membership
+  - role_definition: "Team Member"
+    user: jdoe
+    object_id: cac-team-101
+
+  - role_definition: "Team Member"
+    user: jsmith
+    object_id: cac-team-102
+
+  # ============================================================
+  # Resource-Specific Roles (Organization-scoped)
+  # ============================================================
+
+  # Inventory Admin - Can manage all inventories in organization
+  - role_definition: "Organization Inventory Admin"
+    user: jsmith
+    object_id: Cac-Demo-Org
+
+  # Project Admin - Can manage all projects in organization
+  - role_definition: "Organization Project Admin"
+    user: jsmith
+    object_id: Cac-Demo-Org
+
+  # Job Template Admin - Can create and manage all job templates
+  - role_definition: "Organization JobTemplate Admin"
+    user: jsmith
+    object_id: Cac-Demo-Org
+
+  # Credential Admin - Can manage all credentials in organization
+  - role_definition: "Organization Credential Admin"
+    user: gineesh
+    object_id: Cac-Demo-Org
+
+  # Execution Environment Admin - Can manage execution environments
+  - role_definition: "Organization Execution Environment Admin"
+    user: jsmith
+    object_id: Cac-Demo-Org
+
+  # ============================================================
+  # Read-Only / Auditor Roles
+  # ============================================================
+
+  # Organization Auditor - Read-only access to organization
+  - role_definition: "Organization Auditor"
+    user: jdoe
+    object_id: Cac-Demo-Org

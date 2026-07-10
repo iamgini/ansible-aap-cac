@@ -1,0 +1,35 @@
+---
+# Host-to-Group assignments for Database Tier
+controller_host_groups:
+  - name: postgresql_primary
+    inventory: Enterprise-Inventory
+    hosts:
+      - pg-primary-01.example.com
+
+  - name: postgresql_replicas
+    inventory: Enterprise-Inventory
+    hosts:
+      - pg-replica-01.example.com
+      - pg-replica-02.example.com
+      - pg-replica-03.example.com
+
+  - name: mysql_cluster
+    inventory: Enterprise-Inventory
+    hosts:
+      - mysql-node-01.example.com
+      - mysql-node-02.example.com
+      - mysql-node-03.example.com
+
+  - name: mongodb_shards
+    inventory: Enterprise-Inventory
+    hosts:
+      - mongo-shard-01.example.com
+      - mongo-shard-02.example.com
+      - mongo-shard-03.example.com
+
+  - name: redis_cache
+    inventory: Enterprise-Inventory
+    hosts:
+      - redis-cache-01.example.com
+      - redis-cache-02.example.com
+...

@@ -1,0 +1,220 @@
+---
+# Controller RBAC - Resource-Specific Role Assignments
+# Granular permissions for specific resources (inventories, projects, job templates, etc.)
+# Note: For AAP 2.5+, use gateway_role_* for organization-level roles
+#       and controller_roles for specific resource-level permissions
+
+controller_roles:
+  # ============================================================
+  # Team Membership Assignments
+  # ============================================================
+
+  # Add users to teams
+  - user: jsmith
+    target_team: cac-team-101
+    role: member
+
+  - user: jdoe
+    target_team: cac-team-101
+    role: member
+
+  - user: jsmith
+    target_team: cac-team-102
+    role: member
+
+  # ============================================================
+  # Inventory Permissions
+  # ============================================================
+
+  # Team 101 - Admin access to demo inventory
+  - inventory: Cac-Demo-Inventory
+    team: cac-team-101
+    role: admin
+
+  # Team 102 - Use-only access to demo inventory
+  - inventory: Cac-Demo-Inventory
+    team: cac-team-102
+    role: use
+
+  # User-specific inventory access
+  - inventory: Cac-Demo-Inventory
+    user: jsmith
+    role: admin
+
+  - inventory: Cac-Demo-Inventory
+    user: jdoe
+    role: use
+
+  # ============================================================
+  # Project Permissions
+  # ============================================================
+
+  # Team 101 - Admin access to projects
+  - project: Ansible-Real-Life-Cac
+    team: cac-team-101
+    role: admin
+
+  - project: AAP-Use-Case-Demos-Cac
+    team: cac-team-101
+    role: admin
+
+  # Team 102 - Use-only access
+  - project: Ansible-Real-Life-Cac
+    team: cac-team-102
+    role: use
+
+  # User-specific project access
+  - project: Ansible-Real-Life-Cac
+    user: jsmith
+    role: admin
+
+  # ============================================================
+  # Job Template Permissions
+  # ============================================================
+
+  # Team 101 - Execute access to hello world templates
+  - job_template: "HW-01-Daily-Morning-Check"
+    team: cac-team-101
+    role: execute
+
+  - job_template: "HW-02-Hourly-Monitor"
+    team: cac-team-101
+    role: execute
+
+  - job_template: "HW-03-Weekly-Report"
+    team: cac-team-101
+    role: admin
+
+  # Team 102 - Limited execute access
+  - job_template: "HW-01-Daily-Morning-Check"
+    team: cac-team-102
+    role: execute
+
+  - job_template: "HW-02-Hourly-Monitor"
+    team: cac-team-102
+    role: execute
+
+  # Original templates
+  - job_template: "000-List-to-String"
+    team: cac-team-101
+    role: execute
+
+  - job_template: "001-List-to-String-CaC"
+    team: cac-team-102
+    role: execute
+
+  # User-specific job template access
+  - job_template: "HW-03-Weekly-Report"
+    user: jsmith
+    role: admin
+
+  - job_template: "HW-04-End-of-Day-Cleanup"
+    user: jsmith
+    role: execute
+
+  # ============================================================
+  # Workflow Permissions (if you have workflows)
+  # ============================================================
+
+  # - workflow: "My Workflow Template"
+  #   team: cac-team-101
+  #   role: execute
+
+  # - workflow: "My Workflow Template"
+  #   user: jsmith
+  #   role: admin
+
+  # ============================================================
+  # Credential Permissions
+  # ============================================================
+
+  # Allow teams to use specific credentials
+  # - credential: "Demo Credential"
+  #   team: cac-team-101
+  #   role: use
+
+  # - credential: "SSH Key"
+  #   user: jsmith
+  #   role: use
+
+  # ============================================================
+  # Organization-Level Permissions (AAP 2.4 style)
+  # Note: For AAP 2.5+, prefer gateway_role_user_assignments
+  # ============================================================
+
+  # Organization admin role
+  # - organization: Cac-Demo-Org
+  #   user: gineesh
+  #   role: admin
+
+  # Organization-scoped admin roles
+  # - organization: Cac-Demo-Org
+  #   user: jsmith
+  #   role: project_admin
+
+  # - organization: Cac-Demo-Org
+  #   user: jsmith
+  #   role: inventory_admin
+
+  # - organization: Cac-Demo-Org
+  #   user: jsmith
+  #   role: job_template_admin
+
+# ============================================================
+# Available Roles (depends on resource type)
+# ============================================================
+#
+# COMMON ROLES (most resources):
+# - admin       : Full control over resource
+# - use         : Can use resource in jobs/templates
+# - read        : Read-only access
+# - execute     : Can launch/execute (job templates, workflows)
+# - update      : Can update resource
+#
+# TEAM ROLES:
+# - member      : Team membership
+# - admin       : Team admin (can manage members)
+#
+# ORGANIZATION ROLES (AAP 2.4 style):
+# - admin                         : Full organization access
+# - execute                       : Can execute jobs
+# - auditor                       : Read-only audit access
+# - member                        : Basic organization membership
+# - project_admin                 : Manage projects
+# - inventory_admin               : Manage inventories
+# - credential_admin              : Manage credentials
+# - workflow_admin                : Manage workflows
+# - notification_admin            : Manage notifications
+# - job_template_admin            : Manage job templates
+# - execution_environment_admin   : Manage execution environments
+# - approval                      : Approval permissions
+# - read                          : Read-only access
+#
+# INVENTORY ROLES:
+# - admin       : Full inventory control
+# - use         : Can use inventory in job templates
+# - update      : Can update inventory
+# - adhoc       : Can run ad-hoc commands
+# - read        : Read-only access
+#
+# PROJECT ROLES:
+# - admin       : Full project control
+# - use         : Can use project in job templates
+# - update      : Can update/sync project
+# - read        : Read-only access
+#
+# JOB TEMPLATE ROLES:
+# - admin       : Full job template control
+# - execute     : Can launch the job template
+# - read        : Read-only access
+#
+# CREDENTIAL ROLES:
+# - admin       : Full credential control
+# - use         : Can use credential in jobs
+# - read        : Read-only access
+#
+# WORKFLOW ROLES:
+# - admin       : Full workflow control
+# - execute     : Can launch the workflow
+# - approval    : Can approve workflow jobs
+# - read        : Read-only access

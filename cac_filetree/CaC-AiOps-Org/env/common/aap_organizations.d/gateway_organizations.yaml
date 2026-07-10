@@ -1,0 +1,21 @@
+---
+aap_organizations:
+  - name: Cac-Demo-Org
+    max_hosts: 0
+    description: Configuration as Code - Demo
+
+  - name: AAAAAA
+    max_hosts: 0
+    description: Configuration as Code - AAAAAA
+
+  - name: XYZCorp-CaC
+    max_hosts: 0
+    description: Configuration as Code - XYZCorp-CaC
+
+  - name: Network-Ops
+    max_hosts: 0
+    description: Configuration as Code - Network-Ops
+
+  - name: Test-2.7.20260630
+    max_hosts: 0
+    description: Testing ansible.platform 2.7.20260630

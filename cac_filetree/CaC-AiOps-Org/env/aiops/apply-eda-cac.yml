@@ -1,0 +1,98 @@
+---
+# Apply EDA Configuration as Code
+# This configures EDA Controller for Intelligent Remediation
+
+- name: Configure EDA for AIOps Intelligent Remediation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    # Load EDA-specific configuration files in order
+    - eda_credentials.yaml
+    - eda_decision_environments.yaml
+    - eda_projects.yaml
+    - eda_rulebook_activations.yaml
+
+  vars:
+    # EDA Controller connection (override via environment or command line)
+    eda_controller_host: "{{ lookup('env', 'EDA_CONTROLLER_HOST') | default('https://eda-controller.example.com', true) }}"
+    eda_controller_username: "{{ lookup('env', 'EDA_CONTROLLER_USERNAME') | default('admin', true) }}"
+    eda_controller_password: "{{ lookup('env', 'EDA_CONTROLLER_PASSWORD') }}"
+    eda_controller_verify_ssl: "{{ lookup('env', 'EDA_CONTROLLER_VERIFY_SSL') | default('false', true) | bool }}"
+
+  tasks:
+    - name: Display EDA configuration summary
+      ansible.builtin.debug:
+        msg:
+          - "=========================================="
+          - "AIOps EDA CaC Configuration"
+          - "=========================================="
+          - "EDA Controller: {{ eda_controller_host }}"
+          - "Projects: {{ eda_projects | length }}"
+          - "Decision Environments: {{ eda_decision_environments | length }}"
+          - "Credentials: {{ eda_credentials | length }}"
+          - "Rulebook Activations: {{ eda_rulebook_activations | length }}"
+          - "=========================================="
+
+    - name: Create EDA credentials
+      include_role:
+        name: infra.eda_configuration.credentials
+      when: eda_credentials is defined
+
+    - name: Create/update EDA decision environments
+      include_role:
+        name: infra.eda_configuration.decision_environments
+      when: eda_decision_environments is defined
+
+    - name: Create/update EDA projects
+      include_role:
+        name: infra.eda_configuration.projects
+      when: eda_projects is defined
+
+    - name: Create/activate rulebooks
+      include_role:
+        name: infra.eda_configuration.rulebook_activations
+      when: eda_rulebook_activations is defined
+
+    - name: EDA configuration summary
+      ansible.builtin.debug:
+        msg:
+          - "=========================================="
+          - "✅ AIOps EDA CaC Applied Successfully!"
+          - "=========================================="
+          - "Created/Updated:"
+          - "  - {{ eda_projects | length }} EDA Projects"
+          - "  - {{ eda_decision_environments | length }} Decision Environments"
+          - "  - {{ eda_credentials | length }} EDA Credentials"
+          - "  - {{ eda_rulebook_activations | length }} Rulebook Activations"
+          - "=========================================="
+          - "Next Steps:"
+          - "1. Verify rulebook activation in EDA UI"
+          - "2. Check activation status (should be 'Running')"
+          - "3. Send test event to webhook (port 5000)"
+          - "4. Monitor job launches in AAP Controller"
+          - "=========================================="
+
+# Usage:
+#
+# # Set environment variables
+# export EDA_CONTROLLER_HOST="https://eda-controller.example.com"
+# export EDA_CONTROLLER_USERNAME="admin"
+# export EDA_CONTROLLER_PASSWORD="password"
+# export EDA_CONTROLLER_VERIFY_SSL="false"
+#
+# # Apply EDA configuration
+# ansible-playbook apply-eda-cac.yml
+#
+# # Or with inline variables
+# ansible-playbook apply-eda-cac.yml \
+#   -e eda_controller_host=https://eda-controller.example.com \
+#   -e eda_controller_username=admin \
+#   -e eda_controller_password=password
+#
+# # With vault for credentials
+# ansible-playbook apply-eda-cac.yml --ask-vault-pass
+#
+# Note: Requires infra.eda_configuration collection:
+# ansible-galaxy collection install infra.eda_configuration

@@ -10,7 +10,8 @@ controller_inventory_sources:
     organization: Cac-Demo-Org
     # credential: admin@internal-RHVM-01
     overwrite: true
-    update_on_launch: true
+    overwrite_vars: true
+    update_on_launch: false
     update_cache_timeout: 0
     wait: true
     # more options can be provided but for scm source we are using, we need only this much.

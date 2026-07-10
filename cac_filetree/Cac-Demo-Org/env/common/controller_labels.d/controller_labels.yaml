@@ -1,0 +1,92 @@
+---
+# Controller Labels - For categorizing and filtering resources
+# Labels can be applied to: Job Templates, Workflow Job Templates, Inventories, etc.
+# Use for: Environment tagging, criticality, teams, functional area, etc.
+
+controller_labels:
+  # Environment Labels
+  - name: production
+    organization: Cac-Demo-Org
+
+  - name: staging
+    organization: Cac-Demo-Org
+
+  - name: development
+    organization: Cac-Demo-Org
+
+  - name: uat
+    organization: Cac-Demo-Org
+
+  # Criticality Labels
+  - name: critical
+    organization: Cac-Demo-Org
+
+  - name: high-priority
+    organization: Cac-Demo-Org
+
+  - name: low-priority
+    organization: Cac-Demo-Org
+
+  # Functional Area Labels
+  - name: DR
+    organization: Cac-Demo-Org
+    description: Disaster Recovery operations and failover automation
+
+  - name: backup
+    organization: Cac-Demo-Org
+    description: Backup and restore operations
+
+  - name: monitoring
+    organization: Cac-Demo-Org
+    description: Monitoring and health check jobs
+
+  - name: patching
+    organization: Cac-Demo-Org
+    description: System patching and updates
+
+  - name: deployment
+    organization: Cac-Demo-Org
+    description: Application deployment jobs
+
+  - name: compliance
+    organization: Cac-Demo-Org
+    description: Compliance and security scanning
+
+  - name: networking
+    organization: Cac-Demo-Org
+    description: Network configuration and automation
+
+  - name: database
+    organization: Cac-Demo-Org
+    description: Database operations
+
+  # Team/Ownership Labels
+  - name: infrastructure-team
+    organization: Cac-Demo-Org
+
+  - name: application-team
+    organization: Cac-Demo-Org
+
+  - name: security-team
+    organization: Cac-Demo-Org
+
+  - name: network-team
+    organization: Cac-Demo-Org
+
+  # Special Purpose Labels
+  - name: automated
+    organization: Cac-Demo-Org
+    description: Fully automated jobs (no approval required)
+
+  - name: approval-required
+    organization: Cac-Demo-Org
+    description: Jobs requiring manual approval
+
+  - name: read-only
+    organization: Cac-Demo-Org
+    description: Read-only operations (no changes)
+
+  - name: demo
+    organization: Cac-Demo-Org
+    description: Demo and testing purposes
+...

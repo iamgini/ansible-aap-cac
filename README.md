@@ -92,8 +92,10 @@ collections:
   - name: infra.aap_configuration_extended
 ```
 
+AAP 2.6+
+
 ```shell
-$ ansible-galaxy collection install -r requirements.yaml
+$ ansible-galaxy collection install -r collections/requirements-aap26plus.yml
 ```
 
 (Or download and install for disconnected environment)
@@ -196,6 +198,103 @@ $ ansible-playbook playbooks/configure-aap-using-filetree.yaml \
 ```
 
 Check  'collections/ansible_collections/infra/aap_configuration_extended/roles/filetree_read/defaults/main.yml`
+
+#### Available Tags for Selective Execution
+
+The `infra.aap_configuration` dispatch role supports the following tags for granular control over what gets configured:
+
+**Platform Gateway Resources (AAP 2.5+):**
+- `gateway_settings` - Gateway settings
+- `gateway_organizations` - Organizations (platform-level)
+- `gateway_users` - Platform users
+- `gateway_teams` - Platform teams
+- `gateway_authenticators` - Authentication backends (LDAP, SAML, OIDC, etc.)
+- `gateway_authenticator_maps` - Authenticator mappings
+- `gateway_role_definitions` - Custom role definitions
+- `gateway_role_user_assignments` - User RBAC assignments
+- `gateway_role_team_assignments` - Team RBAC assignments
+- `gateway_applications` - OAuth2 applications
+- `gateway_http_ports` - HTTP port configurations
+- `gateway_routes` - Gateway routes
+- `gateway_services` - Gateway services
+- `gateway_service_clusters` - Service clusters
+- `gateway_service_nodes` - Service nodes
+- `gateway_service_keys` - Service keys
+
+**Controller Resources:**
+- `controller_settings` - Controller settings
+- `controller_organizations` - Organizations (controller-level)
+- `controller_credential_types` - Custom credential types
+- `credentials` / `controller_credentials` - Credentials
+- `credential_input_sources` / `controller_credential_input_sources` - Credential input sources
+- `projects` / `controller_projects` - SCM projects
+- `inventories` / `controller_inventories` - Inventories
+- `inventory_sources` / `controller_inventory_sources` - Inventory sources
+- `hosts` / `controller_hosts` / `controller_bulk_hosts` - Inventory hosts
+- `host_groups` / `controller_groups` - Inventory groups
+- `job_templates` / `controller_job_templates` - Job templates
+- `workflow_job_templates` / `controller_workflow_job_templates` - Workflow templates
+- `schedules` / `controller_schedules` - Schedules
+- `labels` / `controller_labels` - Labels
+- `notification_templates` / `controller_notification_templates` - Notifications
+- `execution_environments` / `controller_execution_environments` - Execution environments
+- `instance_groups` / `controller_instance_groups` - Instance groups
+- `instances` / `controller_instances` - Controller instances
+- `roles` / `controller_roles` - RBAC role assignments
+- `applications` / `controller_applications` - OAuth2 applications
+- `controller_token` - Controller tokens
+- `job_launch` / `controller_job_launch` - Launch jobs
+- `workflow_launch` / `controller_workflow_launch` - Launch workflows
+
+**Automation Hub Resources:**
+- `hub_namespaces` - Hub namespaces
+- `hub_collections` - Collections
+- `hub_collection_remotes` - Collection remotes
+- `hub_collection_repositories` - Collection repositories
+- `hub_collection_repository_sync` - Sync collection repositories
+- `hub_publish` - Publish collections
+- `hub_ee_registries` - EE registries
+- `hub_ee_registry_index` - EE registry indices
+- `hub_ee_registry_sync` - Sync EE registries
+- `hub_ee_repositories` - EE repositories
+- `hub_ee_repository_sync` - Sync EE repositories
+- `hub_ee_images` - EE images
+
+**Event-Driven Ansible (EDA) Resources:**
+- `eda_credential_types` - EDA credential types
+- `eda_credentials` - EDA credentials
+- `eda_credential_input_sources` - EDA credential input sources
+- `eda_decision_environments` - Decision environments
+- `eda_projects` - EDA projects
+- `eda_rulebook_activations` - Rulebook activations
+- `eda_event_streams` - Event streams
+- `eda_controller_tokens` - EDA controller tokens
+
+**Grouped Tags (convenience):**
+- `settings` - All settings (gateway + controller)
+- `organizations` - All organizations
+- `users` - All users
+- `teams` - All teams
+- `authenticators` - All authenticators
+- `role_definitions` - All role definitions
+- `role_user_assignments` - All user role assignments
+- `role_team_assignments` - All team role assignments
+
+**Example: Apply only inventories and job templates:**
+```bash
+ansible-playbook playbooks/configure-aap-using-filetree.yaml \
+  -e "orgs=Cac-Demo-Org" \
+  -e "env=common" \
+  --tags inventories,job_templates
+```
+
+**Example: Apply only RBAC configurations:**
+```bash
+ansible-playbook playbooks/configure-aap-using-filetree.yaml \
+  -e "orgs=Cac-Demo-Org" \
+  -e "env=common" \
+  --tags gateway_role_user_assignments,gateway_role_team_assignments,controller_roles
+```
 
 ### Method 2: Using `ansible-navigator`
 

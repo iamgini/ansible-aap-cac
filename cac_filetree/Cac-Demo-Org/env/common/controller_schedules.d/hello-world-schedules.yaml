@@ -1,0 +1,138 @@
+---
+# Schedules for Hello World Job Templates
+# Using various schedule patterns (daily, hourly, weekly, monthly)
+# RRULE format: DTSTART (start time) + RRULE (recurrence rule)
+# Reference: https://datatracker.ietf.org/doc/html/rfc5545
+
+controller_schedules:
+  # Schedule 1: Daily at 8:00 AM UTC
+  - name: "Daily-Morning-Check-8AM"
+    description: "Run daily morning check at 8:00 AM UTC"
+    unified_job_template: "HW-01-Daily-Morning-Check"
+    enabled: true
+    rrule: "DTSTART:20260710T080000Z RRULE:FREQ=DAILY;INTERVAL=1"
+
+  # Schedule 2: Every hour during business hours (9 AM - 5 PM UTC, Mon-Fri)
+  - name: "Hourly-Monitor-Business-Hours"
+    description: "Run hourly during business hours (9 AM - 5 PM UTC, weekdays)"
+    unified_job_template: "HW-02-Hourly-Monitor"
+    enabled: true
+    rrule: "DTSTART:20260710T090000Z RRULE:FREQ=HOURLY;INTERVAL=1;BYHOUR=9,10,11,12,13,14,15,16,17;BYDAY=MO,TU,WE,TH,FR"
+
+  # Schedule 3: Weekly on Monday at 9:00 AM UTC
+  - name: "Weekly-Report-Monday-9AM"
+    description: "Generate weekly report every Monday at 9:00 AM UTC"
+    unified_job_template: "HW-03-Weekly-Report"
+    enabled: true
+    rrule: "DTSTART:20260713T090000Z RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO"
+
+  # Schedule 4: Daily at 6:00 PM UTC (end of day)
+  - name: "End-of-Day-Cleanup-6PM"
+    description: "Run end of day cleanup at 6:00 PM UTC"
+    unified_job_template: "HW-04-End-of-Day-Cleanup"
+    enabled: true
+    rrule: "DTSTART:20260710T180000Z RRULE:FREQ=DAILY;INTERVAL=1"
+
+  # Schedule 5: Monthly on the 1st at 2:00 AM UTC
+  - name: "Monthly-Audit-First-Day"
+    description: "Run monthly audit on the 1st of each month at 2:00 AM UTC"
+    unified_job_template: "HW-05-Monthly-Audit"
+    enabled: true
+    rrule: "DTSTART:20260801T020000Z RRULE:FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=1"
+
+  # Schedule 6: Every 6 hours (backup schedule)
+  - name: "Backup-Every-6-Hours"
+    description: "Run backup every 6 hours starting at midnight UTC"
+    unified_job_template: "HW-06-Backup-Schedule"
+    enabled: true
+    rrule: "DTSTART:20260710T000000Z RRULE:FREQ=HOURLY;INTERVAL=6"
+
+  # Schedule 7: Weekdays at 10:00 PM UTC (patching window)
+  - name: "Weekday-Patching-10PM"
+    description: "Run patching weekdays at 10:00 PM UTC"
+    unified_job_template: "HW-07-Weekday-Patching"
+    enabled: true
+    rrule: "DTSTART:20260710T220000Z RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR"
+
+  # Schedule 8: Weekend maintenance - Saturday 2:00 AM UTC
+  - name: "Weekend-Maintenance-Saturday"
+    description: "Run weekend maintenance every Saturday at 2:00 AM UTC"
+    unified_job_template: "HW-08-Weekend-Maintenance"
+    enabled: true
+    rrule: "DTSTART:20260711T020000Z RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=SA"
+
+  # Schedule 9: Every 30 minutes during business hours (9 AM - 5 PM UTC, Mon-Fri)
+  - name: "Business-Hours-Check-30Min"
+    description: "Check every 30 minutes during business hours"
+    unified_job_template: "HW-09-Business-Hours-Check"
+    enabled: true
+    rrule: "DTSTART:20260710T090000Z RRULE:FREQ=MINUTELY;INTERVAL=30;BYHOUR=9,10,11,12,13,14,15,16,17;BYDAY=MO,TU,WE,TH,FR"
+
+  # Schedule 10: Quarterly on the 1st at 6:00 AM UTC (Jan, Apr, Jul, Oct)
+  - name: "Quarterly-Review-First-Day"
+    description: "Run quarterly review on the 1st of Jan, Apr, Jul, Oct at 6:00 AM UTC"
+    unified_job_template: "HW-10-Quarterly-Review"
+    enabled: true
+    rrule: "DTSTART:20261001T060000Z RRULE:FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=1"
+
+  # ============================================================
+  # High-Frequency Schedules - Every 5 Minutes (START NOW)
+  # ============================================================
+
+  # Schedule 11: Every 5 minutes - Morning Check
+  - name: "Every-5-Min-Morning-Check"
+    description: "Run morning check every 5 minutes - STARTS IMMEDIATELY"
+    unified_job_template: "HW-01-Daily-Morning-Check"
+    enabled: true
+    rrule: "DTSTART:20260709T000000Z RRULE:FREQ=MINUTELY;INTERVAL=5"
+
+  # Schedule 12: Every 5 minutes - Hourly Monitor
+  - name: "Every-5-Min-Monitor"
+    description: "Run monitoring job every 5 minutes - STARTS IMMEDIATELY"
+    unified_job_template: "HW-02-Hourly-Monitor"
+    enabled: true
+    rrule: "DTSTART:20260709T000100Z RRULE:FREQ=MINUTELY;INTERVAL=5"
+
+  # Schedule 13: Every 5 minutes - Backup Schedule
+  - name: "Every-5-Min-Backup"
+    description: "Run backup check every 5 minutes - STARTS IMMEDIATELY"
+    unified_job_template: "HW-06-Backup-Schedule"
+    enabled: true
+    rrule: "DTSTART:20260709T000200Z RRULE:FREQ=MINUTELY;INTERVAL=5"
+
+  # Schedule 14: Every 5 minutes - Business Hours Check
+  - name: "Every-5-Min-Business-Check"
+    description: "Run business hours check every 5 minutes - STARTS IMMEDIATELY"
+    unified_job_template: "HW-09-Business-Hours-Check"
+    enabled: true
+    rrule: "DTSTART:20260709T000300Z RRULE:FREQ=MINUTELY;INTERVAL=5"
+
+  # Schedule 15: Every 5 minutes - Weekend Maintenance
+  - name: "Every-5-Min-Maintenance"
+    description: "Run maintenance check every 5 minutes - STARTS IMMEDIATELY"
+    unified_job_template: "HW-08-Weekend-Maintenance"
+    enabled: true
+    rrule: "DTSTART:20260709T000400Z RRULE:FREQ=MINUTELY;INTERVAL=5"
+
+# Additional schedule examples (disabled by default):
+#
+# # Schedule 11: Every 2 hours
+#   - name: "Every-2-Hours"
+#     description: "Run every 2 hours"
+#     unified_job_template: "HW-02-Hourly-Monitor"
+#     enabled: false
+#     rrule: "DTSTART:20260710T000000Z RRULE:FREQ=HOURLY;INTERVAL=2"
+#
+# # Schedule 12: Bi-weekly on Wednesday at 3:00 PM UTC
+#   - name: "Bi-Weekly-Wednesday"
+#     description: "Run every 2 weeks on Wednesday at 3:00 PM UTC"
+#     unified_job_template: "HW-03-Weekly-Report"
+#     enabled: false
+#     rrule: "DTSTART:20260715T150000Z RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=WE"
+#
+# # Schedule 13: Last day of every month at 11:00 PM UTC
+#   - name: "Month-End-Last-Day"
+#     description: "Run on the last day of every month at 11:00 PM UTC"
+#     unified_job_template: "HW-04-End-of-Day-Cleanup"
+#     enabled: false
+#     rrule: "DTSTART:20260731T230000Z RRULE:FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=-1"

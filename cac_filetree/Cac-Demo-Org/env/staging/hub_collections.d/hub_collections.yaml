@@ -1,0 +1,20 @@
+---
+# Private Automation Hub Collections - STAGING ENVIRONMENT
+# Sample collection uploads - use staging environment to test
+hub_collections:
+  - namespace: demo_infra
+    name: linux_utils
+    version: "0.9.0"
+    path: /tmp/demo_infra-linux_utils-0.9.0.tar.gz
+    # Note: This is a sample path, update with actual collection tarball path
+
+  - namespace: demo_apps
+    name: webapp_deploy
+    version: "0.5.0"
+    path: /tmp/demo_apps-webapp_deploy-0.5.0.tar.gz
+
+  - namespace: demo_network
+    name: router_config
+    version: "0.3.0"
+    path: /tmp/demo_network-router_config-0.3.0.tar.gz
+...

@@ -1,0 +1,17 @@
+---
+# Hub Execution Environment Registries - STAGING
+# External container registries for pulling execution environments
+hub_ee_registries:
+  - name: quay-io-staging
+    url: https://quay.io
+    state: present
+
+  - name: docker-hub-staging
+    url: https://registry.hub.docker.com
+    state: present
+
+  - name: internal-registry-staging
+    url: https://registry.internal.example.com
+    # credential: registry-credential-name  # Reference to hub credential
+    state: present
+...

@@ -1,0 +1,183 @@
+controller_workflows:
+- name: DR-Failover-Complete-Workflow
+  description: Complete DR Failover - Primary Site to DR Site
+  organization: Cac-Demo-Org
+  allow_simultaneous: false
+  ask_inventory_on_launch: false
+  ask_variables_on_launch: true
+  extra_vars:
+    dr_workflow_mode: failover
+    dr_source_site: Site-A
+    dr_target_site: Site-B
+  survey_enabled: true
+  survey_spec:
+    name: DR Failover Survey
+    description: DR Failover Configuration
+    spec:
+    - question_name: DR Target Site
+      question_description: Select the DR site to failover to
+      required: true
+      type: multiplechoice
+      variable: dr_target_site
+      min: 0
+      max: 1024
+      default: Site-B
+      choices:
+      - Site-B
+      - Site-C
+      new_question: true
+    - question_name: Change Request Number
+      question_description: Enter the approved change request number for this DR activity
+      required: true
+      type: text
+      variable: change_request_id
+      min: 5
+      max: 50
+      default: CHG0000000
+      new_question: true
+    - question_name: Incident Ticket
+      question_description: Incident/Problem ticket number triggering this DR
+      required: false
+      type: text
+      variable: incident_ticket
+      min: 0
+      max: 100
+      default: ''
+      new_question: true
+    - question_name: DR Test Mode
+      question_description: Is this a DR test or actual failover?
+      required: true
+      type: multiplechoice
+      variable: dr_test_mode
+      default: test
+      choices:
+      - test
+      - actual_disaster
+      new_question: true
+  simplified_workflow_nodes:
+  - identifier: node-100-app-stop-parallel
+    unified_job_template: DR-01-App-Stop-VM
+    success_nodes:
+    - node-200-mq-stop
+    all_parents_must_converge: false
+  - identifier: node-101-app-stop-ocp
+    unified_job_template: DR-02-App-Stop-OCP
+    success_nodes:
+    - node-200-mq-stop
+    all_parents_must_converge: false
+  - identifier: node-200-mq-stop
+    unified_job_template: DR-03-MQ-Stop
+    success_nodes:
+    - node-300-approval-db-switchover
+    all_parents_must_converge: true
+  - identifier: node-300-approval-db-switchover
+    approval_node:
+      name: Approve Database Switchover
+      description: 'Critical: Approve database switchover to DR site'
+      timeout: 3600
+    success_nodes:
+    - node-310-db-switchover
+  - identifier: node-310-db-switchover
+    unified_job_template: DR-04-Database-Switchover
+    success_nodes:
+    - node-400-storage-unmount-app
+    - node-401-storage-unmount-ocp
+    - node-402-storage-unmount-mq
+    - node-403-storage-unmount-db
+  - identifier: node-400-storage-unmount-app
+    unified_job_template: DR-05-Storage-Unmount-App
+    success_nodes:
+    - node-500-storage-breaksync-app
+  - identifier: node-401-storage-unmount-ocp
+    unified_job_template: DR-06-Storage-Unmount-OCP
+    success_nodes:
+    - node-501-storage-breaksync-ocp
+  - identifier: node-402-storage-unmount-mq
+    unified_job_template: DR-07-Storage-Unmount-MQ
+    success_nodes:
+    - node-502-storage-breaksync-mq
+  - identifier: node-403-storage-unmount-db
+    unified_job_template: DR-08-Storage-Unmount-DB
+    success_nodes:
+    - node-503-storage-breaksync-db
+  - identifier: node-500-storage-breaksync-app
+    unified_job_template: DR-09-Storage-BreakSync-App
+    success_nodes:
+    - node-600-storage-mount-app
+  - identifier: node-501-storage-breaksync-ocp
+    unified_job_template: DR-10-Storage-BreakSync-OCP
+    success_nodes:
+    - node-601-storage-mount-ocp
+  - identifier: node-502-storage-breaksync-mq
+    unified_job_template: DR-11-Storage-BreakSync-MQ
+    success_nodes:
+    - node-602-storage-mount-mq
+  - identifier: node-503-storage-breaksync-db
+    unified_job_template: DR-12-Storage-BreakSync-DB
+    success_nodes:
+    - node-700-db-healthcheck
+    all_parents_must_converge: false
+  - identifier: node-600-storage-mount-app
+    unified_job_template: DR-13-Storage-Mount-App
+    success_nodes:
+    - node-800-approval-app-start
+  - identifier: node-601-storage-mount-ocp
+    unified_job_template: DR-14-Storage-Mount-OCP
+    success_nodes:
+    - node-800-approval-app-start
+  - identifier: node-602-storage-mount-mq
+    unified_job_template: DR-15-Storage-Mount-MQ
+    success_nodes:
+    - node-710-mq-start
+  - identifier: node-700-db-healthcheck
+    unified_job_template: DR-16-Database-HealthCheck
+    success_nodes:
+    - node-710-mq-start
+    failure_nodes:
+    - node-999-failure-notification
+  - identifier: node-710-mq-start
+    unified_job_template: DR-17-MQ-Start
+    success_nodes:
+    - node-800-approval-app-start
+    all_parents_must_converge: false
+  - identifier: node-800-approval-app-start
+    approval_node:
+      name: Approve Application Startup
+      description: Approve starting applications on DR site
+      timeout: 1800
+    success_nodes:
+    - node-810-app-start-vm
+    - node-811-app-start-ocp
+    all_parents_must_converge: true
+  - identifier: node-810-app-start-vm
+    unified_job_template: DR-18-App-Start-VM
+    success_nodes:
+    - node-900-storage-reversesync-app
+    - node-901-storage-reversesync-ocp
+    - node-902-storage-reversesync-mq
+    - node-903-storage-reversesync-db
+  - identifier: node-811-app-start-ocp
+    unified_job_template: DR-19-App-Start-OCP
+    success_nodes:
+    - node-900-storage-reversesync-app
+    - node-901-storage-reversesync-ocp
+    - node-902-storage-reversesync-mq
+    - node-903-storage-reversesync-db
+  - identifier: node-900-storage-reversesync-app
+    unified_job_template: DR-20-Storage-ReverseSync-App
+    all_parents_must_converge: true
+  - identifier: node-901-storage-reversesync-ocp
+    unified_job_template: DR-21-Storage-ReverseSync-OCP
+  - identifier: node-902-storage-reversesync-mq
+    unified_job_template: DR-22-Storage-ReverseSync-MQ
+  - identifier: node-903-storage-reversesync-db
+    unified_job_template: DR-23-Storage-ReverseSync-DB
+  - identifier: node-999-failure-notification
+    unified_job_template: HW-01-Daily-Morning-Check
+    extra_data:
+      your_name: DR Workflow Failed - Manual Intervention Required
+  labels:
+  - DR
+  - critical
+  - production
+  - approval-required

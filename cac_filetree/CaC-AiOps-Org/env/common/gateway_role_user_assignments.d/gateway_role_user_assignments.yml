@@ -1,0 +1,7 @@
+---
+# gateway_role_user_assignments:
+# - role_definition: Team Admin
+#   user: 1
+#   object_id: 10
+
+...

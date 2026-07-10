@@ -1,0 +1,26 @@
+---
+controller_inventories:
+  - name: Enterprise-Inventory
+    organization: Cac-Demo-Org
+    description: Enterprise multi-tier application inventory with complete infrastructure
+    variables:
+      # Global inventory variables
+      ansible_user: automation
+      ansible_python_interpreter: /usr/bin/python3
+
+      # Environment metadata
+      environment: production
+      managed_by: ansible_automation_platform
+
+      # Common paths
+      app_base_path: /opt/applications
+      log_base_path: /var/log/applications
+
+      # Monitoring integration
+      monitoring_enabled: true
+      prometheus_port: 9090
+
+      # Backup configuration
+      backup_enabled: true
+      backup_retention_days: 30
+...

@@ -1,0 +1,86 @@
+---
+# AAP Gateway Platform Settings (AAP 2.5+)
+gateway_settings:
+  # Session and Authentication Settings
+  - name: SESSIONS_PER_USER
+    value: 3
+    # Maximum concurrent sessions per user
+
+  - name: SESSION_COOKIE_AGE
+    value: 1800
+    # Session cookie timeout in seconds (30 minutes)
+
+  - name: SESSION_COOKIE_SECURE
+    value: true
+    # Require HTTPS for session cookies
+
+  - name: CSRF_TRUSTED_ORIGINS
+    value:
+      - "https://aap.example.com"
+      - "https://automation.example.com"
+    # Trusted origins for CSRF protection
+
+  # Authentication Settings
+  - name: ALLOW_OAUTH2_FOR_EXTERNAL_USERS
+    value: false
+    # Allow OAuth2 for external users
+
+  - name: LOGIN_REDIRECT_OVERRIDE
+    value: ""
+    # Override default login redirect URL
+
+  - name: LOGOUT_REDIRECT_OVERRIDE
+    value: ""
+    # Override default logout redirect URL
+
+  # Platform Security Settings
+  - name: REMOTE_HOST_HEADERS
+    value:
+      - "HTTP_X_FORWARDED_FOR"
+      - "REMOTE_ADDR"
+    # Headers to determine remote host IP
+
+  - name: PROXY_IP_ALLOWED_LIST
+    value: []
+    # Allowed proxy IPs for X-Forwarded-For
+
+  # Logging and Audit
+  - name: LOGGING_AGGREGATOR_ENABLED
+    value: false
+    # Enable external logging aggregator
+
+  - name: LOGGING_AGGREGATOR_LEVEL
+    value: "INFO"
+    # Logging level: DEBUG, INFO, WARNING, ERROR
+
+  # License and Subscription
+  - name: SUBSCRIPTIONS_USERNAME
+    value: ""
+    # Red Hat customer portal username (leave empty for manifest-based licensing)
+
+  - name: SUBSCRIPTIONS_PASSWORD
+    value: ""
+    # Red Hat customer portal password
+
+  # Custom Branding
+  - name: CUSTOM_LOGIN_INFO
+    value: "Welcome to Enterprise Automation Platform"
+    # Custom login page message
+
+  - name: CUSTOM_LOGO
+    value: ""
+    # Custom logo URL or base64 encoded image
+
+  # Analytics and Telemetry
+  - name: INSIGHTS_TRACKING_STATE
+    value: false
+    # Enable Red Hat Insights tracking
+
+  - name: AUTOMATION_ANALYTICS_GATHER_INTERVAL
+    value: 14400
+    # Analytics data gathering interval in seconds (4 hours)
+
+  - name: AUTOMATION_ANALYTICS_LAST_GATHER
+    value: null
+    # Last analytics gather timestamp (auto-managed)
+...

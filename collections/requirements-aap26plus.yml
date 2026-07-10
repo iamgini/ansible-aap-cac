@@ -5,7 +5,7 @@ collections:
   - name: ansible.platform
     source: https://console.redhat.com/api/automation-hub/content/published/
     # version: ">=2.7.20260515"
-    version: "=2.6.20251106"
+    # version: "=2.6.20251106"
 
 
   - name: ansible.hub

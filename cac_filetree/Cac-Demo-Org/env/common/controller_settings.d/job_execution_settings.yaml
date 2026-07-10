@@ -1,0 +1,71 @@
+---
+# Controller Job Execution Settings
+controller_settings:
+  # Job Execution Settings
+  - name: DEFAULT_JOB_TIMEOUT
+    value: 0
+    # 0 means no timeout, otherwise in seconds
+
+  - name: DEFAULT_JOB_IDLE_TIMEOUT
+    value: 0
+    # Kill job if no output in N seconds
+
+  - name: DEFAULT_INVENTORY_UPDATE_TIMEOUT
+    value: 0
+    # Inventory sync timeout
+
+  - name: DEFAULT_PROJECT_UPDATE_TIMEOUT
+    value: 0
+    # Project update timeout
+
+  - name: ANSIBLE_FACT_CACHE_TIMEOUT
+    value: 0
+    # Ansible fact cache timeout in seconds
+
+  - name: MAX_FORKS
+    value: 200
+    # Maximum number of simultaneous forks
+
+  - name: AWX_ISOLATION_SHOW_PATHS
+    value:
+      - /etc/pki/ca-trust:/etc/pki/ca-trust:O
+      - /usr/share/pki:/usr/share/pki:O
+    # Paths to show in isolated jobs
+
+  - name: AWX_TASK_ENV
+    value:
+      GIT_SSL_NO_VERIFY: "False"
+      PYTHONHTTPSVERIFY: "1"
+    # Environment variables for tasks
+
+  - name: AWX_RUNNER_KEEPALIVE_SECONDS
+    value: 0
+    # Runner keepalive interval
+
+  - name: GALAXY_TASK_ENV
+    value:
+      GIT_SSL_NO_VERIFY: "False"
+      ANSIBLE_FORCE_COLOR: "false"
+    # Environment variables for Galaxy tasks
+
+  - name: INSIGHTS_TRACKING_STATE
+    value: false
+    # Enable Red Hat Insights tracking
+
+  - name: AUTOMATION_ANALYTICS_GATHER_INTERVAL
+    value: 14400
+    # Automation Analytics data gathering interval (4 hours)
+
+  # Resource limits
+  - name: SCHEDULE_MAX_JOBS
+    value: 10
+    # Max jobs to start per schedule interval
+
+  - name: DEFAULT_EXECUTION_QUEUE_NAME
+    value: default
+    # Default execution queue
+
+  - name: DEFAULT_CONTROL_PLANE_QUEUE_NAME
+    value: controlplane
+    # Default control plane queue
+...

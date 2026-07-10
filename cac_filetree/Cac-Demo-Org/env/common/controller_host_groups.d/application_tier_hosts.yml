@@ -1,0 +1,33 @@
+---
+# Host-to-Group assignments for Application Tier
+controller_host_groups:
+  - name: app_backend_servers
+    inventory: Enterprise-Inventory
+    hosts:
+      - app-backend-01.example.com
+      - app-backend-02.example.com
+      - app-backend-03.example.com
+      - app-backend-04.example.com
+
+  - name: app_api_servers
+    inventory: Enterprise-Inventory
+    hosts:
+      - api-server-01.example.com
+      - api-server-02.example.com
+
+  - name: messaging_queue
+    inventory: Enterprise-Inventory
+    hosts:
+      - rabbitmq-01.example.com
+      - rabbitmq-02.example.com
+      - rabbitmq-03.example.com
+
+  - name: worker_nodes
+    inventory: Enterprise-Inventory
+    hosts:
+      - worker-01.example.com
+      - worker-02.example.com
+      - worker-03.example.com
+      - worker-04.example.com
+      - worker-05.example.com
+...

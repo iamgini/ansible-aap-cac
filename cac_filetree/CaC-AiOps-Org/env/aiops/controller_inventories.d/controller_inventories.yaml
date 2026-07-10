@@ -1,0 +1,31 @@
+---
+# AIOps Inventories Configuration
+controller_inventories:
+  - name: AIOps-Production-Linux
+    description: Production Linux servers for AIOps remediation
+    organization: Default
+    # variables:
+    #   ansible_connection: ssh
+    #   ansible_user: ansible
+
+  - name: AIOps-Localhost
+    description: Localhost inventory for AI intelligence workflow
+    organization: Default
+    variables:
+      ansible_connection: local
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"
+
+# Inventory Sources (optional - for dynamic inventory)
+# controller_inventory_sources:
+#   - name: AWS-Production
+#     inventory: AIOps-Production-Linux
+#     source: ec2
+#     credential: AWS-Credential
+#     update_on_launch: true
+
+# Inventory Hosts
+controller_hosts:
+  - name: localhost
+    inventory: AIOps-Localhost
+    variables:
+      ansible_connection: local

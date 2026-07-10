@@ -1,0 +1,250 @@
+---
+# AAP User Account Management
+# Demonstrates: vaulted passwords, update_secrets pattern, different user types
+# Create vaulted passwords with: ansible-vault encrypt_string 'YourPassword123' --name 'password'
+
+platform_state: present
+aap_user_accounts:
+  # ==============================================================
+  # Superuser / Platform Administrator
+  # ==============================================================
+  - username: admin-backup
+    password: AdminBackup123  # !vault | (Vault encrypted - password: AdminBackup123)
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       65323966383164643239643631393465336439323932633032386435343337656566666533363764
+    #       3665656139316265623564333237386134393935633738610a306635393966613838393034613437
+    #       64303563393465623762303161316530653336663339613334613437363963353762373765663335
+    #       6430643030663362620a613735303731343762653935666430396462393965336237313830383663
+    #       3337
+    email: admin-backup@example.com
+    first_name: Backup
+    last_name: Administrator
+    is_superuser: true
+    is_system_auditor: false
+    update_secrets: "{{ user_update_secrets | default(false) | bool }}"
+
+  - username: gineesh
+    password: aapadmin
+    email: gini@iamgini.com
+    first_name: Gineesh
+    last_name: Madapparambath
+    is_superuser: true
+
+  # ==============================================================
+  # Regular Users with Organization Access
+  # ==============================================================
+  - username: jsmith
+    password: JohnSmith123  # !vault | (Vault encrypted - password: JohnSmith123)
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       39613566316664393162333534303362333839613234613433336461333537313738613032663066
+    #       3061643766373665383830633262666239666362613034620a623030336465373538313136656165
+    #       37373765316533663739613432613937323338636433333939643931616135316531653432613666
+    #       6263326133613235320a656139373730653133386333383565343066643931303939343332613739
+    #       3965
+    email: john.smith@example.com
+    first_name: John
+    last_name: Smith
+    is_superuser: false
+    is_system_auditor: false
+    update_secrets: "{{ user_update_secrets | default(false) | bool }}"
+
+  - username: jdoe
+    password: JaneDoe123  # !vault | (Vault encrypted - password: JaneDoe123)
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       33643935376239633066393962343531313334383135646138333237653439386266343630383235
+    #       6538363539663335313562363134353264643439653231310a613936323932343733643537356664
+    #       37363532353730306532373538383561346436353034386630373831386238643035383030323031
+    #       3534653663383563380a393339333237626430623134313863663037313066316435643066666664
+    #       6532
+    email: jane.doe@example.com
+    first_name: Jane
+    last_name: Doe
+    is_superuser: false
+    is_system_auditor: false
+    update_secrets: "{{ user_update_secrets | default(false) | bool }}"
+
+  # ==============================================================
+  # System Auditor (Read-only across platform)
+  # ==============================================================
+  - username: auditor-compliance
+    password: AuditorCompliance123  # !vault | (Vault encrypted - password: AuditorCompliance123)
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       61343930363631343364316165353866313263613038613661313632306137373535653330353331
+    #       3766323339303936373161303965633165343937383030660a663739393166316239336666343533
+    #       36333761643132333338313265613332316235653964323761343039663932653335626136666362
+    #       3566653331343263360a326165323630373336383661373439653631346635643662646232623061
+    #       3534
+    email: audit@example.com
+    first_name: Compliance
+    last_name: Auditor
+    is_superuser: false
+    is_system_auditor: true
+    update_secrets: "{{ user_update_secrets | default(false) | bool }}"
+
+  # ==============================================================
+  # Service Account Users
+  # ==============================================================
+  - username: svc-automation
+    password: SvcAutomation123  # !vault | (Vault encrypted - password: SvcAutomation123)
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       32373966633432373566363865336437646561633335333335396536393932373231336330333737
+    #       6562636164613665363564373835626634643231633866350a643935646337383933653164303066
+    #       64303435333938393039623239383061343634303361393732373261646165343866393037353436
+    #       3764646435616634370a653663363162383066326633363261376264613438643839373763636634
+    #       3961
+    email: svc-automation@example.com
+    first_name: Service
+    last_name: Automation
+    is_superuser: false
+    is_system_auditor: false
+    update_secrets: "{{ user_update_secrets | default(false) | bool }}"
+
+  - username: svc-cicd
+    password: SvcCICD123  # !vault | (Vault encrypted - password: SvcCICD123)
+    #       $ANSIBLE_VAULT;1.1;AES256
+    #       66643935383561323262393634643462623738333633656539356635383335393839316435393533
+    #       3339643336343566316134663638346463373061633464390a346135663638313035376137653237
+    #       38346336373564353632613564353263383139613138353636353838383866666261383965633864
+    #       6563343466383831610a383434393933326438313763633565373661353338613534313938623565
+    #       3731
+    email: svc-cicd@example.com
+    first_name: CI/CD
+    last_name: Pipeline
+    is_superuser: false
+    is_system_auditor: false
+    update_secrets: "{{ user_update_secrets | default(false) | bool }}"
+
+# aap_user_accounts_todo:
+#   - username: cac-user-101
+#     superuser: false
+#     # password: password
+#     email: cac-user-101@example.com
+#     first_name: User 101
+#     last_name: CaC
+#     organization: Cac-Demo-Org
+#     update_secrets: false
+
+#   - username: cac-john
+#     superuser: false
+#     password: password
+#     email: cac-john@example.com
+#     first_name: John
+#     last_name: CaC
+#     organization: Cac-Demo-Org
+#     update_secrets: true
+
+#   - username: cac-lina
+#     superuser: false
+#     password: password
+#     email: cac-lina@example.com
+#     first_name: Lina
+#     last_name: CaC
+#     organization: Cac-Demo-Org
+#     update_secrets: true
+
+  # ==============================================================
+  # Additional User Examples (Commented - For Reference)
+  # ==============================================================
+
+  # Example: External LDAP/SAML User (no password needed)
+  # - username: external-user@company.com
+  #   email: external-user@company.com
+  #   first_name: External
+  #   last_name: User
+  #   is_superuser: false
+  #   is_system_auditor: false
+  #   # No password field - authentication handled by LDAP/SAML
+
+  # Example: Temporary User with Expiration (manual removal needed)
+  # - username: temp-contractor
+  #   password: !vault |
+  #         $ANSIBLE_VAULT;1.1;AES256
+  #         ...vault content...
+  #   email: contractor@temp.com
+  #   first_name: Temporary
+  #   last_name: Contractor
+  #   is_superuser: false
+  #   is_system_auditor: false
+  #   update_secrets: true
+  #   # Note: AAP doesn't have built-in expiration - set reminder to remove
+
+  # Example: Team Lead with Specific Organization
+  # - username: team-lead-ops
+  #   password: !vault |
+  #         $ANSIBLE_VAULT;1.1;AES256
+  #         ...vault content...
+  #   email: teamlead@example.com
+  #   first_name: Operations
+  #   last_name: TeamLead
+  #   is_superuser: false
+  #   is_system_auditor: false
+  #   update_secrets: "{{ user_update_secrets | default(false) | bool }}"
+  #   # Organization/team membership managed via gateway_role_user_assignments
+
+  # Example: Read-only User (permissions via RBAC)
+  # - username: readonly-viewer
+  #   password: !vault |
+  #         $ANSIBLE_VAULT;1.1;AES256
+  #         ...vault content...
+  #   email: viewer@example.com
+  #   first_name: ReadOnly
+  #   last_name: Viewer
+  #   is_superuser: false
+  #   is_system_auditor: false
+  #   update_secrets: false
+  #   # Assign read-only roles via gateway_role_user_assignments
+
+# ==============================================================
+# Important Notes:
+# ==============================================================
+#
+# 1. Vaulting Passwords:
+#    Generate with: ansible-vault encrypt_string 'YourPassword123' --name 'password'
+#    Or with vault file: ansible-vault encrypt_string 'Password' --vault-password-file .vault_pass.txt
+#
+# 2. update_secrets Parameter:
+#    - true: Always update password on every CaC run
+#    - false: Only set password on user creation, never update
+#    - "{{ user_update_secrets | default(false) | bool }}": Controlled by variable
+#
+#    Usage with variable:
+#    ansible-playbook configure-aap.yaml -e "user_update_secrets=true"
+#
+# 3. Password Rotation:
+#    - Set update_secrets=true when rotating passwords
+#    - Run CaC playbook to update
+#    - Set back to false to prevent accidental changes
+#
+# 4. User Types:
+#    - is_superuser: true = Full platform admin (use sparingly!)
+#    - is_system_auditor: true = Read-only across entire platform
+#    - Regular user: Both false, permissions via RBAC
+#
+# 5. Service Accounts:
+#    - Use descriptive names (svc-*, sa-*, etc.)
+#    - Always use vaulted passwords
+#    - Assign minimal required permissions
+#    - Document purpose and owner
+#
+# 6. External Authentication (LDAP/SAML):
+#    - Create user records without password field
+#    - Authentication handled by external system
+#    - Use same username as in LDAP/SAML
+#
+# 7. Applying with Vault:
+#    ansible-playbook playbooks/configure-aap-using-filetree.yaml \
+#      -e "orgs=Cac-Demo-Org" \
+#      -e "env=common" \
+#      --vault-password-file .vault_pass.txt \
+#      --tags users
+#
+# 8. Security Best Practices:
+#    - Never commit unvaulted passwords
+#    - Use unique passwords per user
+#    - Rotate service account passwords regularly
+#    - Limit superuser accounts (max 2-3)
+#    - Enable MFA in AAP settings (not in CaC)
+#
+# ==============================================================
+
+# controller_user_accounts:

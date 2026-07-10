@@ -1,0 +1,53 @@
+---
+# Controller UI and User Experience Settings
+controller_settings:
+  # UI Settings
+  - name: UI_LIVE_UPDATES_ENABLED
+    value: true
+    # Enable live UI updates
+
+  - name: CUSTOM_LOGIN_INFO
+    value: ""
+    # Custom login page message
+
+  - name: CUSTOM_LOGO
+    value: ""
+    # Custom logo URL
+
+  - name: MAX_UI_JOB_EVENTS
+    value: 4000
+    # Maximum job events to show in UI
+
+  - name: UI_NEXT
+    value: true
+    # Enable new UI features
+
+  # Session Settings
+  - name: SESSION_COOKIE_AGE
+    value: 1800
+    # Session timeout in seconds (30 minutes)
+
+  - name: SESSIONS_PER_USER
+    value: -1
+    # Max concurrent sessions per user (-1 = unlimited)
+
+  - name: AUTH_BASIC_ENABLED
+    value: true
+    # Enable HTTP Basic Auth
+
+  - name: OAUTH2_PROVIDER
+    value:
+      ACCESS_TOKEN_EXPIRE_SECONDS: 31536000000
+      REFRESH_TOKEN_EXPIRE_SECONDS: 2628000
+      AUTHORIZATION_CODE_EXPIRE_SECONDS: 600
+    # OAuth2 token expiration settings
+
+  # Activity Stream
+  - name: ACTIVITY_STREAM_ENABLED
+    value: true
+    # Enable activity stream logging
+
+  - name: ACTIVITY_STREAM_ENABLED_FOR_INVENTORY_SYNC
+    value: true
+    # Log inventory sync activities
+...

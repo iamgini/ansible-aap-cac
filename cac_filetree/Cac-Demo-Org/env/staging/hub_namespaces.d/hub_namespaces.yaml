@@ -1,0 +1,35 @@
+---
+# Private Automation Hub Namespaces - STAGING ENVIRONMENT
+# These are sample configurations for testing hub namespace management
+hub_namespaces:
+  - name: demo_infra
+    company: Demo Infrastructure Team
+    email: demo-infra@example.com
+    description: Demo infrastructure automation collections (STAGING)
+    resources: "https://github.com/demo/infra-collections"
+    groups:
+      - name: Infrastructure_Team
+        object_permissions:
+          - upload_to_namespace
+          - change_namespace
+
+  - name: demo_apps
+    company: Demo Application Team
+    email: demo-apps@example.com
+    description: Demo application deployment collections (STAGING)
+    resources: "https://github.com/demo/app-collections"
+    groups:
+      - name: App_Development_Team
+        object_permissions:
+          - upload_to_namespace
+
+  - name: demo_network
+    company: Demo Network Team
+    email: demo-network@example.com
+    description: Demo network automation collections (STAGING)
+    groups:
+      - name: Network_Team
+        object_permissions:
+          - upload_to_namespace
+          - change_namespace
+...

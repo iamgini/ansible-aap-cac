@@ -1,0 +1,28 @@
+# gateway_authenticator_maps:
+# - name: AuthMap 1
+#   authenticator: Auth 1
+#   revoke: true
+#   map_type: organization
+#   organization: Organization 1
+#   role: Organization Admin
+#   triggers:
+#     always: { }
+#     never: { }
+#     groups:
+#       has_or:
+#       - has_or_11
+#       - has_or_22
+#       has_and:
+#       - has_and_1
+#       - has_and_22
+#     attributes:
+#       join_condition: "or"
+#       attr_1:
+#         contains: aaa
+#         matches: "bbb"
+#         ends_with: "ccc"
+#       attr_2:
+#         in:
+#         - abc1
+#         - abc2
+#         - abc3

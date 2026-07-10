@@ -1,0 +1,361 @@
+controller_templates:
+- name: DR-01-App-Stop-VM
+  description: Stop application services on Virtual Machines - Primary Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Application Stop VM
+    dr_phase: app_shutdown
+    dr_target: vm
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-02-App-Stop-OCP
+  description: Stop application services on OpenShift - Primary Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Application Stop OCP
+    dr_phase: app_shutdown
+    dr_target: openshift
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-03-MQ-Stop
+  description: Stop Message Queue services - Primary Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR MQ Stop
+    dr_phase: middleware_shutdown
+    dr_component: mq
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-04-Database-Switchover
+  description: Perform database switchover from Primary to DR site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 1
+  extra_vars:
+    your_name: DR Database Switchover
+    dr_phase: database_switchover
+    dr_operation: switchover
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-05-Storage-Unmount-App
+  description: Unmount application storage volumes - Primary Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Unmount App
+    dr_phase: storage_unmount
+    dr_component: app
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-06-Storage-Unmount-OCP
+  description: Unmount OpenShift storage volumes - Primary Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Unmount OCP
+    dr_phase: storage_unmount
+    dr_component: openshift
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-07-Storage-Unmount-MQ
+  description: Unmount MQ storage volumes - Primary Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Unmount MQ
+    dr_phase: storage_unmount
+    dr_component: mq
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-08-Storage-Unmount-DB
+  description: Unmount database storage volumes - Primary Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Unmount DB
+    dr_phase: storage_unmount
+    dr_component: database
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-09-Storage-BreakSync-App
+  description: Break storage replication sync for App volumes
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Break Sync App
+    dr_phase: storage_break_sync
+    dr_component: app
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-10-Storage-BreakSync-OCP
+  description: Break storage replication sync for OCP volumes
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Break Sync OCP
+    dr_phase: storage_break_sync
+    dr_component: openshift
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-11-Storage-BreakSync-MQ
+  description: Break storage replication sync for MQ volumes
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Break Sync MQ
+    dr_phase: storage_break_sync
+    dr_component: mq
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-12-Storage-BreakSync-DB
+  description: Break storage replication sync for DB volumes
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Break Sync DB
+    dr_phase: storage_break_sync
+    dr_component: database
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-13-Storage-Mount-App
+  description: Mount application storage volumes - DR Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Mount App
+    dr_phase: storage_mount
+    dr_component: app
+    dr_site: secondary
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-14-Storage-Mount-OCP
+  description: Mount OpenShift storage volumes - DR Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Mount OCP
+    dr_phase: storage_mount
+    dr_component: openshift
+    dr_site: secondary
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-15-Storage-Mount-MQ
+  description: Mount MQ storage volumes - DR Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Mount MQ
+    dr_phase: storage_mount
+    dr_component: mq
+    dr_site: secondary
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-16-Database-HealthCheck
+  description: Validate database health and availability - DR Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 1
+  extra_vars:
+    your_name: DR Database Health Check
+    dr_phase: validation
+    dr_component: database
+    dr_site: secondary
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-17-MQ-Start
+  description: Start Message Queue services - DR Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR MQ Start
+    dr_phase: service_start
+    dr_component: mq
+    dr_site: secondary
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-18-App-Start-VM
+  description: Start application services on Virtual Machines - DR Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Application Start VM
+    dr_phase: service_start
+    dr_target: vm
+    dr_site: secondary
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-19-App-Start-OCP
+  description: Start application services on OpenShift - DR Site
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Application Start OCP
+    dr_phase: service_start
+    dr_target: openshift
+    dr_site: secondary
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-20-Storage-ReverseSync-App
+  description: Establish reverse replication sync for App volumes
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Reverse Sync App
+    dr_phase: storage_reverse_sync
+    dr_component: app
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-21-Storage-ReverseSync-OCP
+  description: Establish reverse replication sync for OCP volumes
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Reverse Sync OCP
+    dr_phase: storage_reverse_sync
+    dr_component: openshift
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-22-Storage-ReverseSync-MQ
+  description: Establish reverse replication sync for MQ volumes
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Reverse Sync MQ
+    dr_phase: storage_reverse_sync
+    dr_component: mq
+  labels:
+  - DR
+  - critical
+  - production
+- name: DR-23-Storage-ReverseSync-DB
+  description: Establish reverse replication sync for DB volumes
+  job_type: run
+  inventory: Cac-Demo-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 0
+  extra_vars:
+    your_name: DR Storage Reverse Sync DB
+    dr_phase: storage_reverse_sync
+    dr_component: database
+  labels:
+  - DR
+  - critical
+  - production

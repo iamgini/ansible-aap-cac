@@ -1,0 +1,140 @@
+---
+# Role-Based Teams - Enterprise organization structure
+aap_teams:
+  # Platform Administration
+  - name: Platform_Administrators
+    organization: Cac-Demo-Org
+    description: Full platform administrators with unrestricted access
+
+  - name: Platform_Operators
+    organization: Cac-Demo-Org
+    description: Platform operators for day-to-day automation operations
+
+  - name: Platform_Auditors
+    organization: Cac-Demo-Org
+    description: Read-only auditors for compliance and security reviews
+
+  # Development Teams
+  - name: Dev_Team_Frontend
+    organization: Cac-Demo-Org
+    description: Frontend development team
+
+  - name: Dev_Team_Backend
+    organization: Cac-Demo-Org
+    description: Backend development team
+
+  - name: Dev_Team_Mobile
+    organization: Cac-Demo-Org
+    description: Mobile application development team
+
+  - name: Dev_Team_QA
+    organization: Cac-Demo-Org
+    description: Quality assurance and testing team
+
+  # Infrastructure Teams
+  - name: Infra_Team_Compute
+    organization: Cac-Demo-Org
+    description: Compute infrastructure team (VMs, containers)
+
+  - name: Infra_Team_Network
+    organization: Cac-Demo-Org
+    description: Network automation and configuration team
+
+  - name: Infra_Team_Storage
+    organization: Cac-Demo-Org
+    description: Storage provisioning and management team
+
+  - name: Infra_Team_Database
+    organization: Cac-Demo-Org
+    description: Database administration and automation team
+
+  # Security and Compliance
+  - name: Security_Operations
+    organization: Cac-Demo-Org
+    description: Security operations and incident response team
+
+  - name: Security_Compliance
+    organization: Cac-Demo-Org
+    description: Compliance and governance team
+
+  - name: Security_Vulnerability_Mgmt
+    organization: Cac-Demo-Org
+    description: Vulnerability management and patching team
+
+  # Operations Teams
+  - name: Ops_L1_Support
+    organization: Cac-Demo-Org
+    description: Level 1 support and monitoring team
+
+  - name: Ops_L2_Support
+    organization: Cac-Demo-Org
+    description: Level 2 advanced troubleshooting team
+
+  - name: Ops_L3_Engineering
+    organization: Cac-Demo-Org
+    description: Level 3 engineering escalation team
+
+  - name: Ops_NOC_Team
+    organization: Cac-Demo-Org
+    description: Network Operations Center team
+
+  - name: Ops_SRE_Team
+    organization: Cac-Demo-Org
+    description: Site Reliability Engineering team
+
+  # Application Teams
+  - name: App_Owners_CRM
+    organization: Cac-Demo-Org
+    description: CRM application owners and stakeholders
+
+  - name: App_Owners_ERP
+    organization: Cac-Demo-Org
+    description: ERP application owners and stakeholders
+
+  - name: App_Owners_Portal
+    organization: Cac-Demo-Org
+    description: Customer portal application team
+
+  # Change Management
+  - name: Change_Approvers_Standard
+    organization: Cac-Demo-Org
+    description: Standard change approval team
+
+  - name: Change_Approvers_Emergency
+    organization: Cac-Demo-Org
+    description: Emergency change approval team
+
+  - name: Change_Advisory_Board
+    organization: Cac-Demo-Org
+    description: Change Advisory Board members
+
+  # Environment-Specific Teams
+  - name: Env_Production_Deployers
+    organization: Cac-Demo-Org
+    description: Authorized production deployment team
+
+  - name: Env_Staging_Operators
+    organization: Cac-Demo-Org
+    description: Staging environment operators
+
+  - name: Env_Development_Users
+    organization: Cac-Demo-Org
+    description: Development environment general users
+
+  # Service-Specific Teams
+  - name: Service_Web_Team
+    organization: Cac-Demo-Org
+    description: Web services management team
+
+  - name: Service_API_Team
+    organization: Cac-Demo-Org
+    description: API platform team
+
+  - name: Service_Batch_Processing
+    organization: Cac-Demo-Org
+    description: Batch job and ETL processing team
+
+  - name: Service_Messaging_Team
+    organization: Cac-Demo-Org
+    description: Message queue and streaming platform team
+...

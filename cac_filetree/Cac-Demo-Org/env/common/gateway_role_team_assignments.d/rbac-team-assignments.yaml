@@ -1,0 +1,74 @@
+---
+# Gateway RBAC - Team Role Assignments for Cac-Demo-Org
+# Assigns roles to teams for organizations and resources
+# AAP 2.5+ uses Platform Gateway for centralized RBAC management
+
+gateway_role_team_assignments:
+  # ============================================================
+  # Organization-Level Team Roles
+  # ============================================================
+
+  # Team 101 - Operations Team with broad access
+  # Organization Inventory Admin - Can manage all inventories
+  - role_definition: "Organization Inventory Admin"
+    team: cac-team-101
+    assignment_objects:
+      - name: Cac-Demo-Org
+        type: organizations
+
+  # Organization Project Admin - Can manage all projects
+  - role_definition: "Organization Project Admin"
+    team: cac-team-101
+    assignment_objects:
+      - name: Cac-Demo-Org
+        type: organizations
+
+  # Organization JobTemplate Admin - Can manage all job templates
+  - role_definition: "Organization JobTemplate Admin"
+    team: cac-team-101
+    assignment_objects:
+      - name: Cac-Demo-Org
+        type: organizations
+
+  # Organization Execution Environment Admin
+  - role_definition: "Organization Execution Environment Admin"
+    team: cac-team-101
+    assignment_objects:
+      - name: Cac-Demo-Org
+        type: organizations
+
+  # ============================================================
+  # Team 102 - Limited Operations Team
+  # ============================================================
+
+  # Read-only access to inventories
+  - role_definition: "Organization Member"
+    team: cac-team-102
+    assignment_objects:
+      - name: Cac-Demo-Org
+        type: organizations
+
+  # Can execute job templates but not modify them
+  # Note: This is typically done via specific job template assignments
+  # using controller_role_team_assignments for granular control
+
+  # ============================================================
+  # Examples: Multi-Organization Assignments
+  # ============================================================
+
+  # Assign same role to team across multiple organizations
+  # - role_definition: "Organization Inventory Admin"
+  #   team: cac-admins
+  #   assignment_objects:
+  #     - name: Cac-Demo-Org
+  #       type: organizations
+  #     - name: XYZCorp-CaC
+  #       type: organizations
+
+  # ============================================================
+  # Examples: Specific Resource Access (using object_id)
+  # ============================================================
+
+  # Grant access to specific resources (not organization-wide)
+  # This requires knowing the resource ID or using controller_role_team_assignments
+  # For more granular control, see controller_role_team_assignments

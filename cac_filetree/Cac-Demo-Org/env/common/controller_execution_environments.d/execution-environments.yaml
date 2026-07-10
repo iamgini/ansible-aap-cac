@@ -1,0 +1,302 @@
+---
+# Execution Environments (EE) for Ansible Automation Platform
+# EEs are container images that provide the runtime for playbook execution
+# Include: Ansible core, collections, Python libraries, system packages
+
+controller_execution_environments:
+  # ==============================================================
+  # Default Execution Environments
+  # ==============================================================
+
+  - name: Default EE - Minimal
+    description: "Minimal execution environment with Ansible core only"
+    organization: Cac-Demo-Org
+    image: "quay.io/ansible/awx-ee:latest"
+    pull: missing  # missing | always | never
+
+  - name: Supported EE - Red Hat
+    description: "Red Hat supported execution environment"
+    organization: Cac-Demo-Org
+    image: "registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest"
+    pull: missing
+    # credential: RedHat-Registry-Credential  # Required for registry.redhat.io
+
+  - name: Minimal EE - Red Hat
+    description: "Minimal Red Hat execution environment"
+    organization: Cac-Demo-Org
+    image: "registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest"
+    pull: missing
+    # credential: RedHat-Registry-Credential
+
+  # ==============================================================
+  # Custom Execution Environments
+  # ==============================================================
+
+  - name: Custom EE - Network Automation
+    description: "Custom EE for network device automation (Cisco, Juniper, Arista)"
+    organization: Cac-Demo-Org
+    image: "quay.io/myorg/network-automation-ee:v2.0"
+    pull: always  # Always pull latest for custom builds
+    # credential: Quay-Registry-Credential
+    # Includes collections:
+    # - cisco.ios
+    # - cisco.nxos
+    # - junipernetworks.junos
+    # - arista.eos
+    # - ansible.netcommon
+    # - community.network
+
+  - name: Custom EE - Cloud Automation
+    description: "EE with cloud provider SDKs (AWS, Azure, GCP)"
+    organization: Cac-Demo-Org
+    image: "quay.io/myorg/cloud-automation-ee:v1.5"
+    pull: missing
+    # credential: Quay-Registry-Credential
+    # Includes:
+    # - amazon.aws
+    # - azure.azcollection
+    # - google.cloud
+    # - Python: boto3, azure-mgmt, google-cloud
+    # - CLI: aws-cli, az-cli, gcloud
+
+  - name: Custom EE - Security Automation
+    description: "EE for security tools and vulnerability scanning"
+    organization: Cac-Demo-Org
+    image: "quay.io/myorg/security-ee:v1.2"
+    pull: missing
+    # Includes:
+    # - ansible.posix
+    # - community.crypto
+    # - Python: nmap, paramiko, cryptography
+    # - Tools: openssl, nmap, nikto
+
+  - name: Custom EE - Database Management
+    description: "EE with database client libraries"
+    organization: Cac-Demo-Org
+    image: "quay.io/myorg/database-ee:v1.0"
+    pull: missing
+    # Includes:
+    # - community.postgresql
+    # - community.mysql
+    # - community.mongodb
+    # - Python: psycopg2, pymysql, pymongo, cx_Oracle
+
+  - name: Custom EE - Windows Automation
+    description: "EE optimized for Windows automation"
+    organization: Cac-Demo-Org
+    image: "quay.io/myorg/windows-ee:v2.1"
+    pull: missing
+    # Includes:
+    # - ansible.windows
+    # - community.windows
+    # - chocolatey.chocolatey
+    # - Python: pywinrm, requests-kerberos
+
+  # ==============================================================
+  # Private Registry Execution Environments
+  # ==============================================================
+
+  - name: Private Registry - Enterprise EE
+    description: "Enterprise custom EE from private Harbor registry"
+    organization: Cac-Demo-Org
+    image: "harbor.company.com/automation/enterprise-ee:v3.0"
+    pull: always
+    credential: Harbor-Registry-Credential  # Container Registry credential
+    # Note: Credential must be type "Container Registry" with:
+    # - Authentication URL: harbor.company.com
+    # - Username: robot$account or service account
+    # - Password/Token: vaulted registry token
+
+  - name: Private Registry - Custom Build
+    description: "Custom built EE with specific requirements"
+    organization: Cac-Demo-Org
+    image: "nexus.company.com:5000/ansible/custom-ee:latest"
+    pull: missing
+    credential: Nexus-Registry-Credential
+
+  # ==============================================================
+  # Example: Organization Default EE
+  # ==============================================================
+  # Set default EE at organization level (not via this file):
+  #
+  # controller_organizations:
+  #   - name: Cac-Demo-Org
+  #     default_environment: "Supported EE - Red Hat"
+  #
+  # This makes it the default for all job templates in the org
+  # unless overridden at the job template level
+  # ==============================================================
+
+# ==============================================================
+# Commented Examples (For Reference)
+# ==============================================================
+
+# Example 1: EE with specific tag/version pinning
+# - name: Pinned Version EE
+#   description: "EE pinned to specific version for stability"
+#   organization: Cac-Demo-Org
+#   image: "quay.io/myorg/production-ee:2.3.1"  # Specific version, not :latest
+#   pull: missing  # Don't auto-update
+
+# Example 2: Development vs Production EEs
+# - name: Development EE - Latest
+#   description: "Development EE with latest features"
+#   organization: Cac-Demo-Org
+#   image: "quay.io/myorg/dev-ee:latest"
+#   pull: always  # Always get latest for dev
+#
+# - name: Production EE - Stable
+#   description: "Production EE with stable, tested version"
+#   organization: Cac-Demo-Org
+#   image: "quay.io/myorg/prod-ee:2.0.5"  # Pinned version
+#   pull: missing  # Only pull if not cached
+
+# Example 3: Multi-tenant EEs (per team/project)
+# - name: TeamA-Custom-EE
+#   description: "Custom EE for Team A with specific dependencies"
+#   organization: Cac-Demo-Org
+#   image: "quay.io/myorg/teama-ee:v1.0"
+#   pull: missing
+#
+# - name: TeamB-Custom-EE
+#   description: "Custom EE for Team B with different dependencies"
+#   organization: Cac-Demo-Org
+#   image: "quay.io/myorg/teamb-ee:v1.0"
+#   pull: missing
+
+# Example 4: EE with local build
+# - name: Local Build EE
+#   description: "EE built locally and pushed to registry"
+#   organization: Cac-Demo-Org
+#   image: "localhost:5000/local-ee:dev"
+#   pull: missing
+#   # Note: Requires local registry running on controller
+
+# ==============================================================
+# Pull Policy Options
+# ==============================================================
+#
+# pull: missing (default)
+#   - Pull image if not present locally
+#   - Use cached image if available
+#   - Best for: Stable, versioned images
+#
+# pull: always
+#   - Always pull image before job execution
+#   - Ensures latest version
+#   - Best for: :latest tags, active development
+#
+# pull: never
+#   - Never pull, must exist locally
+#   - Fails if image not cached
+#   - Best for: Air-gapped environments, pre-loaded images
+#
+# ==============================================================
+# Assigning EEs to Job Templates
+# ==============================================================
+#
+# Method 1: In job template definition
+# controller_templates:
+#   - name: Network-Config-Backup
+#     execution_environment: "Custom EE - Network Automation"
+#     # ... other config ...
+#
+# Method 2: Organization default (applies to all templates)
+# controller_organizations:
+#   - name: Cac-Demo-Org
+#     default_environment: "Supported EE - Red Hat"
+#
+# Method 3: Allow override at launch
+# controller_templates:
+#   - name: Flexible-Job
+#     execution_environment: "Default EE - Minimal"
+#     ask_execution_environment_on_launch: true
+#     # User can select different EE when launching
+#
+# ==============================================================
+# Building Custom Execution Environments
+# ==============================================================
+#
+# Use ansible-builder to create custom EEs:
+#
+# 1. Create execution-environment.yml:
+#    ---
+#    version: 3
+#    images:
+#      base_image:
+#        name: quay.io/ansible/ansible-runner:latest
+#    dependencies:
+#      galaxy: requirements.yml
+#      python: requirements.txt
+#      system: bindep.txt
+#
+# 2. Create requirements.yml (collections):
+#    collections:
+#      - name: cisco.ios
+#      - name: ansible.netcommon
+#
+# 3. Create requirements.txt (Python packages):
+#    netmiko>=4.0
+#    paramiko>=2.7
+#
+# 4. Create bindep.txt (system packages):
+#    python38-devel [platform:centos-8 platform:rhel-8]
+#    openssh-clients [platform:rpm]
+#
+# 5. Build the EE:
+#    ansible-builder build -t quay.io/myorg/custom-ee:v1.0
+#
+# 6. Push to registry:
+#    podman push quay.io/myorg/custom-ee:v1.0
+#
+# 7. Add to AAP (this file)
+#
+# ==============================================================
+# Container Registry Credential Setup
+# ==============================================================
+#
+# Required for private registries or authenticated pulls:
+#
+# controller_credentials:
+#   - name: Harbor-Registry-Credential
+#     credential_type: Container Registry
+#     organization: Cac-Demo-Org
+#     inputs:
+#       host: "harbor.company.com"
+#       username: "robot$automation"
+#       password: !vault |
+#         $ANSIBLE_VAULT;1.1;AES256
+#         ...vaulted token...
+#       verify_ssl: true
+#
+# Then reference in EE definition:
+#   credential: Harbor-Registry-Credential
+#
+# ==============================================================
+# Troubleshooting EE Issues
+# ==============================================================
+#
+# 1. Image pull failures:
+#    - Check registry credential is correct
+#    - Verify network connectivity to registry
+#    - Check image name/tag exists
+#    - Review pull policy setting
+#
+# 2. Job fails with "command not found":
+#    - Missing system package in EE
+#    - Rebuild EE with required package in bindep.txt
+#
+# 3. Collection not found:
+#    - Collection not in EE
+#    - Add to requirements.yml and rebuild
+#
+# 4. Python import errors:
+#    - Python library missing
+#    - Add to requirements.txt and rebuild
+#
+# 5. Check EE contents:
+#    podman run -it <ee-image> /bin/bash
+#    ansible-galaxy collection list
+#    pip list
+#
+# ==============================================================
