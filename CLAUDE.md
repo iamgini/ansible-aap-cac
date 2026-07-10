@@ -302,3 +302,168 @@ Listed in `requirements.yaml`:
 - `infra.aap_configuration_extended` - Extended CaC utilities (roles: filetree_read, etc.)
 
 Install: `ansible-galaxy collection install -r requirements.yaml`
+
+## Common Issues & Solutions
+
+### Issue: "Could not find groups with name X"
+
+**Cause**: Parent groups defined before child groups in `controller_groups.d/` files.
+
+**Solution**: In hierarchical group structures, always define child groups BEFORE parent groups that reference them via `children:` key.
+
+**Example**:
+```yaml
+controller_groups:
+  # ✅ Child groups first
+  - name: web_servers
+    inventory: My-Inventory
+  
+  - name: app_servers
+    inventory: My-Inventory
+  
+  # ✅ Parent groups last (after children exist)
+  - name: web_tier
+    inventory: My-Inventory
+    children:
+      - web_servers
+      - app_servers
+```
+
+**Why**: AAP creates resources in the order they appear in the file. Parent groups need their children to exist first.
+
+### Issue: "No filter named 'bool'" in credential types
+
+**Cause**: Using `| bool` filter in credential type `injectors:` section.
+
+**Solution**: Remove the `| bool` filter. AAP credential injectors have limited Jinja2 filter support.
+
+**Example**:
+```yaml
+# ❌ Don't use
+injectors:
+  extra_vars:
+    verify_ssl: "{{ verify_ssl | bool }}"
+
+# ✅ Use instead
+injectors:
+  extra_vars:
+    verify_ssl: "{{ verify_ssl }}"
+```
+
+**Supported filters**: `int`, `default` (basic filters only)
+
+### Issue: "VARIABLE IS NOT DEFINED" during filetree_read
+
+**Cause**: Referenced vault variable like `{{ vault_something }}` that isn't defined anywhere.
+
+**Solution**: Either define the variable in inventory/group vars, or comment out the reference.
+
+**Example**:
+```yaml
+controller_groups:
+  - name: messaging_queue
+    variables:
+      # ✅ Comment out if not defined
+      # erlang_cookie: "{{ vault_rabbitmq_erlang_cookie }}"
+      rabbitmq_cluster_enabled: true
+```
+
+### Issue: GitHub Secret Scanning blocks push
+
+**Cause**: Realistic-looking tokens/secrets in files or git commit history.
+
+**Solution**: Use generic placeholders and clean git history if needed.
+
+**Safe placeholders**:
+- Slack: `YOUR-SLACK-API-TOKEN-GOES-HERE`
+- API keys: `YOUR-API-KEY-GOES-HERE`
+- Passwords: Use vault encryption or generic placeholders
+
+**Clean history** (if secret in commits):
+```bash
+# Reset to commit before the secret
+git reset --soft <good-commit-hash>
+
+# Recommit cleanly
+git commit -m "Your message"
+
+# Force push
+git push --force
+```
+
+### Issue: Vault password errors
+
+**Cause**: Vault-encrypted content but no password provided.
+
+**Solution**: Create `.vault_pass.txt` with vault password (this demo uses `ansible`).
+
+```bash
+echo "ansible" > .vault_pass.txt
+
+ansible-playbook playbooks/configure-aap-using-filetree.yaml \
+  -e "orgs=Cac-Demo-Org" \
+  -e "env=common" \
+  --vault-password-file ./.vault_pass.txt
+```
+
+**Note**: For this demo repo, vault password is `ansible` (documented in files). NEVER commit vault passwords in production.
+
+## AAP 2.5+ Resource Naming
+
+**Critical distinction** between platform and controller resources:
+
+### Platform/Gateway Resources (AAP 2.5+)
+Use `gateway_*` or `aap_*` prefix:
+- `gateway_organizations` - Organizations
+- `gateway_authenticators` - Authentication backends
+- `gateway_settings` - Platform settings
+- `aap_user_accounts` - User accounts
+- `aap_teams` - Teams
+- `gateway_role_user_assignments` - RBAC assignments
+
+### Controller Resources
+Use `controller_*` prefix:
+- `controller_projects` - SCM projects
+- `controller_inventories` - Inventories
+- `controller_templates` - Job templates
+- `controller_workflows` - Workflow templates
+- `controller_settings` - Controller-specific settings
+- `controller_credentials` - Credentials
+- `controller_groups` - Inventory groups
+- `controller_hosts` - Inventory hosts
+
+**Why it matters**: Using wrong prefix causes "resource not found" or "invalid parameter" errors.
+
+## Sample Data Guidelines
+
+This repository contains **public demo samples**. When creating or modifying samples:
+
+### ✅ Do:
+- Use generic names: `web-app-01.example.com`, `Platform_Admins`, `Enterprise-Inventory`
+- Use RFC 1918 private IPs: `192.168.x.x`, `10.x.x.x`
+- Learn patterns from production (structure, relationships, organization)
+- Create realistic enterprise-scale examples
+
+### ❌ Don't:
+- Copy real production names (servers, teams, organizations, applications)
+- Expose real IP addresses or network topology
+- Include actual tokens, passwords, or credentials (use vault encryption or placeholders)
+- Reference real company/department names
+
+**Verification**: Before committing, search for any production-specific patterns and replace with generic equivalents.
+
+## Collections Safety
+
+**CRITICAL**: Never modify files in `collections/ansible_collections/`
+
+All work must be in:
+- `cac_filetree/` - Sample CaC data
+- `playbooks/` - Playbooks to apply configs  
+- `README.md` - Documentation
+- `.vault_pass.txt` - Vault password (demo only)
+
+Before committing, verify:
+```bash
+git status collections/ansible_collections/
+# Should show: "nothing to commit, working tree clean"
+```
