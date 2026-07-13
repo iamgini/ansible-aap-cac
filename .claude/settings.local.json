@@ -11,7 +11,9 @@
       "Bash(ansible-doc ansible.platform.role_definition)",
       "Bash(ansible-doc ansible.platform.role_team_assignment)",
       "Bash(grep -E \"^\\\\s+- [a-z_]+$\")",
-      "Bash(grep *)"
+      "Bash(grep *)",
+      "Bash(python3 *)",
+      "Bash(ansible localhost *)"
     ]
   }
 }

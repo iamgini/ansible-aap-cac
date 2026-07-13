@@ -1,0 +1,13 @@
+---
+controller_projects:
+  - name: AIOps-Remediation
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-aiops
+    scm_branch: main
+    scm_clean: true
+    scm_update_on_launch: true
+    description: AIOps Intelligent Remediation - event-driven automation with MCP-based template matching
+    organization: Cac-Demo-Org
+    wait: true
+    update_project: true
+    update: true

@@ -25,6 +25,7 @@ This Ansible playbooks and roles allows for easy interaction with an Ansible Con
   - [Encrypting Sensitive data](#encrypting-sensitive-data)
   - [How to use the playbooks for configuring AAP](#how-to-use-the-playbooks-for-configuring-aap)
     - [Method 1: Using `ansible-playbook`](#method-1-using-ansible-playbook)
+      - [Available Tags for Selective Execution](#available-tags-for-selective-execution)
     - [Method 2: Using `ansible-navigator`](#method-2-using-ansible-navigator)
     - [Method 3: Using automation controller job template](#method-3-using-automation-controller-job-template)
     - [Controlling the controller configurations](#controlling-the-controller-configurations)
@@ -192,9 +193,22 @@ For filetree configuration
 ```shell
 $ ansible-playbook playbooks/configure-aap-using-filetree.yaml \
    -e "{orgs: ${AAP_ORGANIZATION}, dir_orgs_vars: ../cac_filetree, env: ${AAP_ENVIRONMENT} }"  \
+   --vault-password-file ./.vault_pass.txt \
    -e @orgs_vars/env/${AAP_ENVIRONMENT}/configure_connection_controller_credentials.yml \
    --tags ${CONTROLLER_OBJECT} \
-   --vault-password-file ./.vault_pass.txt
+
+```
+
+Eg: AIOps
+
+```shell
+$ export AAP_ENVIRONMENT=AIOps
+
+$ ansible-playbook playbooks/configure-aap-using-filetree.yaml \
+   -e "{orgs: ${AAP_ORGANIZATION}, dir_orgs_vars: ../cac_filetree, env: ${AAP_ENVIRONMENT} }"  \
+   --vault-password-file ./.vault_pass.txt \
+   -e @orgs_vars/env/${AAP_ENVIRONMENT}/configure_connection_controller_credentials.yml \
+   --tags ${CONTROLLER_OBJECT} \
 ```
 
 Check  'collections/ansible_collections/infra/aap_configuration_extended/roles/filetree_read/defaults/main.yml`

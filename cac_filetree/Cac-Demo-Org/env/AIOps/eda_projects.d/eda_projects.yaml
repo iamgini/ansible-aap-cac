@@ -1,0 +1,6 @@
+---
+eda_projects:
+  - name: AIOps-Rulebooks
+    description: EDA rulebooks for intelligent event-driven remediation
+    url: https://github.com/iamgini/ansible-aiops
+    git_hash: main

@@ -1,0 +1,108 @@
+---
+controller_templates:
+  # Case 1: Disk Space Remediation
+  - name: "Remediate Disk Space"
+    description: "Automated disk cleanup - cleans logs, temp files, package cache, and journal"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: AIOps-Remediation
+    playbook: playbooks/remediation_disk-cleanup.yml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: disk_full
+      event_severity: high
+      partition: /var
+      usage_percent: 95
+    labels:
+      - AIOps
+      - remediation
+
+  # Case 2: Service Restart
+  - name: "Restart Service"
+    description: "Restart failed service with retries and verification"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: AIOps-Remediation
+    playbook: playbooks/remediation_restart-service.yml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: service_down
+      event_severity: critical
+      service_name: httpd
+      max_restart_attempts: 3
+    labels:
+      - AIOps
+      - remediation
+
+  # Case 3: High CPU Investigation
+  - name: "Investigate High CPU"
+    description: "Investigate and remediate high CPU usage - identifies runaway processes and zombies"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: AIOps-Remediation
+    playbook: playbooks/remediation_investigate-cpu.yml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: high_cpu
+      event_severity: warning
+      cpu_threshold: 80
+      duration_minutes: 10
+    labels:
+      - AIOps
+      - remediation
+
+  # Case 4: Certificate Renewal
+  - name: "Renew SSL Certificate"
+    description: "Renew expiring SSL certificates - supports Let's Encrypt and custom CA"
+    job_type: run
+    inventory: Cac-Demo-Inventory
+    project: AIOps-Remediation
+    playbook: playbooks/remediation_renew-certificate.yml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: certificate_expiry
+      event_severity: high
+      cert_path: /etc/ssl/certs/server.crt
+      days_until_expiry: 30
+    labels:
+      - AIOps
+      - remediation
+
+  # Case 5: AI Intelligence Workflow (unknown events)
+  - name: "AI Intelligence - Unknown Event Remediation"
+    description: "AI-powered workflow - queries AAP via MCP for matching templates, falls back to AI playbook generation"
+    job_type: run
+    inventory: AIOps-Localhost
+    project: AIOps-Remediation
+    playbook: playbooks/intelligent-aiops-workflow.yml
+    credentials:
+      - AIOps-Integration
+    verbosity: 0
+    timeout: 600
+    ask_variables_on_launch: true
+    extra_vars:
+      event_type: unknown
+      event_description: "Unknown event requiring AI analysis"
+      event_host: localhost
+      event_severity: medium
+      mcp_confidence_threshold: 100
+      mcp_minimum_score: 50
+    labels:
+      - AIOps
+      - AI

@@ -66,6 +66,17 @@
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_roles.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_roles.d/"
 
+    # EDA Directory Paths
+    filetree_eda_credentials:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_credentials.d/"
+    filetree_eda_decision_environments:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_decision_environments.d/"
+    filetree_eda_projects:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_projects.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/eda_projects.d/"
+    filetree_eda_rulebook_activations:
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_rulebook_activations.d/"
+
   pre_tasks:
     - name: Setup authentication (block)
       block:
