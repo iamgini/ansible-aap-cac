@@ -6,8 +6,10 @@ eda_rulebook_activations:
       and unknown events to AI-powered remediation workflow
     rulebook: intelligent-remediation.yml
     project: AIOps-Rulebooks
-    decision_environment: AIOps-Decision-Environment
-    credential: AAP-Controller-Token
+    decision_environment: Hub Default Decision Environment
+    eda_credentials:
+      - AAP-Controller-Token
+    organization: Cac-Demo-Org
     enabled: true
     restart_policy: on-failure
     log_level: info

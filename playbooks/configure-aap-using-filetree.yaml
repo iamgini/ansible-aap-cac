@@ -78,6 +78,9 @@
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_rulebook_activations.d/"
 
   pre_tasks:
+    - debug:
+        msg: "{{ filetree_eda_credentials }}"
+    - pause:
     - name: Setup authentication (block)
       block:
         - name: Get the Authentication Token for the future requests
