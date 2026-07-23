@@ -1,0 +1,6 @@
+---
+eda_event_streams:
+  - name: AIOps-Webhook-Stream
+    credential_name: AIOps-EventStream-Basic
+    organization: AIOps
+    forward_events: true

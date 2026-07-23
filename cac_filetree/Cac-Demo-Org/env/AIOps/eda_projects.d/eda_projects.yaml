@@ -4,4 +4,4 @@ eda_projects:
     description: EDA rulebooks for intelligent event-driven remediation
     url: https://github.com/iamgini/ansible-aiops
     scm_branch: main
-    organization: Cac-Demo-Org
+    organization: AIOps

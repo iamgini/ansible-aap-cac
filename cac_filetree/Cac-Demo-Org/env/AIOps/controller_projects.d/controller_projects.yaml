@@ -7,7 +7,7 @@ controller_projects:
     scm_clean: true
     scm_update_on_launch: true
     description: AIOps Intelligent Remediation - event-driven automation with MCP-based template matching
-    organization: Cac-Demo-Org
+    organization: AIOps
     wait: true
     update_project: true
     update: true

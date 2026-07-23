@@ -84,6 +84,26 @@ controller_templates:
       - AIOps
       - remediation
 
+  # Hello World - Debug/Test Template (triggered by EDA "Hello AAP" event)
+  - name: "Hello World"
+    description: "Hello World - prints event details for debugging and testing EDA integration"
+    job_type: run
+    inventory: AIOps-Localhost
+    project: AIOps-Remediation
+    playbook: playbooks/hello-world.yaml
+    credentials:
+      - AIOps-Machine-Credential
+    verbosity: 0
+    ask_variables_on_launch: true
+    extra_vars:
+      event_message: ""
+      event_source: ""
+      event_host: ""
+      event_severity: ""
+      event_payload: {}
+    labels:
+      - AIOps
+
   # Case 5: AI Intelligence Workflow (unknown events)
   - name: "AI Intelligence - Unknown Event Remediation"
     description: "AI-powered workflow - queries AAP via MCP for matching templates, falls back to AI playbook generation"
@@ -92,7 +112,10 @@ controller_templates:
     project: AIOps-Remediation
     playbook: playbooks/intelligent-aiops-workflow.yml
     credentials:
-      - AIOps-Integration
+      - AIOps-Machine-Credential
+      - AAP-MCP
+      - Generic-AI-API
+      - Git-SCM
     verbosity: 0
     timeout: 600
     ask_variables_on_launch: true

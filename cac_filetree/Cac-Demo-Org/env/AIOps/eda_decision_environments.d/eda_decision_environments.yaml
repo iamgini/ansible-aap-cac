@@ -3,4 +3,4 @@
 #   - name: AIOps-Decision-Environment
 #     description: Decision environment for AIOps intelligent remediation rulebooks
 #     image_url: quay.io/ansible/ansible-rulebook:latest
-#     organization: Cac-Demo-Org
+#     organization: AIOps

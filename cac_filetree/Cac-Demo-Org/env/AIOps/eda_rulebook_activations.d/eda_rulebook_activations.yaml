@@ -9,7 +9,10 @@ eda_rulebook_activations:
     decision_environment: Hub Default Decision Environment
     eda_credentials:
       - AAP-Controller-Token
-    organization: Cac-Demo-Org
+    organization: AIOps
+    event_streams:
+      - event_stream: AIOps-Webhook-Stream
+        source_name: webhook
     state: enabled
     restart_policy: on-failure
     log_level: info

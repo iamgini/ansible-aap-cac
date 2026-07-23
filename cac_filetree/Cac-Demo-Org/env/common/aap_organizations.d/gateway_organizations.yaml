@@ -15,3 +15,7 @@ aap_organizations:
   - name: Network-Ops
     max_hosts: 0
     description: Configuration as Code - Network-Ops
+
+  - name: AIOps
+    max_hosts: 0
+    description: AIOps - Intelligent Event-Driven Automation

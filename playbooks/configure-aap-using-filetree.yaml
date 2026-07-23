@@ -93,6 +93,8 @@
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/eda_projects.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/eda_projects.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_projects.d/"
+    filetree_eda_event_streams:                                              # env only
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_event_streams.d/"
     filetree_eda_rulebook_activations:                                      # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_rulebook_activations.d/"
 

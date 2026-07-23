@@ -102,4 +102,17 @@ controller_labels:
   - name: AI
     organization: Cac-Demo-Org
     description: AI-powered automation
+
+  # AIOps Organization Labels
+  - name: AIOps
+    organization: AIOps
+    description: AIOps and intelligent automation
+
+  - name: remediation
+    organization: AIOps
+    description: Automated remediation jobs
+
+  - name: AI
+    organization: AIOps
+    description: AI-powered automation
 ...

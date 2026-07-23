@@ -1,7 +1,7 @@
 ---
 controller_inventories:
   - name: AIOps-Localhost
-    organization: Cac-Demo-Org
+    organization: AIOps
     description: Localhost inventory for AI intelligence workflow (MCP queries and playbook generation)
     variables:
       ansible_connection: local
