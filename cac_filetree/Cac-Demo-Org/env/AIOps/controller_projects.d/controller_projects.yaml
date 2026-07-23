@@ -5,7 +5,7 @@ controller_projects:
     scm_url: https://github.com/iamgini/ansible-aiops
     scm_branch: main
     scm_clean: true
-    scm_update_on_launch: true
+    scm_update_on_launch: false
     description: AIOps Intelligent Remediation - event-driven automation with MCP-based template matching
     organization: AIOps
     wait: true
