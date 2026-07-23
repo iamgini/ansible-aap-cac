@@ -16,7 +16,8 @@
       "Bash(ansible localhost *)",
       "mcp__aap-mcp-platform-config__controller-settings_list",
       "mcp__aap-mcp-platform-config__settings_retrieve",
-      "mcp__aap-mcp-job-mgmt__activation_instances_list"
+      "mcp__aap-mcp-job-mgmt__activation_instances_list",
+      "Bash(pre-commit install *)"
     ]
   }
 }
