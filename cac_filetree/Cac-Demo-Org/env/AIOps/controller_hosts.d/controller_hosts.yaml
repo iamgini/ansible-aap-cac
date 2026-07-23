@@ -1,0 +1,6 @@
+---
+controller_hosts:
+  - name: localhost
+    inventory: Cac-AIOps-Inventory
+    variables:
+      ansible_connection: local

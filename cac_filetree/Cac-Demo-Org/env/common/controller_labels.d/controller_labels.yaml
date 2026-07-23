@@ -90,19 +90,6 @@ controller_labels:
     organization: Cac-Demo-Org
     description: Demo and testing purposes
 
-  # AIOps Labels
-  - name: AIOps
-    organization: Cac-Demo-Org
-    description: AIOps and intelligent automation
-
-  - name: remediation
-    organization: Cac-Demo-Org
-    description: Automated remediation jobs
-
-  - name: AI
-    organization: Cac-Demo-Org
-    description: AI-powered automation
-
   # AIOps Organization Labels
   - name: AIOps
     organization: AIOps

@@ -1,14 +1,6 @@
 ---
 controller_inventories:
-  - name: AIOps-Localhost
+  - name: Cac-AIOps-Inventory
     organization: AIOps
-    description: Localhost inventory for AI intelligence workflow (MCP queries and playbook generation)
-    variables:
-      ansible_connection: local
-      ansible_python_interpreter: "{{ '{{' }} ansible_playbook_python {{ '}}' }}"
+    description: AIOps inventory for remediation job templates
 
-controller_hosts:
-  - name: localhost
-    inventory: AIOps-Localhost
-    variables:
-      ansible_connection: local

@@ -4,11 +4,11 @@ controller_templates:
   - name: "Remediate Disk Space"
     description: "Automated disk cleanup - cleans logs, temp files, package cache, and journal"
     job_type: run
-    inventory: Cac-Demo-Inventory
+    inventory: Cac-AIOps-Inventory
     project: AIOps-Remediation
     playbook: playbooks/remediation_disk-cleanup.yml
     credentials:
-      - AIOps-Machine-Credential
+      - AIOps-Machine
     verbosity: 0
     ask_limit_on_launch: true
     ask_variables_on_launch: true
@@ -25,11 +25,11 @@ controller_templates:
   - name: "Restart Service"
     description: "Restart failed service with retries and verification"
     job_type: run
-    inventory: Cac-Demo-Inventory
+    inventory: Cac-AIOps-Inventory
     project: AIOps-Remediation
     playbook: playbooks/remediation_restart-service.yml
     credentials:
-      - AIOps-Machine-Credential
+      - AIOps-Machine
     verbosity: 0
     ask_limit_on_launch: true
     ask_variables_on_launch: true
@@ -46,11 +46,11 @@ controller_templates:
   - name: "Investigate High CPU"
     description: "Investigate and remediate high CPU usage - identifies runaway processes and zombies"
     job_type: run
-    inventory: Cac-Demo-Inventory
+    inventory: Cac-AIOps-Inventory
     project: AIOps-Remediation
     playbook: playbooks/remediation_investigate-cpu.yml
     credentials:
-      - AIOps-Machine-Credential
+      - AIOps-Machine
     verbosity: 0
     ask_limit_on_launch: true
     ask_variables_on_launch: true
@@ -67,11 +67,11 @@ controller_templates:
   - name: "Renew SSL Certificate"
     description: "Renew expiring SSL certificates - supports Let's Encrypt and custom CA"
     job_type: run
-    inventory: Cac-Demo-Inventory
+    inventory: Cac-AIOps-Inventory
     project: AIOps-Remediation
     playbook: playbooks/remediation_renew-certificate.yml
     credentials:
-      - AIOps-Machine-Credential
+      - AIOps-Machine
     verbosity: 0
     ask_limit_on_launch: true
     ask_variables_on_launch: true
@@ -88,11 +88,11 @@ controller_templates:
   - name: "Hello World"
     description: "Hello World - prints event details for debugging and testing EDA integration"
     job_type: run
-    inventory: AIOps-Localhost
+    inventory: Cac-AIOps-Inventory
     project: AIOps-Remediation
     playbook: playbooks/hello-world.yaml
     credentials:
-      - AIOps-Machine-Credential
+      - AIOps-Machine
     verbosity: 0
     ask_variables_on_launch: true
     extra_vars:
@@ -108,11 +108,11 @@ controller_templates:
   - name: "AI Intelligence - Unknown Event Remediation"
     description: "AI-powered workflow - queries AAP via MCP for matching templates, falls back to AI playbook generation"
     job_type: run
-    inventory: AIOps-Localhost
+    inventory: Cac-AIOps-Inventory
     project: AIOps-Remediation
     playbook: playbooks/intelligent-aiops-workflow.yml
     credentials:
-      - AIOps-Machine-Credential
+      - AIOps-Machine
       - AAP-MCP
       - Generic-AI-API
       - Git-SCM

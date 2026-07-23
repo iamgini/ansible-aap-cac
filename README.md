@@ -215,84 +215,78 @@ Check  'collections/ansible_collections/infra/aap_configuration_extended/roles/f
 
 #### Available Tags for Selective Execution
 
-The `infra.aap_configuration` dispatch role supports the following tags for granular control over what gets configured:
+When using `filetree_read` + `dispatch` (the filetree playbook), both roles must match the tag you pass with `-t`. The `filetree_read` role reads config files into variables, and `dispatch` applies them to AAP. If your tag only matches dispatch but not filetree_read, the variable never gets populated and dispatch skips it silently.
+
+The table below shows the correct tag to use with `-t` for each resource type. The **"Tag to use"** column is the tag that works with **both** `filetree_read` and `dispatch`. Tags listed under **"Dispatch aliases"** only work with dispatch (not filetree_read) and should be avoided with the filetree playbook.
 
 **Platform Gateway Resources (AAP 2.5+):**
-- `gateway_settings` - Gateway settings
-- `gateway_organizations` - Organizations (platform-level)
-- `gateway_users` - Platform users
-- `gateway_teams` - Platform teams
-- `gateway_authenticators` - Authentication backends (LDAP, SAML, OIDC, etc.)
-- `gateway_authenticator_maps` - Authenticator mappings
-- `gateway_role_definitions` - Custom role definitions
-- `gateway_role_user_assignments` - User RBAC assignments
-- `gateway_role_team_assignments` - Team RBAC assignments
-- `gateway_applications` - OAuth2 applications
-- `gateway_http_ports` - HTTP port configurations
-- `gateway_routes` - Gateway routes
-- `gateway_services` - Gateway services
-- `gateway_service_clusters` - Service clusters
-- `gateway_service_nodes` - Service nodes
-- `gateway_service_keys` - Service keys
+
+| Resource | Tag to use | Dispatch aliases |
+|----------|-----------|-----------------|
+| Gateway settings | `settings` | `gateway_settings` |
+| Organizations | `organizations` | `gateway_organizations` |
+| Users | `users` | `gateway_users` |
+| Teams | `teams` | `gateway_teams` |
+| Authenticators | `authenticators` | `gateway_authenticators` |
+| Authenticator maps | `authenticator_maps` | `gateway_authenticator_maps` |
+| Role definitions | `role_definitions` | `gateway_role_definitions` |
+| User role assignments | `role_user_assignments` | `gateway_role_user_assignments` |
+| Team role assignments | `role_team_assignments` | `gateway_role_team_assignments` |
+| Applications | `applications` | `gateway_applications` |
+| HTTP ports | `http_ports` | `gateway_http_ports` |
+| Routes | `routes` | `gateway_routes` |
+| Services | `services` | `gateway_services` |
+| Service clusters | `service_clusters` | `gateway_service_clusters` |
+| Service nodes | `service_nodes` | `gateway_service_nodes` |
+| Service keys | `service_keys` | `gateway_service_keys` |
 
 **Controller Resources:**
-- `controller_settings` - Controller settings
-- `controller_organizations` - Organizations (controller-level)
-- `controller_credential_types` - Custom credential types
-- `credentials` / `controller_credentials` - Credentials
-- `credential_input_sources` / `controller_credential_input_sources` - Credential input sources
-- `projects` / `controller_projects` - SCM projects
-- `inventories` / `controller_inventories` - Inventories
-- `inventory_sources` / `controller_inventory_sources` - Inventory sources
-- `hosts` / `controller_hosts` / `controller_bulk_hosts` - Inventory hosts
-- `host_groups` / `controller_groups` - Inventory groups
-- `job_templates` / `controller_job_templates` - Job templates
-- `workflow_job_templates` / `controller_workflow_job_templates` - Workflow templates
-- `schedules` / `controller_schedules` - Schedules
-- `labels` / `controller_labels` - Labels
-- `notification_templates` / `controller_notification_templates` - Notifications
-- `execution_environments` / `controller_execution_environments` - Execution environments
-- `instance_groups` / `controller_instance_groups` - Instance groups
-- `instances` / `controller_instances` - Controller instances
-- `roles` / `controller_roles` - RBAC role assignments
-- `applications` / `controller_applications` - OAuth2 applications
-- `controller_token` - Controller tokens
-- `job_launch` / `controller_job_launch` - Launch jobs
-- `workflow_launch` / `controller_workflow_launch` - Launch workflows
+
+| Resource | Tag to use | Dispatch aliases |
+|----------|-----------|-----------------|
+| Controller settings | `settings` | `controller_settings` |
+| Labels | `labels` | `controller_labels` |
+| Credential types | `credential_types` | `controller_credential_types` |
+| Credential input sources | `credential_input_sources` | `controller_credential_input_sources` |
+| Credentials | `credentials` | `controller_credentials` |
+| Notification templates | `notification_templates` | `controller_notification_templates` |
+| Projects | `projects` | `controller_projects` |
+| Execution environments | `execution_environments` | `controller_execution_environments` |
+| Inventories | `inventories` | `controller_inventories` |
+| Inventory sources | `inventory_sources` | `controller_inventory_sources` |
+| Instance groups | `instance_groups` | `controller_instance_groups` |
+| Instances | `instances` | `controller_instances` |
+| Hosts | `hosts` | `controller_hosts` |
+| Groups | `host_groups` | `controller_groups` |
+| Job templates | `job_templates` | `controller_job_templates` |
+| Workflow templates | `workflow_job_templates` | `controller_workflow_job_templates` |
+| Schedules | `schedules` | `controller_schedules` |
+| Roles | `roles` | `controller_roles` |
 
 **Automation Hub Resources:**
-- `hub_namespaces` - Hub namespaces
-- `hub_collections` - Collections
-- `hub_collection_remotes` - Collection remotes
-- `hub_collection_repositories` - Collection repositories
-- `hub_collection_repository_sync` - Sync collection repositories
-- `hub_publish` - Publish collections
-- `hub_ee_registries` - EE registries
-- `hub_ee_registry_index` - EE registry indices
-- `hub_ee_registry_sync` - Sync EE registries
-- `hub_ee_repositories` - EE repositories
-- `hub_ee_repository_sync` - Sync EE repositories
-- `hub_ee_images` - EE images
+
+| Resource | Tag to use |
+|----------|-----------|
+| Namespaces | `hub_namespaces` |
+| Collections | `hub_collections` |
+| Collection remotes | `hub_collection_remotes` |
+| Collection repositories | `hub_collection_repositories` |
+| EE registries | `hub_ee_registries` |
+| EE repositories | `hub_ee_repositories` |
+| EE images | `hub_ee_images` |
 
 **Event-Driven Ansible (EDA) Resources:**
-- `eda_credential_types` - EDA credential types
-- `eda_credentials` - EDA credentials
-- `eda_credential_input_sources` - EDA credential input sources
-- `eda_decision_environments` - Decision environments
-- `eda_projects` - EDA projects
-- `eda_rulebook_activations` - Rulebook activations
-- `eda_event_streams` - Event streams
-- `eda_controller_tokens` - EDA controller tokens
 
-**Grouped Tags (convenience):**
-- `settings` - All settings (gateway + controller)
-- `organizations` - All organizations
-- `users` - All users
-- `teams` - All teams
-- `authenticators` - All authenticators
-- `role_definitions` - All role definitions
-- `role_user_assignments` - All user role assignments
-- `role_team_assignments` - All team role assignments
+| Resource | Tag to use |
+|----------|-----------|
+| EDA credential types | `eda_credential_types` |
+| EDA credentials | `eda_credentials` |
+| Decision environments | `eda_decision_environments` |
+| EDA projects | `eda_projects` |
+| Event streams | `eda_event_streams` |
+| Rulebook activations | `eda_rulebook_activations` |
+
+**Common gotcha:** Using `-t controller_job_templates` or `-t controller_credential_types` will match dispatch but NOT filetree_read, so the config files are never loaded and dispatch skips with no error. Always use the short tag form (`job_templates`, `credential_types`) with the filetree playbook.
 
 **Example: Apply only inventories and job templates:**
 ```bash
@@ -307,7 +301,7 @@ ansible-playbook playbooks/configure-aap-using-filetree.yaml \
 ansible-playbook playbooks/configure-aap-using-filetree.yaml \
   -e "orgs=Cac-Demo-Org" \
   -e "env=common" \
-  --tags gateway_role_user_assignments,gateway_role_team_assignments,controller_roles
+  --tags roles,role_user_assignments,role_team_assignments
 ```
 
 ### Method 2: Using `ansible-navigator`

@@ -30,9 +30,10 @@
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/aap_users.d/"
     filetree_aap_teams:                                                     # common only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_teams.d/"
-    filetree_controller_credential_types:                                   # common only (schema is env-independent)
+    filetree_controller_credential_types:                                   # common + env
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_credential_types.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credential_types.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_credential_types.d/"
     filetree_controller_credentials:                                        # common + env
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_credentials.d/"
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credentials.d/"
