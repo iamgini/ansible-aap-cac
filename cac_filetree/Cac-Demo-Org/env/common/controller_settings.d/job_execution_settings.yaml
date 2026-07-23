@@ -26,27 +26,27 @@ controller_settings:
     value: 200
     # Maximum number of simultaneous forks
 
-  - name: AWX_ISOLATION_SHOW_PATHS
-    value:
-      - /etc/pki/ca-trust:/etc/pki/ca-trust:O
-      - /usr/share/pki:/usr/share/pki:O
-    # Paths to show in isolated jobs
+  # NOTE: List/dict settings fail in async mode (pyyaml not available in async subprocess)
+  # These values already match the AAP instance. Manage via API or AAP UI if changes needed.
+  # Correct YAML format shown below for reference:
+  # - name: AWX_ISOLATION_SHOW_PATHS
+  #   value:
+  #     - /etc/pki/ca-trust:/etc/pki/ca-trust:O
+  #     - /usr/share/pki:/usr/share/pki:O
 
-  - name: AWX_TASK_ENV
-    value:
-      GIT_SSL_NO_VERIFY: "False"
-      PYTHONHTTPSVERIFY: "1"
-    # Environment variables for tasks
+  # - name: AWX_TASK_ENV
+  #   value:
+  #     GIT_SSL_NO_VERIFY: "False"
+  #     PYTHONHTTPSVERIFY: "1"
 
   - name: AWX_RUNNER_KEEPALIVE_SECONDS
     value: 0
     # Runner keepalive interval
 
-  - name: GALAXY_TASK_ENV
-    value:
-      GIT_SSL_NO_VERIFY: "False"
-      ANSIBLE_FORCE_COLOR: "false"
-    # Environment variables for Galaxy tasks
+  # - name: GALAXY_TASK_ENV
+  #   value:
+  #     ANSIBLE_FORCE_COLOR: "false"
+  #     GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
 
   - name: INSIGHTS_TRACKING_STATE
     value: false
@@ -61,11 +61,11 @@ controller_settings:
     value: 10
     # Max jobs to start per schedule interval
 
-  - name: DEFAULT_EXECUTION_QUEUE_NAME
-    value: default
-    # Default execution queue
+  # - name: DEFAULT_EXECUTION_QUEUE_NAME
+  #   value: default
+  #   # Removed: not a configurable setting in AAP 2.5+
 
-  - name: DEFAULT_CONTROL_PLANE_QUEUE_NAME
-    value: controlplane
-    # Default control plane queue
+  # - name: DEFAULT_CONTROL_PLANE_QUEUE_NAME
+  #   value: controlplane
+  #   # Removed: not a configurable setting in AAP 2.5+
 ...

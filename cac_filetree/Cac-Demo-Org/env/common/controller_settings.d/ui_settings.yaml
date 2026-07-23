@@ -18,9 +18,9 @@ controller_settings:
     value: 4000
     # Maximum job events to show in UI
 
-  - name: UI_NEXT
-    value: true
-    # Enable new UI features
+  # - name: UI_NEXT
+  #   value: true
+  #   # Removed: UI_NEXT not supported in AAP 2.5+
 
   # Session Settings
   - name: SESSION_COOKIE_AGE
@@ -35,12 +35,12 @@ controller_settings:
     value: true
     # Enable HTTP Basic Auth
 
-  - name: OAUTH2_PROVIDER
-    value:
-      ACCESS_TOKEN_EXPIRE_SECONDS: 31536000000
-      REFRESH_TOKEN_EXPIRE_SECONDS: 2628000
-      AUTHORIZATION_CODE_EXPIRE_SECONDS: 600
-    # OAuth2 token expiration settings
+  # - name: OAUTH2_PROVIDER
+  #   value:
+  #     ACCESS_TOKEN_EXPIRE_SECONDS: 31536000000
+  #     REFRESH_TOKEN_EXPIRE_SECONDS: 2628000
+  #     AUTHORIZATION_CODE_EXPIRE_SECONDS: 600
+  #   # Removed: OAUTH2_PROVIDER is managed at gateway level in AAP 2.5+
 
   # Activity Stream
   - name: ACTIVITY_STREAM_ENABLED

@@ -10,6 +10,6 @@ eda_rulebook_activations:
     eda_credentials:
       - AAP-Controller-Token
     organization: Cac-Demo-Org
-    enabled: true
+    state: enabled
     restart_policy: on-failure
     log_level: info
