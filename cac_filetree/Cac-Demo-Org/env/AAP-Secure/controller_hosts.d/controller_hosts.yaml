@@ -3,10 +3,7 @@ controller_hosts:
   - name: aap-gateway
     inventory: aap_secure_inventory
     variables:
-      ansible_host: gateway.example.com
       ansible_connection: local
-      aap_hostname: "https://gateway.example.com"
-      aap_validate_certs: true
 
   - name: aap-controller-01
     inventory: aap_secure_inventory
