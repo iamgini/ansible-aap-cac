@@ -1,0 +1,13 @@
+---
+controller_projects:
+  - name: aap_secure_project
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-aap-secure.git
+    scm_branch: main
+    scm_clean: true
+    scm_update_on_launch: true
+    description: AAP 2.7 security scan and remediation toolkit based on Red Hat AAP Secure guide
+    organization: Cac-Demo-Org
+    wait: true
+    update_project: true
+    update: true

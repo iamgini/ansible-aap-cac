@@ -1,0 +1,47 @@
+---
+controller_groups:
+  # Linux scan targets - CIS Level 2
+  - name: compliance_linux_targets
+    inventory: Compliance-Inventory
+    hosts:
+      - rhel9-web-01
+      - rhel9-db-01
+    variables:
+      cis_profile: "xccdf_org.ssgproject.content_profile_cis_level2_server"
+      ssg_datastream: "/usr/share/xml/scap/ssg/content/ssg-rhel9-ds.xml"
+      execution_mode: "local"
+
+  # Report server group
+  - name: compliance_report_server
+    inventory: Compliance-Inventory
+    hosts:
+      - compliance-report-server
+    variables:
+      report_server_base_dir: "/var/www/compliance-reports"
+
+  # Windows hardening targets
+  - name: compliance_windows_targets
+    inventory: Compliance-Inventory
+    hosts:
+      - win2022-web-01
+      - win2019-db-01
+    variables:
+      target_platform: "windows"
+
+  # Meta group: all Linux scan targets (used by oscap playbooks)
+  - name: scan_targets
+    inventory: Compliance-Inventory
+    children:
+      - compliance_linux_targets
+
+  # Meta group: all Windows targets (used by windows playbooks)
+  - name: windows_targets
+    inventory: Compliance-Inventory
+    children:
+      - compliance_windows_targets
+
+  # Meta group: report server alias
+  - name: report_server
+    inventory: Compliance-Inventory
+    children:
+      - compliance_report_server

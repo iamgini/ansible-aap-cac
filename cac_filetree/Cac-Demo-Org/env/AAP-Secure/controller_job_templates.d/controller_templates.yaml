@@ -1,0 +1,98 @@
+---
+controller_templates:
+  - name: "aap_secure_scan"
+    description: "AAP 2.7 security scan - read-only compliance check against AAP Secure guide recommendations"
+    job_type: run
+    inventory: aap_secure_inventory
+    project: aap_secure_project
+    playbook: scan.yml
+    credentials:
+      - aap_secure_aap_credential
+      - aap_secure_machine_credential
+    verbosity: 0
+    ask_variables_on_launch: true
+    extra_vars:
+      aap_secure_mode: scan
+      aap_secure_scope: all
+      aap_secure_customer_name: "Demo Customer"
+    survey_enabled: true
+    survey_spec:
+      name: AAP Security Scan Survey
+      description: Configure AAP security scan parameters
+      spec:
+        - question_name: Scan Scope
+          question_description: Which components to scan
+          required: true
+          type: multiplechoice
+          variable: aap_secure_scope
+          default: all
+          choices:
+            - all
+            - api
+            - hosts
+          new_question: true
+        - question_name: Customer Name
+          question_description: Customer or environment name for the report
+          required: true
+          type: text
+          variable: aap_secure_customer_name
+          default: "Demo Customer"
+          min: 1
+          max: 100
+          new_question: true
+
+  - name: "aap_secure_remediate"
+    description: "AAP 2.7 security remediation - apply hardened settings based on baseline and customer overrides"
+    job_type: run
+    inventory: aap_secure_inventory
+    project: aap_secure_project
+    playbook: scan.yml
+    credentials:
+      - aap_secure_aap_credential
+      - aap_secure_machine_credential
+    verbosity: 0
+    ask_variables_on_launch: true
+    extra_vars:
+      aap_secure_mode: remediate
+      aap_secure_scope: all
+      aap_secure_customer_name: "Demo Customer"
+    survey_enabled: true
+    survey_spec:
+      name: AAP Security Remediation Survey
+      description: Configure AAP security remediation parameters
+      spec:
+        - question_name: Remediation Scope
+          question_description: Which components to remediate
+          required: true
+          type: multiplechoice
+          variable: aap_secure_scope
+          default: all
+          choices:
+            - all
+            - api
+            - hosts
+          new_question: true
+        - question_name: Customer Name
+          question_description: Customer or environment name for the report
+          required: true
+          type: text
+          variable: aap_secure_customer_name
+          default: "Demo Customer"
+          min: 1
+          max: 100
+          new_question: true
+
+  - name: "aap_secure_scan_api_only"
+    description: "AAP 2.7 API-only security scan - gateway settings, auth, RBAC, credentials, logging"
+    job_type: run
+    inventory: aap_secure_inventory
+    project: aap_secure_project
+    playbook: scan.yml
+    credentials:
+      - aap_secure_aap_credential
+    verbosity: 0
+    ask_variables_on_launch: true
+    extra_vars:
+      aap_secure_mode: scan
+      aap_secure_scope: api
+      aap_secure_customer_name: "Demo Customer"

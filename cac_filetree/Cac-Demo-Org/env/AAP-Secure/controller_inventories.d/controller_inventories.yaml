@@ -1,0 +1,5 @@
+---
+controller_inventories:
+  - name: aap_secure_inventory
+    organization: Cac-Demo-Org
+    description: AAP infrastructure hosts for security scanning and hardening

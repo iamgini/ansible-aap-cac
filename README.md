@@ -135,7 +135,7 @@ export CONTROLLER_PASSWORD=secretpassword
 export CONTROLLER_HOST=https://aap25.lab.iamgini.com
 export CONTROLLER_VERIFY_SSL=false
 
-export AAP_ORGANIZATION=AwesomeCorp
+export AAP_ORGANIZATION=Cac-Demo-Org
 export AAP_ENVIRONMENT=uat
 ```
 

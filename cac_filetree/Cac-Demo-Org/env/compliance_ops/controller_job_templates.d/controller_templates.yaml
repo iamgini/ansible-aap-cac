@@ -1,0 +1,329 @@
+---
+controller_templates:
+  # =============================================================================
+  # Linux OpenSCAP Workflow - Individual Job Templates
+  # =============================================================================
+
+  # Phase 0: Report Server Setup (run once)
+  - name: "Compliance - Setup Report Server"
+    description: "One-time setup: install nginx, create directory structure on report server"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/setup_report_server.yml
+    credentials:
+      - Compliance-Linux-Machine
+    verbosity: 0
+    ask_variables_on_launch: true
+    labels:
+      - compliance
+      - setup
+
+  # Phase 1: OpenSCAP Scan
+  - name: "Compliance - OSCAP Scan"
+    description: "Run OpenSCAP compliance scan on Linux targets and push results to report server"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/oscap_scan.yml
+    credentials:
+      - Compliance-Linux-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: scan_targets
+    survey_enabled: true
+    survey_spec:
+      name: Compliance Scan Survey
+      description: Configure compliance scan parameters
+      spec:
+        - question_name: CIS Profile
+          question_description: Select the SCAP compliance profile to evaluate
+          required: true
+          type: multiplechoice
+          variable: cis_profile
+          default: "xccdf_org.ssgproject.content_profile_cis_level2_server"
+          choices:
+            - "xccdf_org.ssgproject.content_profile_cis_level2_server"
+            - "xccdf_org.ssgproject.content_profile_cis_level1_server"
+            - "xccdf_org.ssgproject.content_profile_stig"
+          new_question: true
+        - question_name: Customer ID
+          question_description: Organization or customer identifier for report grouping
+          required: true
+          type: text
+          variable: customer_id
+          default: "demo-org"
+          min: 1
+          max: 50
+          new_question: true
+    labels:
+      - compliance
+      - scan
+      - linux
+
+  # Phase 2a: Parse Scan Results
+  - name: "Compliance - OSCAP Parse"
+    description: "Parse ARF XML results - extract failed rules, calculate compliance score"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/oscap_parse.yml
+    credentials:
+      - Compliance-Linux-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: scan_targets
+    labels:
+      - compliance
+      - scan
+      - linux
+
+  # Phase 2b: Generate Remediation Playbook
+  - name: "Compliance - OSCAP Generate Fix"
+    description: "Generate Ansible remediation playbook from scan results using oscap generate fix"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/oscap_generate_fix.yml
+    credentials:
+      - Compliance-Linux-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: scan_targets
+    survey_enabled: true
+    survey_spec:
+      name: Fix Generation Survey
+      description: Configure remediation generation
+      spec:
+        - question_name: Generation Mode
+          question_description: Where to run oscap generate fix
+          required: true
+          type: multiplechoice
+          variable: generate_fix_mode
+          default: execution_environment
+          choices:
+            - execution_environment
+            - report_server
+          new_question: true
+    labels:
+      - compliance
+      - remediation
+      - linux
+
+  # Phase 2c: Commit Reports to Git
+  - name: "Compliance - Commit Reports"
+    description: "Commit generated remediation playbooks and reports to Git repository"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/commit_reports.yml
+    credentials:
+      - Compliance-Linux-Machine
+      - Compliance-SCM
+    verbosity: 0
+    ask_variables_on_launch: true
+    labels:
+      - compliance
+      - remediation
+      - linux
+
+  # Phase 3a: Apply Remediation
+  - name: "Compliance - OSCAP Remediate"
+    description: "Apply generated remediation playbook to targets (requires prior approval)"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/oscap_remediate.yml
+    credentials:
+      - Compliance-Linux-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: scan_targets
+    labels:
+      - compliance
+      - remediation
+      - linux
+
+  # Phase 3b: Validation Rescan
+  - name: "Compliance - OSCAP Rescan"
+    description: "Post-remediation validation scan to verify compliance improvement"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/oscap_rescan.yml
+    credentials:
+      - Compliance-Linux-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: scan_targets
+    labels:
+      - compliance
+      - scan
+      - linux
+
+  # Master playbook (all phases without approval gate)
+  - name: "Compliance - OSCAP Full Cycle"
+    description: "Run all OpenSCAP phases: scan, parse, generate fix, commit (no remediation)"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/oscap_site.yml
+    credentials:
+      - Compliance-Linux-Machine
+      - Compliance-SCM
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: scan_targets
+    labels:
+      - compliance
+      - linux
+
+  # =============================================================================
+  # Windows Compliance Job Templates
+  # =============================================================================
+
+  # Windows CIS Benchmark
+  - name: "Compliance - Windows CIS"
+    description: "Apply CIS Benchmark hardening to Windows Server (2019/2022/2025) via infra.windows_ops"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/windows_cis.yml
+    credentials:
+      - Compliance-Windows-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: windows_targets
+    survey_enabled: true
+    survey_spec:
+      name: Windows CIS Survey
+      description: Configure Windows CIS hardening parameters
+      spec:
+        - question_name: CIS Profile Level
+          question_description: Select CIS Benchmark profile level
+          required: true
+          type: multiplechoice
+          variable: windows_cis_profile
+          default: "Level 1"
+          choices:
+            - "Level 1"
+            - "Level 2"
+          new_question: true
+        - question_name: Report Format
+          question_description: Compliance report output format
+          required: true
+          type: multiplechoice
+          variable: windows_cis_report_format
+          default: json
+          choices:
+            - json
+            - html
+            - yaml
+          new_question: true
+    labels:
+      - compliance
+      - hardening
+      - windows
+      - cis
+
+  # Windows CIS - Drift Detection (check mode)
+  - name: "Compliance - Windows CIS Audit"
+    description: "Audit-only CIS compliance check on Windows (no changes applied)"
+    job_type: check
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/windows_cis.yml
+    credentials:
+      - Compliance-Windows-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: windows_targets
+      windows_cis_report_format: json
+    labels:
+      - compliance
+      - audit
+      - windows
+      - cis
+
+  # Windows DISA STIG
+  - name: "Compliance - Windows STIG"
+    description: "Apply DISA STIG hardening to Windows Server (2019/2022/2025) via infra.windows_ops"
+    job_type: run
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/windows_stig.yml
+    credentials:
+      - Compliance-Windows-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: windows_targets
+    survey_enabled: true
+    survey_spec:
+      name: Windows STIG Survey
+      description: Configure Windows STIG hardening parameters
+      spec:
+        - question_name: Report Format
+          question_description: Compliance report output format
+          required: true
+          type: multiplechoice
+          variable: windows_stig_report_format
+          default: json
+          choices:
+            - json
+            - html
+            - yaml
+          new_question: true
+        - question_name: Fail on Non-Compliance
+          question_description: Fail the job if compliance score is below threshold
+          required: true
+          type: multiplechoice
+          variable: windows_stig_fail_on_non_compliance
+          default: "false"
+          choices:
+            - "false"
+            - "true"
+          new_question: true
+    labels:
+      - compliance
+      - hardening
+      - windows
+      - stig
+
+  # Windows STIG - Audit Only
+  - name: "Compliance - Windows STIG Audit"
+    description: "Audit-only STIG compliance check on Windows (no changes applied)"
+    job_type: check
+    inventory: Compliance-Inventory
+    project: Compliance-Framework
+    playbook: playbooks/windows_stig.yml
+    credentials:
+      - Compliance-Windows-Machine
+    verbosity: 0
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: windows_targets
+      windows_stig_report_format: json
+    labels:
+      - compliance
+      - audit
+      - windows
+      - stig

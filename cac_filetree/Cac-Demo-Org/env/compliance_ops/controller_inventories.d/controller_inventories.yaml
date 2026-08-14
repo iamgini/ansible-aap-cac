@@ -1,0 +1,5 @@
+---
+controller_inventories:
+  - name: Compliance-Inventory
+    organization: Compliance-Ops
+    description: Compliance scanning and hardening targets (Linux + Windows)

@@ -1,0 +1,213 @@
+---
+controller_workflows:
+  # =============================================================================
+  # Linux: Full Compliance Cycle with Approval Gate
+  # =============================================================================
+  # scan → parse → generate fix → commit → APPROVAL → remediate → rescan
+  - name: Compliance - Linux Full Cycle
+    description: "End-to-end OpenSCAP compliance: scan, analyze, generate fix, approve, remediate, rescan"
+    organization: Compliance-Ops
+    allow_simultaneous: false
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: scan_targets
+      customer_id: demo-org
+    survey_enabled: true
+    survey_spec:
+      name: Compliance Workflow Survey
+      description: Configure compliance workflow parameters
+      spec:
+        - question_name: CIS Profile
+          question_description: Select the SCAP compliance profile
+          required: true
+          type: multiplechoice
+          variable: cis_profile
+          default: "xccdf_org.ssgproject.content_profile_cis_level2_server"
+          choices:
+            - "xccdf_org.ssgproject.content_profile_cis_level2_server"
+            - "xccdf_org.ssgproject.content_profile_cis_level1_server"
+            - "xccdf_org.ssgproject.content_profile_stig"
+          new_question: true
+        - question_name: Customer ID
+          question_description: Organization identifier for report grouping
+          required: true
+          type: text
+          variable: customer_id
+          default: "demo-org"
+          min: 1
+          max: 50
+          new_question: true
+        - question_name: Change Request
+          question_description: Change management ticket number for audit trail
+          required: false
+          type: text
+          variable: change_request_id
+          default: ""
+          min: 0
+          max: 50
+          new_question: true
+    simplified_workflow_nodes:
+      # Node 1: Scan
+      - identifier: node-100-scan
+        unified_job_template: "Compliance - OSCAP Scan"
+        success_nodes:
+          - node-200-parse
+
+      # Node 2: Parse results
+      - identifier: node-200-parse
+        unified_job_template: "Compliance - OSCAP Parse"
+        success_nodes:
+          - node-300-generate
+
+      # Node 3: Generate remediation playbook
+      - identifier: node-300-generate
+        unified_job_template: "Compliance - OSCAP Generate Fix"
+        success_nodes:
+          - node-310-commit
+
+      # Node 3b: Commit to Git
+      - identifier: node-310-commit
+        unified_job_template: "Compliance - Commit Reports"
+        success_nodes:
+          - node-400-approval
+
+      # Node 4: Approval gate (human review)
+      - identifier: node-400-approval
+        approval_node:
+          name: Approve Remediation
+          description: "Review generated remediation playbook and compliance report before applying changes to production systems"
+          timeout: 86400
+        success_nodes:
+          - node-500-remediate
+
+      # Node 5: Apply remediation
+      - identifier: node-500-remediate
+        unified_job_template: "Compliance - OSCAP Remediate"
+        success_nodes:
+          - node-600-rescan
+        failure_nodes:
+          - node-600-rescan
+
+      # Node 6: Validation rescan (runs regardless of remediation outcome)
+      - identifier: node-600-rescan
+        unified_job_template: "Compliance - OSCAP Rescan"
+
+    labels:
+      - compliance
+      - linux
+      - approval-required
+
+  # =============================================================================
+  # Windows: CIS Hardening with Audit-First Approach
+  # =============================================================================
+  # audit (check mode) → APPROVAL → apply hardening
+  - name: Compliance - Windows CIS Hardening
+    description: "Windows CIS hardening: audit first, approve, then apply changes"
+    organization: Compliance-Ops
+    allow_simultaneous: false
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: windows_targets
+      windows_cis_profile: "Level 1"
+    survey_enabled: true
+    survey_spec:
+      name: Windows CIS Workflow Survey
+      description: Configure Windows CIS hardening
+      spec:
+        - question_name: CIS Profile Level
+          question_description: Select CIS Benchmark level
+          required: true
+          type: multiplechoice
+          variable: windows_cis_profile
+          default: "Level 1"
+          choices:
+            - "Level 1"
+            - "Level 2"
+          new_question: true
+        - question_name: Change Request
+          question_description: Change management ticket number
+          required: false
+          type: text
+          variable: change_request_id
+          default: ""
+          min: 0
+          max: 50
+          new_question: true
+    simplified_workflow_nodes:
+      # Node 1: Audit (check mode - no changes)
+      - identifier: node-100-audit
+        unified_job_template: "Compliance - Windows CIS Audit"
+        success_nodes:
+          - node-200-approval
+
+      # Node 2: Approval gate
+      - identifier: node-200-approval
+        approval_node:
+          name: Approve Windows CIS Hardening
+          description: "Review CIS audit report before applying hardening changes to Windows servers"
+          timeout: 86400
+        success_nodes:
+          - node-300-apply
+
+      # Node 3: Apply hardening
+      - identifier: node-300-apply
+        unified_job_template: "Compliance - Windows CIS"
+
+    labels:
+      - compliance
+      - windows
+      - cis
+      - approval-required
+
+  # =============================================================================
+  # Windows: STIG Hardening with Audit-First Approach
+  # =============================================================================
+  - name: Compliance - Windows STIG Hardening
+    description: "Windows STIG hardening: audit first, approve, then apply changes"
+    organization: Compliance-Ops
+    allow_simultaneous: false
+    ask_limit_on_launch: true
+    ask_variables_on_launch: true
+    extra_vars:
+      target_hosts: windows_targets
+    survey_enabled: true
+    survey_spec:
+      name: Windows STIG Workflow Survey
+      description: Configure Windows STIG hardening
+      spec:
+        - question_name: Change Request
+          question_description: Change management ticket number
+          required: false
+          type: text
+          variable: change_request_id
+          default: ""
+          min: 0
+          max: 50
+          new_question: true
+    simplified_workflow_nodes:
+      # Node 1: Audit (check mode)
+      - identifier: node-100-audit
+        unified_job_template: "Compliance - Windows STIG Audit"
+        success_nodes:
+          - node-200-approval
+
+      # Node 2: Approval gate
+      - identifier: node-200-approval
+        approval_node:
+          name: Approve Windows STIG Hardening
+          description: "Review STIG audit report before applying hardening changes to Windows servers"
+          timeout: 86400
+        success_nodes:
+          - node-300-apply
+
+      # Node 3: Apply hardening
+      - identifier: node-300-apply
+        unified_job_template: "Compliance - Windows STIG"
+
+    labels:
+      - compliance
+      - windows
+      - stig
+      - approval-required

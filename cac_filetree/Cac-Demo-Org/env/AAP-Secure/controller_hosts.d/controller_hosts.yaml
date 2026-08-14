@@ -1,0 +1,34 @@
+---
+controller_hosts:
+  - name: aap-gateway
+    inventory: aap_secure_inventory
+    variables:
+      ansible_host: gateway.example.com
+      ansible_connection: local
+      aap_hostname: "https://gateway.example.com"
+      aap_validate_certs: true
+
+  - name: aap-controller-01
+    inventory: aap_secure_inventory
+    variables:
+      ansible_host: controller1.example.com
+
+  - name: aap-hub-01
+    inventory: aap_secure_inventory
+    variables:
+      ansible_host: hub1.example.com
+
+  - name: aap-eda-01
+    inventory: aap_secure_inventory
+    variables:
+      ansible_host: eda1.example.com
+
+  - name: managed-node-01
+    inventory: aap_secure_inventory
+    variables:
+      ansible_host: managed1.example.com
+
+  - name: managed-node-02
+    inventory: aap_secure_inventory
+    variables:
+      ansible_host: managed2.example.com

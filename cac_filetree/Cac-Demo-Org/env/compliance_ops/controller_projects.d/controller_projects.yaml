@@ -1,0 +1,13 @@
+---
+controller_projects:
+  - name: Compliance-Framework
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-collection-compliance
+    scm_branch: main
+    scm_clean: true
+    scm_update_on_launch: false
+    description: Compliance-as-Code framework - OpenSCAP (Linux) and infra.windows_ops (Windows) CIS/STIG hardening
+    organization: Compliance-Ops
+    wait: true
+    update_project: true
+    update: true

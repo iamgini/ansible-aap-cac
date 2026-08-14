@@ -1,0 +1,60 @@
+---
+controller_workflows:
+  - name: aap_secure_scan_and_remediate
+    description: "AAP 2.7 security hardening: scan first, review report, approve, then remediate"
+    organization: Cac-Demo-Org
+    allow_simultaneous: false
+    ask_variables_on_launch: true
+    extra_vars:
+      aap_secure_scope: all
+      aap_secure_customer_name: "Demo Customer"
+    survey_enabled: true
+    survey_spec:
+      name: AAP Security Workflow Survey
+      description: Configure AAP security scan and remediation
+      spec:
+        - question_name: Scope
+          question_description: Which components to scan and remediate
+          required: true
+          type: multiplechoice
+          variable: aap_secure_scope
+          default: all
+          choices:
+            - all
+            - api
+            - hosts
+          new_question: true
+        - question_name: Customer Name
+          question_description: Customer or environment name for the report
+          required: true
+          type: text
+          variable: aap_secure_customer_name
+          default: "Demo Customer"
+          min: 1
+          max: 100
+          new_question: true
+        - question_name: Change Request
+          question_description: Change management ticket number for audit trail
+          required: false
+          type: text
+          variable: change_request_id
+          default: ""
+          min: 0
+          max: 50
+          new_question: true
+    simplified_workflow_nodes:
+      - identifier: node-100-scan
+        unified_job_template: "aap_secure_scan"
+        success_nodes:
+          - node-200-approval
+
+      - identifier: node-200-approval
+        approval_node:
+          name: Approve AAP Security Remediation
+          description: "Review the security scan report before applying hardened settings to the AAP platform"
+          timeout: 86400
+        success_nodes:
+          - node-300-remediate
+
+      - identifier: node-300-remediate
+        unified_job_template: "aap_secure_remediate"

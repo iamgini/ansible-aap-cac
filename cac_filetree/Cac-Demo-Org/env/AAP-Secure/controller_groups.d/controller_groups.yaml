@@ -1,0 +1,21 @@
+---
+controller_groups:
+  - name: aap_gateway
+    inventory: aap_secure_inventory
+    hosts:
+      - aap-gateway
+    variables:
+      ansible_connection: local
+
+  - name: aap_hosts
+    inventory: aap_secure_inventory
+    hosts:
+      - aap-controller-01
+      - aap-hub-01
+      - aap-eda-01
+
+  - name: managed_nodes
+    inventory: aap_secure_inventory
+    hosts:
+      - managed-node-01
+      - managed-node-02

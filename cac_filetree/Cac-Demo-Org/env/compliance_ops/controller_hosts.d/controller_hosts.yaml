@@ -1,0 +1,39 @@
+---
+controller_hosts:
+  # Linux scan targets (RHEL 9)
+  - name: rhel9-web-01
+    inventory: Compliance-Inventory
+    variables:
+      ansible_host: rhel9-web-01.example.com
+      customer_id: demo-org
+
+  - name: rhel9-db-01
+    inventory: Compliance-Inventory
+    variables:
+      ansible_host: rhel9-db-01.example.com
+      customer_id: demo-org
+
+  # Report server
+  - name: compliance-report-server
+    inventory: Compliance-Inventory
+    variables:
+      ansible_host: report-server.example.com
+
+  # Windows hardening targets
+  - name: win2022-web-01
+    inventory: Compliance-Inventory
+    variables:
+      ansible_host: win2022-web-01.example.com
+      ansible_connection: winrm
+      ansible_winrm_transport: ntlm
+      ansible_winrm_server_cert_validation: ignore
+      ansible_port: 5986
+
+  - name: win2019-db-01
+    inventory: Compliance-Inventory
+    variables:
+      ansible_host: win2019-db-01.example.com
+      ansible_connection: winrm
+      ansible_winrm_transport: ntlm
+      ansible_winrm_server_cert_validation: ignore
+      ansible_port: 5986

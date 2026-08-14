@@ -19,3 +19,7 @@ aap_organizations:
   - name: AIOps
     max_hosts: 0
     description: AIOps - Intelligent Event-Driven Automation
+
+  - name: Compliance-Ops
+    max_hosts: 0
+    description: Compliance-as-Code - CIS/STIG hardening for Linux and Windows
