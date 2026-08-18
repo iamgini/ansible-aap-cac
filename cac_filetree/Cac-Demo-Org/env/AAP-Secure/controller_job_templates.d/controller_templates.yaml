@@ -13,7 +13,7 @@ controller_templates:
     ask_variables_on_launch: true
     extra_vars:
       aap_secure_mode: scan
-      aap_secure_scope: all
+      aap_secure_scope: api
       aap_secure_customer_name: "Demo Customer"
     survey_enabled: true
     survey_spec:
@@ -25,7 +25,7 @@ controller_templates:
           required: true
           type: multiplechoice
           variable: aap_secure_scope
-          default: all
+          default: api
           choices:
             - all
             - api
