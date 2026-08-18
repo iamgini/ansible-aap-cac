@@ -5,7 +5,7 @@ controller_templates:
     job_type: run
     inventory: aap_secure_inventory
     project: aap_secure_project
-    playbook: scan.yml
+    playbook: aap_secure.yml
     credentials:
       - aap_secure_aap_credential
       - aap_secure_machine_credential
@@ -46,7 +46,7 @@ controller_templates:
     job_type: run
     inventory: aap_secure_inventory
     project: aap_secure_project
-    playbook: scan.yml
+    playbook: aap_secure.yml
     credentials:
       - aap_secure_aap_credential
       - aap_secure_machine_credential
@@ -87,7 +87,7 @@ controller_templates:
     job_type: run
     inventory: aap_secure_inventory
     project: aap_secure_project
-    playbook: scan.yml
+    playbook: aap_secure.yml
     credentials:
       - aap_secure_aap_credential
     verbosity: 0
