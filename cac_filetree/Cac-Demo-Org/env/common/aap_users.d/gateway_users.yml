@@ -31,27 +31,20 @@ aap_user_accounts:
   # ==============================================================
   # Superuser / Platform Administrator
   # ==============================================================
-  - username: admin-backup
-    password: AdminBackup123  # !vault | (Vault encrypted - password: AdminBackup123)
-    #       $ANSIBLE_VAULT;1.1;AES256
-    #       65323966383164643239643631393465336439323932633032386435343337656566666533363764
-    #       3665656139316265623564333237386134393935633738610a306635393966613838393034613437
-    #       64303563393465623762303161316530653336663339613334613437363963353762373765663335
-    #       6430643030663362620a613735303731343762653935666430396462393965336237313830383663
-    #       3337
-    email: admin-backup@example.com
-    first_name: Backup
-    last_name: Administrator
-    is_superuser: true
-    is_system_auditor: false
-    update_secrets: "{{ user_update_secrets | default(false) | bool }}"
-
-  - username: gineesh
-    password: aapadmin
-    email: gini@iamgini.com
-    first_name: Gineesh
-    last_name: Madapparambath
-    is_superuser: true
+  # - username: admin-backup
+  #   password: YourSecrtAdminPassword  # !vault | (Vault encrypted - password: AdminBackup123)
+  #   #       $ANSIBLE_VAULT;1.1;AES256
+  #   #       65323966383164643239643631393465336439323932633032386435343337656566666533363764
+  #   #       3665656139316265623564333237386134393935633738610a306635393966613838393034613437
+  #   #       64303563393465623762303161316530653336663339613334613437363963353762373765663335
+  #   #       6430643030663362620a613735303731343762653935666430396462393965336237313830383663
+  #   #       3337
+  #   email: admin-backup@example.com
+  #   first_name: Backup
+  #   last_name: Administrator
+  #   is_superuser: true
+  #   is_system_auditor: false
+  #   update_secrets: "{{ user_update_secrets | default(false) | bool }}"
 
   # ==============================================================
   # Regular Users with Organization Access

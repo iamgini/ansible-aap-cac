@@ -131,12 +131,12 @@ When using `ansible-playbook` or `ansible-navigator`, the credential can be pass
 
 ```shell
 export CONTROLLER_USERNAME=admin
-export CONTROLLER_PASSWORD=secretpassword
-export CONTROLLER_HOST=https://aap25.lab.iamgini.com
+export CONTROLLER_PASSWORD=yoursecretpassword
+export CONTROLLER_HOST=https://aap.lab.iamgini.com
 export CONTROLLER_VERIFY_SSL=false
 
 export AAP_ORGANIZATION=Cac-Demo-Org
-export AAP_ENVIRONMENT=uat
+export AAP_ENVIRONMENT=common
 ```
 
 ## Encrypting Sensitive data

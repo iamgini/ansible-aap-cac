@@ -1,8 +1,24 @@
 controller_templates:
+- name: DR-00-Failure-Notification
+  description: Send failure alert when DR workflow encounters an error
+  job_type: run
+  inventory: Enterprise-Inventory
+  project: Ansible-Real-Life-Cac
+  playbook: ansible-hello-world/hello-world.yaml
+  verbosity: 1
+  extra_vars:
+    your_name: DR Workflow Failure Alert
+    dr_phase: failure_notification
+    notification_channel: ops-alerts
+  ask_variables_on_launch: true
+  labels:
+  - DR
+  - critical
+  - production
 - name: DR-01-App-Stop-VM
   description: Stop application services on Virtual Machines - Primary Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -18,7 +34,7 @@ controller_templates:
 - name: DR-02-App-Stop-OCP
   description: Stop application services on OpenShift - Primary Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -34,7 +50,7 @@ controller_templates:
 - name: DR-03-MQ-Stop
   description: Stop Message Queue services - Primary Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -50,7 +66,7 @@ controller_templates:
 - name: DR-04-Database-Switchover
   description: Perform database switchover from Primary to DR site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 1
@@ -66,7 +82,7 @@ controller_templates:
 - name: DR-05-Storage-Unmount-App
   description: Unmount application storage volumes - Primary Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -81,7 +97,7 @@ controller_templates:
 - name: DR-06-Storage-Unmount-OCP
   description: Unmount OpenShift storage volumes - Primary Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -96,7 +112,7 @@ controller_templates:
 - name: DR-07-Storage-Unmount-MQ
   description: Unmount MQ storage volumes - Primary Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -111,7 +127,7 @@ controller_templates:
 - name: DR-08-Storage-Unmount-DB
   description: Unmount database storage volumes - Primary Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -126,7 +142,7 @@ controller_templates:
 - name: DR-09-Storage-BreakSync-App
   description: Break storage replication sync for App volumes
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -141,7 +157,7 @@ controller_templates:
 - name: DR-10-Storage-BreakSync-OCP
   description: Break storage replication sync for OCP volumes
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -156,7 +172,7 @@ controller_templates:
 - name: DR-11-Storage-BreakSync-MQ
   description: Break storage replication sync for MQ volumes
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -171,7 +187,7 @@ controller_templates:
 - name: DR-12-Storage-BreakSync-DB
   description: Break storage replication sync for DB volumes
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -186,7 +202,7 @@ controller_templates:
 - name: DR-13-Storage-Mount-App
   description: Mount application storage volumes - DR Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -202,7 +218,7 @@ controller_templates:
 - name: DR-14-Storage-Mount-OCP
   description: Mount OpenShift storage volumes - DR Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -218,7 +234,7 @@ controller_templates:
 - name: DR-15-Storage-Mount-MQ
   description: Mount MQ storage volumes - DR Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -234,7 +250,7 @@ controller_templates:
 - name: DR-16-Database-HealthCheck
   description: Validate database health and availability - DR Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 1
@@ -251,7 +267,7 @@ controller_templates:
 - name: DR-17-MQ-Start
   description: Start Message Queue services - DR Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -268,7 +284,7 @@ controller_templates:
 - name: DR-18-App-Start-VM
   description: Start application services on Virtual Machines - DR Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -285,7 +301,7 @@ controller_templates:
 - name: DR-19-App-Start-OCP
   description: Start application services on OpenShift - DR Site
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -302,7 +318,7 @@ controller_templates:
 - name: DR-20-Storage-ReverseSync-App
   description: Establish reverse replication sync for App volumes
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -317,7 +333,7 @@ controller_templates:
 - name: DR-21-Storage-ReverseSync-OCP
   description: Establish reverse replication sync for OCP volumes
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -332,7 +348,7 @@ controller_templates:
 - name: DR-22-Storage-ReverseSync-MQ
   description: Establish reverse replication sync for MQ volumes
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0
@@ -347,7 +363,7 @@ controller_templates:
 - name: DR-23-Storage-ReverseSync-DB
   description: Establish reverse replication sync for DB volumes
   job_type: run
-  inventory: Cac-Demo-Inventory
+  inventory: Enterprise-Inventory
   project: Ansible-Real-Life-Cac
   playbook: ansible-hello-world/hello-world.yaml
   verbosity: 0

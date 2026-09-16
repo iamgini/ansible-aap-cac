@@ -23,13 +23,6 @@ aap_user_accounts:
     is_system_auditor: false
     update_secrets: "{{ user_update_secrets | default(false) | bool }}"
 
-  - username: gineesh
-    password: aapadmin
-    email: gini@iamgini.com
-    first_name: Gineesh
-    last_name: Madapparambath
-    is_superuser: true
-
   # ==============================================================
   # Regular Users with Organization Access
   # ==============================================================

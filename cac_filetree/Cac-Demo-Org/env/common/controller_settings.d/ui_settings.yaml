@@ -31,6 +31,14 @@ controller_settings:
     value: -1
     # Max concurrent sessions per user (-1 = unlimited)
 
+  # - name: SESSION_COOKIE_SECURE
+  #   value: false
+  #   # Not a valid controller setting in AAP 2.5+ (/api/controller/v2/settings/all/ verified)
+
+  # - name: LOGOUT_REDIRECT_OVERRIDE
+  #   value: ""
+  #   # Not a valid controller setting in AAP 2.5+ (/api/controller/v2/settings/all/ verified)
+
   - name: AUTH_BASIC_ENABLED
     value: true
     # Enable HTTP Basic Auth

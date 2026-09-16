@@ -1,86 +1,70 @@
 ---
 # AAP Gateway Platform Settings (AAP 2.5+)
+# Valid keys sourced from: /api/gateway/v1/settings/all/
+# NOTE: Settings not accepted by gateway API are commented out.
+#       Controller-specific settings belong in controller_settings.d/
 gateway_settings:
-  # Session and Authentication Settings
-  - name: SESSIONS_PER_USER
-    value: 3
-    # Maximum concurrent sessions per user
+  # Session Settings
+  SESSION_COOKIE_AGE: 1800
+  # Session cookie timeout in seconds (30 minutes)
 
-  - name: SESSION_COOKIE_AGE
-    value: 1800
-    # Session cookie timeout in seconds (30 minutes)
+  # SESSION_COOKIE_SECURE: true
+  # Not valid in gateway API or controller API (AAP 2.5+ verified)
 
-  - name: SESSION_COOKIE_SECURE
-    value: true
-    # Require HTTPS for session cookies
+  CSRF_TRUSTED_ORIGINS:
+    - "https://aap.example.com"
+    - "https://automation.example.com"
+  # Trusted origins for CSRF protection
 
-  - name: CSRF_TRUSTED_ORIGINS
-    value:
-      - "https://aap.example.com"
-      - "https://automation.example.com"
-    # Trusted origins for CSRF protection
+  # SESSIONS_PER_USER: 3
+  # Not a gateway setting - active in controller_settings.d/ui_settings.yaml
 
-  # Authentication Settings
-  - name: ALLOW_OAUTH2_FOR_EXTERNAL_USERS
-    value: false
-    # Allow OAuth2 for external users
+  # Authentication
+  ALLOW_OAUTH2_FOR_EXTERNAL_USERS: false
+  # Allow OAuth2 for external users
 
-  - name: LOGIN_REDIRECT_OVERRIDE
-    value: ""
-    # Override default login redirect URL
+  LOGIN_REDIRECT_OVERRIDE: ""
+  # Override default login redirect URL
 
-  - name: LOGOUT_REDIRECT_OVERRIDE
-    value: ""
-    # Override default logout redirect URL
+  # LOGOUT_REDIRECT_OVERRIDE: ""
+  # Not valid in gateway API or controller API (AAP 2.5+ verified)
 
-  # Platform Security Settings
-  - name: REMOTE_HOST_HEADERS
-    value:
-      - "HTTP_X_FORWARDED_FOR"
-      - "REMOTE_ADDR"
-    # Headers to determine remote host IP
+  # Platform Security
+  # REMOTE_HOST_HEADERS:
+  #   - "HTTP_X_FORWARDED_FOR"
+  #   - "REMOTE_ADDR"
+  # Not a gateway setting - active in controller_settings.d/controller_settings.yaml
 
-  - name: PROXY_IP_ALLOWED_LIST
-    value: []
-    # Allowed proxy IPs for X-Forwarded-For
+  # PROXY_IP_ALLOWED_LIST: []
+  # Not a gateway setting - active in controller_settings.d/controller_settings.yaml
 
   # Logging and Audit
-  - name: LOGGING_AGGREGATOR_ENABLED
-    value: false
-    # Enable external logging aggregator
+  # LOGGING_AGGREGATOR_ENABLED: false
+  # Not a gateway setting - controller uses LOG_AGGREGATOR_ENABLED in controller_settings.d/settings.yaml
 
-  - name: LOGGING_AGGREGATOR_LEVEL
-    value: "INFO"
-    # Logging level: DEBUG, INFO, WARNING, ERROR
+  # LOGGING_AGGREGATOR_LEVEL: "INFO"
+  # Not a gateway setting - controller uses LOG_AGGREGATOR_LEVEL in controller_settings.d/settings.yaml
 
   # License and Subscription
-  - name: SUBSCRIPTIONS_USERNAME
-    value: ""
-    # Red Hat customer portal username (leave empty for manifest-based licensing)
+  SUBSCRIPTIONS_USERNAME: ""
+  # Red Hat customer portal username (leave empty for manifest-based licensing)
 
-  - name: SUBSCRIPTIONS_PASSWORD
-    value: ""
-    # Red Hat customer portal password
+  SUBSCRIPTIONS_PASSWORD: ""
+  # Red Hat customer portal password
 
-  # Custom Branding
-  - name: CUSTOM_LOGIN_INFO
-    value: "Welcome to Enterprise Automation Platform"
-    # Custom login page message
+  # Custom Branding (gateway uses lowercase keys)
+  custom_login_info: "Welcome to Enterprise Automation Platform"
+  # Custom login page message
 
-  - name: CUSTOM_LOGO
-    value: ""
-    # Custom logo URL or base64 encoded image
+  custom_logo: ""
+  # Custom logo URL or base64 encoded image
 
   # Analytics and Telemetry
-  - name: INSIGHTS_TRACKING_STATE
-    value: false
-    # Enable Red Hat Insights tracking
+  INSIGHTS_TRACKING_STATE: false
+  # Enable Red Hat Insights tracking
 
-  - name: AUTOMATION_ANALYTICS_GATHER_INTERVAL
-    value: 14400
-    # Analytics data gathering interval in seconds (4 hours)
+  AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
+  # Analytics data gathering interval in seconds (4 hours)
 
-  - name: AUTOMATION_ANALYTICS_LAST_GATHER
-    value: null
-    # Last analytics gather timestamp (auto-managed)
-...
+  # AUTOMATION_ANALYTICS_LAST_GATHER: null
+  # Not returned as a writable key in /api/gateway/v1/settings/all/

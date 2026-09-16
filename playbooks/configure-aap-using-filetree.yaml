@@ -27,13 +27,11 @@
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_organizations.d/"
     filetree_controller_labels:                                             # common only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_labels.d/"
-    filetree_aap_user_accounts:                                             # common + env
-      # - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/aap_users.d/"
-      # - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_users.d/"
+    filetree_aap_user_accounts:                                             # common only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_users.d/"
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/aap_users.d/"
-    filetree_aap_teams:                                                     # common only
+    filetree_aap_teams:                                                     # common + env
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_teams.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/aap_teams.d/"
     filetree_controller_credential_types:                                   # common + env
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_credential_types.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credential_types.d/"
@@ -43,44 +41,37 @@
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credentials.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credentials.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_credentials.d/"
-    filetree_controller_credential_input_sources:                           # common only
+    filetree_controller_credential_input_sources:                           # common + env
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_credential_input_sources.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_credential_input_sources.d/"
     filetree_controller_notifications:                                      # common + env
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_notification_templates.d/"
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_notification_templates.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_notifications.d/"
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_notifications.d/"
     filetree_controller_projects:                                           # common + env
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_projects.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_projects.d/"
-    filetree_controller_execution_environments:                             # env only
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_execution_environments.d/"
+    filetree_controller_execution_environments:                             # common only
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_execution_environments.d/"
     filetree_aap_applications:                                              # common only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/aap_applications.d/"
-    filetree_controller_inventories:                                        # common + env
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_inventories.d/"
+    filetree_controller_inventories:                                        # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_inventories.d/"
     filetree_controller_inventory_sources:                                  # common + env
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_inventory_sources.d/"
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_inventory_sources.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_inventory_sources.d/"
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_inventory_sources.d/"
-    filetree_controller_instance_groups:                                    # env only
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_instance_groups.d/"
-    filetree_controller_hosts:                                              # common + env
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_hosts.d/"
+    filetree_controller_instance_groups:                                    # common only
+      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_instance_groups.d/"
+    filetree_controller_hosts:                                              # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_hosts.d/"
-    filetree_controller_groups:                                             # common + env
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_groups.d/"
+    filetree_controller_groups:                                             # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_groups.d/"
-    filetree_controller_templates:                                          # common + env
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_job_templates.d/"
+    filetree_controller_templates:                                          # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_job_templates.d/"
-    filetree_controller_workflow_job_templates:                              # common + env
-      # - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_workflow_job_templates.d/"
-      # - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_workflow_job_templates.d/"
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_workflow_job_templates.d/"
+    filetree_controller_workflow_job_templates:                              # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_workflow_job_templates.d/"
-    filetree_controller_schedules:                                          # common + env
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/controller_schedules.d/"
+    filetree_controller_schedules:                                          # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_schedules.d/"
     filetree_controller_roles:                                              # common + env
       # - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/controller_roles.d/"
@@ -93,10 +84,7 @@
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_credentials.d/"
     filetree_eda_decision_environments:                                     # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_decision_environments.d/"
-    filetree_eda_projects:                                                  # common + env
-      # - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_projects.d/"
-      # - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/eda_projects.d/"
-      - "{{ dir_orgs_vars }}/{{ orgs }}/env/common/eda_projects.d/"
+    filetree_eda_projects:                                                  # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_projects.d/"
     filetree_eda_event_streams:                                              # env only
       - "{{ dir_orgs_vars }}/{{ orgs }}/env/{{ env }}/eda_event_streams.d/"

@@ -2,3 +2,13 @@
 controller_settings:
   - name: SCHEDULE_MAX_JOBS
     value: "10"
+
+  - name: REMOTE_HOST_HEADERS
+    value:
+      - "HTTP_X_FORWARDED_FOR"
+      - "REMOTE_ADDR"
+    # Headers used to determine remote host IP (important behind load balancers)
+
+  - name: PROXY_IP_ALLOWED_LIST
+    value: []
+    # Allowed proxy IPs for X-Forwarded-For header validation

@@ -48,9 +48,10 @@ controller_labels:
     organization: Cac-Demo-Org
     description: Application deployment jobs
 
-  - name: compliance
-    organization: Cac-Demo-Org
-    description: Compliance and security scanning
+  # NOTE: compliance/setup/scan/linux/windows/fix/hardening/cis/audit/stig labels removed from
+  # Cac-Demo-Org — not used by any Cac-Demo-Org templates and caused cross-org collision.
+  # AAP label lookup is global by name; same label in multiple orgs causes template creation failure.
+  # Existing AAP labels renamed to cac-XXXX via PATCH to neutralize them.
 
   - name: networking
     organization: Cac-Demo-Org
@@ -95,11 +96,17 @@ controller_labels:
     organization: AIOps
     description: AIOps and intelligent automation
 
-  - name: remediation
+  - name: ai-remediation
     organization: AIOps
-    description: Automated remediation jobs
+    description: Automated remediation jobs (AIOps-specific)
 
   - name: AI
     organization: AIOps
     description: AI-powered automation
+
+  # ============================================================
+  # Compliance-Ops Organization Labels — REMOVED
+  # Labels dropped from compliance templates to avoid cross-org
+  # name collision (AAP label lookup is global, not org-scoped)
+  # ============================================================
 ...

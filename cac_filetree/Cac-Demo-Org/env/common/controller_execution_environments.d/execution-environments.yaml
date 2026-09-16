@@ -96,23 +96,22 @@ controller_execution_environments:
   # Private Registry Execution Environments
   # ==============================================================
 
-  - name: Private Registry - Enterprise EE
-    description: "Enterprise custom EE from private Harbor registry"
-    organization: Cac-Demo-Org
-    image: "harbor.company.com/automation/enterprise-ee:v3.0"
-    pull: always
-    credential: Harbor-Registry-Credential  # Container Registry credential
-    # Note: Credential must be type "Container Registry" with:
-    # - Authentication URL: harbor.company.com
-    # - Username: robot$account or service account
-    # - Password/Token: vaulted registry token
+  # - name: Private Registry - Enterprise EE
+  #   description: "Enterprise custom EE from private Harbor registry"
+  #   organization: Cac-Demo-Org
+  #   image: "harbor.company.com/automation/enterprise-ee:v3.0"
+  #   pull: always
+  #   credential: Harbor-Registry-Credential
+  #   # Requires: Container Registry credential 'Harbor-Registry-Credential' created first
+  #   # Credential type: Container Registry, auth URL: harbor.company.com
 
-  - name: Private Registry - Custom Build
-    description: "Custom built EE with specific requirements"
-    organization: Cac-Demo-Org
-    image: "nexus.company.com:5000/ansible/custom-ee:latest"
-    pull: missing
-    credential: Nexus-Registry-Credential
+  # - name: Private Registry - Custom Build
+  #   description: "Custom built EE with specific requirements"
+  #   organization: Cac-Demo-Org
+  #   image: "nexus.company.com:5000/ansible/custom-ee:latest"
+  #   pull: missing
+  #   credential: Nexus-Registry-Credential
+  #   # Requires: Container Registry credential 'Nexus-Registry-Credential' created first
 
   # ==============================================================
   # Example: Organization Default EE

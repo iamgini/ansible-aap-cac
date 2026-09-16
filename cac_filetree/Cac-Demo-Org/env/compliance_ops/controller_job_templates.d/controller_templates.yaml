@@ -15,9 +15,6 @@ controller_templates:
       - Compliance-Linux-Machine
     verbosity: 0
     ask_variables_on_launch: true
-    labels:
-      - compliance
-      - setup
 
   # Phase 1: OpenSCAP Scan
   - name: "Compliance - OSCAP Scan"
@@ -58,10 +55,6 @@ controller_templates:
           min: 1
           max: 50
           new_question: true
-    labels:
-      - compliance
-      - scan
-      - linux
 
   # Phase 2a: Parse Scan Results
   - name: "Compliance - OSCAP Parse"
@@ -77,10 +70,6 @@ controller_templates:
     ask_variables_on_launch: true
     extra_vars:
       target_hosts: scan_targets
-    labels:
-      - compliance
-      - scan
-      - linux
 
   # Phase 2b: Generate Remediation Playbook
   - name: "Compliance - OSCAP Generate Fix"
@@ -111,10 +100,6 @@ controller_templates:
             - execution_environment
             - report_server
           new_question: true
-    labels:
-      - compliance
-      - remediation
-      - linux
 
   # Phase 2c: Commit Reports to Git
   - name: "Compliance - Commit Reports"
@@ -125,13 +110,9 @@ controller_templates:
     playbook: playbooks/commit_reports.yml
     credentials:
       - Compliance-Linux-Machine
-      - Compliance-SCM
+      - Compliance-Git-Commit
     verbosity: 0
     ask_variables_on_launch: true
-    labels:
-      - compliance
-      - remediation
-      - linux
 
   # Phase 3a: Apply Remediation
   - name: "Compliance - OSCAP Remediate"
@@ -147,10 +128,6 @@ controller_templates:
     ask_variables_on_launch: true
     extra_vars:
       target_hosts: scan_targets
-    labels:
-      - compliance
-      - remediation
-      - linux
 
   # Phase 3b: Validation Rescan
   - name: "Compliance - OSCAP Rescan"
@@ -166,10 +143,6 @@ controller_templates:
     ask_variables_on_launch: true
     extra_vars:
       target_hosts: scan_targets
-    labels:
-      - compliance
-      - scan
-      - linux
 
   # Master playbook (all phases without approval gate)
   - name: "Compliance - OSCAP Full Cycle"
@@ -180,15 +153,12 @@ controller_templates:
     playbook: playbooks/oscap_site.yml
     credentials:
       - Compliance-Linux-Machine
-      - Compliance-SCM
+      - Compliance-Git-Commit
     verbosity: 0
     ask_limit_on_launch: true
     ask_variables_on_launch: true
     extra_vars:
       target_hosts: scan_targets
-    labels:
-      - compliance
-      - linux
 
   # =============================================================================
   # Windows Compliance Job Templates
@@ -234,11 +204,6 @@ controller_templates:
             - html
             - yaml
           new_question: true
-    labels:
-      - compliance
-      - hardening
-      - windows
-      - cis
 
   # Windows CIS - Drift Detection (check mode)
   - name: "Compliance - Windows CIS Audit"
@@ -255,11 +220,6 @@ controller_templates:
     extra_vars:
       target_hosts: windows_targets
       windows_cis_report_format: json
-    labels:
-      - compliance
-      - audit
-      - windows
-      - cis
 
   # Windows DISA STIG
   - name: "Compliance - Windows STIG"
@@ -301,11 +261,6 @@ controller_templates:
             - "false"
             - "true"
           new_question: true
-    labels:
-      - compliance
-      - hardening
-      - windows
-      - stig
 
   # Windows STIG - Audit Only
   - name: "Compliance - Windows STIG Audit"
@@ -322,8 +277,3 @@ controller_templates:
     extra_vars:
       target_hosts: windows_targets
       windows_stig_report_format: json
-    labels:
-      - compliance
-      - audit
-      - windows
-      - stig

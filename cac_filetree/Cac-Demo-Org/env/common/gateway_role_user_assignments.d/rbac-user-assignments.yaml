@@ -10,7 +10,7 @@ gateway_role_user_assignments:
 
   # Organization Admin - Full control over organization and all its resources
   - role_definition: "Organization Admin"
-    user: gineesh
+    user: admin-backup
     object_id: Cac-Demo-Org
 
   # Organization Member - Basic access to organization
@@ -61,7 +61,7 @@ gateway_role_user_assignments:
 
   # Credential Admin - Can manage all credentials in organization
   - role_definition: "Organization Credential Admin"
-    user: gineesh
+    user: svc-automation
     object_id: Cac-Demo-Org
 
   # Execution Environment Admin - Can manage execution environments

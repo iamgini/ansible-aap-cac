@@ -1,0 +1,12 @@
+---
+controller_projects:
+  - name: Network-Automation-CaC
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-real-life
+    scm_branch: main
+    scm_clean: false
+    description: Demo project for network automation
+    organization: Network-Ops
+    wait: true
+    update_project: true
+    update: true

@@ -17,7 +17,11 @@
       "mcp__aap-mcp-platform-config__controller-settings_list",
       "mcp__aap-mcp-platform-config__settings_retrieve",
       "mcp__aap-mcp-job-mgmt__activation_instances_list",
-      "Bash(pre-commit install *)"
+      "Bash(pre-commit install *)",
+      "Bash(curl -sk -u gineesh:aap27admin https://aapaio.lab.gineesh.com/api/v2/settings/all/ -H 'Content-Type: application/json' -o /tmp/controller_settings.json)",
+      "Read(//tmp/**)",
+      "Bash(curl -sk -u gineesh:aap27admin https://aapaio.lab.gineesh.com/api/controller/v2/settings/all/ -o /tmp/controller_settings.json)",
+      "Bash(curl *)"
     ]
   }
 }

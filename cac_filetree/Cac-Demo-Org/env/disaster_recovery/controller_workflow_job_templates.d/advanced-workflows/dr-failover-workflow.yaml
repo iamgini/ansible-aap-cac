@@ -173,7 +173,7 @@ controller_workflows:
   - identifier: node-903-storage-reversesync-db
     unified_job_template: DR-23-Storage-ReverseSync-DB
   - identifier: node-999-failure-notification
-    unified_job_template: HW-01-Daily-Morning-Check
+    unified_job_template: DR-00-Failure-Notification
     extra_data:
       your_name: DR Workflow Failed - Manual Intervention Required
   labels:

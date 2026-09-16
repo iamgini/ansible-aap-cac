@@ -93,10 +93,6 @@ controller_workflows:
       - identifier: node-600-rescan
         unified_job_template: "Compliance - OSCAP Rescan"
 
-    labels:
-      - compliance
-      - linux
-      - approval-required
 
   # =============================================================================
   # Windows: CIS Hardening with Audit-First Approach
@@ -155,11 +151,6 @@ controller_workflows:
       - identifier: node-300-apply
         unified_job_template: "Compliance - Windows CIS"
 
-    labels:
-      - compliance
-      - windows
-      - cis
-      - approval-required
 
   # =============================================================================
   # Windows: STIG Hardening with Audit-First Approach
@@ -206,8 +197,3 @@ controller_workflows:
       - identifier: node-300-apply
         unified_job_template: "Compliance - Windows STIG"
 
-    labels:
-      - compliance
-      - windows
-      - stig
-      - approval-required
