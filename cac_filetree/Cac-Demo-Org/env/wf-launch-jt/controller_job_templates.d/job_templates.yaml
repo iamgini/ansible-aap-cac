@@ -1,0 +1,86 @@
+---
+controller_templates:
+  # ---------------------------------------------------------------
+  # Project: WF-Launcher - Decision Engine
+  # ---------------------------------------------------------------
+
+  - name: "WF-Decision - Route Request"
+    description: "Reads survey inputs, consults routing table, outputs target_jt_name via set_stats"
+    organization: Cac-Demo-Org
+    project: "WF-Launcher - Decision Engine"
+    playbook: "ansible-wf-launch-jt/decide-target-jt.yml"
+    inventory: WF-Launcher-Inventory
+    ask_variables_on_launch: true
+    extra_vars:
+      site_id: ""
+      service_category: ""
+      service_operation: ""
+      change_request_id: ""
+
+  - name: "WF-Launcher - Execute Target JT"
+    description: "Launches the resolved job template via AAP API, polls for completion, prints job URL"
+    organization: Cac-Demo-Org
+    project: "WF-Launcher - Decision Engine"
+    playbook: "ansible-wf-launch-jt/launch-and-track-jt.yml"
+    inventory: WF-Launcher-Inventory
+    ask_variables_on_launch: true
+    credentials:
+      - "WF-Launcher-AAP-API"
+    extra_vars:
+      target_jt_name: ""
+
+  # ---------------------------------------------------------------
+  # Project: WF-Target - Alpha Services (web-app, site-north)
+  # ---------------------------------------------------------------
+
+  - name: "AppDeploy - Deploy Web Frontend"
+    description: "Deploy web frontend application on site-north (hello-world-alpha)"
+    organization: Cac-Demo-Org
+    project: "WF-Target - Alpha Services"
+    playbook: "ansible-wf-launch-jt/hello-world-alpha.yml"
+    inventory: WF-Launcher-Inventory
+    ask_variables_on_launch: true
+    extra_vars:
+      site_id: "site-north"
+      service_category: "web-app"
+      service_operation: "deploy"
+
+  - name: "AppDeploy - Restart Web Service"
+    description: "Restart web service on site-north (hello-world-alpha)"
+    organization: Cac-Demo-Org
+    project: "WF-Target - Alpha Services"
+    playbook: "ansible-wf-launch-jt/hello-world-alpha.yml"
+    inventory: WF-Launcher-Inventory
+    ask_variables_on_launch: true
+    extra_vars:
+      site_id: "site-north"
+      service_category: "web-app"
+      service_operation: "restart"
+
+  # ---------------------------------------------------------------
+  # Project: WF-Target - Beta Services (data-pipeline, site-south)
+  # ---------------------------------------------------------------
+
+  - name: "DataOps - Run Pipeline Backup"
+    description: "Execute data pipeline backup on site-south (hello-world-beta)"
+    organization: Cac-Demo-Org
+    project: "WF-Target - Beta Services"
+    playbook: "ansible-wf-launch-jt/hello-world-beta.yml"
+    inventory: WF-Launcher-Inventory
+    ask_variables_on_launch: true
+    extra_vars:
+      site_id: "site-south"
+      service_category: "data-pipeline"
+      service_operation: "backup"
+
+  - name: "DataOps - Restore Pipeline"
+    description: "Restore data pipeline from backup on site-south (hello-world-beta)"
+    organization: Cac-Demo-Org
+    project: "WF-Target - Beta Services"
+    playbook: "ansible-wf-launch-jt/hello-world-beta.yml"
+    inventory: WF-Launcher-Inventory
+    ask_variables_on_launch: true
+    extra_vars:
+      site_id: "site-south"
+      service_category: "data-pipeline"
+      service_operation: "restore"

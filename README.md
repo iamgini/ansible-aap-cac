@@ -136,7 +136,7 @@ export CONTROLLER_HOST=https://aap.lab.iamgini.com
 export CONTROLLER_VERIFY_SSL=false
 
 export AAP_ORGANIZATION=Cac-Demo-Org
-export AAP_ENVIRONMENT=common
+export AAP_ENVIRONMENT=uat
 ```
 
 ## Encrypting Sensitive data

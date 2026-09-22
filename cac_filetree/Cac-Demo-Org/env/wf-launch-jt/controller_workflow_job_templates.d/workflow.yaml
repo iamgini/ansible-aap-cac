@@ -1,0 +1,92 @@
+---
+controller_workflows:
+  - name: "WF - Launch Target Job Template"
+    description: >-
+      Routes incoming requests to the correct job template via survey-driven decision logic.
+      Survey → Decision Engine → Human Approval → API Launch → Poll to completion.
+    organization: Cac-Demo-Org
+    allow_simultaneous: false
+    ask_variables_on_launch: true
+    destroy_current_nodes: true
+    extra_vars:
+      site_id: ""
+      service_category: ""
+      service_operation: ""
+      change_request_id: ""
+    survey_enabled: true
+    survey_spec:
+      name: "Job Template Routing Survey"
+      description: "Select site, service category, and operation to route to the correct job template"
+      spec:
+        - question_name: "Site ID"
+          question_description: "Target site for this operation"
+          required: true
+          type: multiplechoice
+          variable: site_id
+          default: "site-north"
+          choices:
+            - "site-north"
+            - "site-south"
+          new_question: true
+
+        - question_name: "Service Category"
+          question_description: "Service category to operate on"
+          required: true
+          type: multiplechoice
+          variable: service_category
+          default: "web-app"
+          choices:
+            - "web-app"
+            - "data-pipeline"
+          new_question: true
+
+        - question_name: "Service Operation"
+          question_description: "Operation to perform on the service"
+          required: true
+          type: multiplechoice
+          variable: service_operation
+          default: "deploy"
+          choices:
+            - "deploy"
+            - "restart"
+            - "backup"
+            - "restore"
+          new_question: true
+
+        - question_name: "Change Request ID"
+          question_description: "Change management ticket reference (optional, for audit trail)"
+          required: false
+          type: text
+          variable: change_request_id
+          default: ""
+          min: 0
+          max: 50
+          new_question: true
+
+    simplified_workflow_nodes:
+      # Node 1: Decision Engine — resolves survey inputs to a target JT name
+      - identifier: node-100-decide
+        unified_job_template: "WF-Decision - Route Request"
+        success_nodes:
+          - node-200-approval
+        failure_nodes:
+          - node-900-route-failed
+
+      # Node 2: Human approval gate — approver sees which JT was selected in node-100 output
+      - identifier: node-200-approval
+        approval_node:
+          name: "Confirm Target Job Template"
+          description: >-
+            Review the decision output from node-100 to confirm which job template will be
+            launched. Check the job output for 'Target JT' before approving.
+          timeout: 3600
+        success_nodes:
+          - node-300-launch
+
+      # Node 3: Launch the resolved JT via AAP API, poll until done
+      - identifier: node-300-launch
+        unified_job_template: "WF-Launcher - Execute Target JT"
+
+      # Node 900: Decision routing failed (invalid survey combination)
+      - identifier: node-900-route-failed
+        unified_job_template: "WF-Decision - Route Request"

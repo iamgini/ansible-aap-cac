@@ -21,7 +21,10 @@
       "Bash(curl -sk -u gineesh:aap27admin https://aapaio.lab.gineesh.com/api/v2/settings/all/ -H 'Content-Type: application/json' -o /tmp/controller_settings.json)",
       "Read(//tmp/**)",
       "Bash(curl -sk -u gineesh:aap27admin https://aapaio.lab.gineesh.com/api/controller/v2/settings/all/ -o /tmp/controller_settings.json)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(echo 'aapaio')",
+      "Bash(ansible-vault encrypt_string '0g0kVVRdXf1DOVdCoJLtTNtBArfQXB' --vault-password-file /tmp/vp.txt --name 'controller_token')",
+      "Bash(rm /tmp/vp.txt)"
     ]
   }
 }

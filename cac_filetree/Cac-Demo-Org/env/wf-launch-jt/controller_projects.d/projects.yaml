@@ -1,0 +1,37 @@
+---
+controller_configuration_projects_async_retries: 60
+controller_configuration_projects_async_delay: 5
+
+controller_projects:
+  # Project 1: Hosts the decision engine and API launcher playbooks
+  - name: "WF-Launcher - Decision Engine"
+    description: "Decision routing and API-based JT launcher for WF-Launcher demo"
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-real-life
+    scm_branch: main
+    scm_clean: false
+    organization: Cac-Demo-Org
+    wait: true
+    update_project: true
+
+  # Project 2: Alpha Services target playbooks (web-app operations)
+  - name: "WF-Target - Alpha Services"
+    description: "Web-app operation targets: deploy and restart (site-north)"
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-real-life
+    scm_branch: main
+    scm_clean: false
+    organization: Cac-Demo-Org
+    wait: true
+    update_project: true
+
+  # Project 3: Beta Services target playbooks (data-pipeline operations)
+  - name: "WF-Target - Beta Services"
+    description: "Data-pipeline operation targets: backup and restore (site-south)"
+    scm_type: git
+    scm_url: https://github.com/iamgini/ansible-real-life
+    scm_branch: main
+    scm_clean: false
+    organization: Cac-Demo-Org
+    wait: true
+    update_project: true

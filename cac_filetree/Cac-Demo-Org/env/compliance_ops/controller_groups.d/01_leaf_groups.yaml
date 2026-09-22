@@ -27,21 +27,3 @@ controller_groups:
       - win2019-db-01
     variables:
       target_platform: "windows"
-
-  # Meta group: all Linux scan targets (used by oscap playbooks)
-  - name: scan_targets
-    inventory: Compliance-Inventory
-    children:
-      - compliance_linux_targets
-
-  # Meta group: all Windows targets (used by windows playbooks)
-  - name: windows_targets
-    inventory: Compliance-Inventory
-    children:
-      - compliance_windows_targets
-
-  # Meta group: report server alias
-  - name: report_server
-    inventory: Compliance-Inventory
-    children:
-      - compliance_report_server

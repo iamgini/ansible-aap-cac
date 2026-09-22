@@ -1,0 +1,8 @@
+---
+controller_inventories:
+  - name: WF-Launcher-Inventory
+    description: "Localhost inventory for WF-Launcher demo — all playbooks run on the AAP controller"
+    organization: Cac-Demo-Org
+    variables:
+      ansible_connection: local
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"

@@ -1,0 +1,23 @@
+---
+controller_credential_types:
+  - name: "AAP API Token"
+    description: "Injects AAP controller host URL and bearer token as env vars for API-driven playbooks"
+    kind: cloud
+    inputs:
+      fields:
+        - id: controller_host
+          type: string
+          label: "AAP Controller Host URL"
+          help_text: "Full HTTPS URL of the AAP controller, e.g. https://aap.example.com"
+        - id: controller_token
+          type: string
+          label: "Bearer Token"
+          secret: true
+          help_text: "OAuth2 bearer token from AAP UI: Users → Tokens → Add"
+      required:
+        - controller_host
+        - controller_token
+    injectors:
+      env:
+        CONTROLLER_HOST: !unsafe "{{ controller_host }}"
+        CONTROLLER_TOKEN: !unsafe "{{ controller_token }}"

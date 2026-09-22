@@ -8,6 +8,7 @@ controller_workflows:
     description: "End-to-end OpenSCAP compliance: scan, analyze, generate fix, approve, remediate, rescan"
     organization: Compliance-Ops
     allow_simultaneous: false
+    destroy_current_nodes: true
     ask_limit_on_launch: true
     ask_variables_on_launch: true
     extra_vars:
@@ -84,9 +85,7 @@ controller_workflows:
       # Node 5: Apply remediation
       - identifier: node-500-remediate
         unified_job_template: "Compliance - OSCAP Remediate"
-        success_nodes:
-          - node-600-rescan
-        failure_nodes:
+        always_nodes:
           - node-600-rescan
 
       # Node 6: Validation rescan (runs regardless of remediation outcome)

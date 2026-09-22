@@ -1,0 +1,37 @@
+---
+controller_roles:
+  # Team membership is handled by gateway_role_user_assignments (AAP 2.5+).
+  # controller_roles team membership requires the user to already exist in the
+  # controller (requires prior login), so we skip it here.
+
+  # Workflow permissions
+  - workflow: "WF - Launch Target Job Template"
+    team: WF-Operators
+    role: execute
+
+  - workflow: "WF - Launch Target Job Template"
+    team: WF-Approvers
+    role: approval
+
+  # Inventory access
+  - inventory: WF-Launcher-Inventory
+    team: WF-Operators
+    role: use
+
+  # Project access
+  - project: "WF-Launcher - Decision Engine"
+    team: WF-Operators
+    role: use
+
+  - project: "WF-Target - Alpha Services"
+    team: WF-Operators
+    role: use
+
+  - project: "WF-Target - Beta Services"
+    team: WF-Operators
+    role: use
+
+  # Credential access for the launcher JT
+  - credential: "WF-Launcher-AAP-API"
+    team: WF-Operators
+    role: use
