@@ -24,7 +24,11 @@
       "Bash(curl *)",
       "Bash(echo 'aapaio')",
       "Bash(ansible-vault encrypt_string '0g0kVVRdXf1DOVdCoJLtTNtBArfQXB' --vault-password-file /tmp/vp.txt --name 'controller_token')",
-      "Bash(rm /tmp/vp.txt)"
+      "Bash(rm /tmp/vp.txt)",
+      "Read(//home/gmadappa/.config/**)",
+      "Bash(cat)",
+      "Bash(chmod +x /tmp/run_cac.sh)",
+      "Bash(bash /tmp/run_cac.sh 2>&1)"
     ]
   }
 }

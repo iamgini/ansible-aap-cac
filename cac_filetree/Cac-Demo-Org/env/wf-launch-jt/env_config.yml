@@ -1,0 +1,6 @@
+---
+# Environment-specific configuration for wf-launch-jt.
+# Update these values for your AAP instance before running the CaC playbook.
+# Pass this file at runtime: -e @../cac_filetree/Cac-Demo-Org/env/wf-launch-jt/env_config.yml
+
+wf_controller_host: "https://aapaio.lab.gineesh.com"
