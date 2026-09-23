@@ -27,7 +27,10 @@ controller_templates:
     credentials:
       - "WF-Launcher-AAP-API"
     extra_vars:
-      target_jt_name: ""
+      site_id: ""
+      service_category: ""
+      service_operation: ""
+      change_request_id: ""
 
   # ---------------------------------------------------------------
   # Project: WF-Target - Alpha Services (web-app, site-north)

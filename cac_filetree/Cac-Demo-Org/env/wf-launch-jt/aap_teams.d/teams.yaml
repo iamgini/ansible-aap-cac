@@ -3,7 +3,11 @@ aap_teams:
   - name: WF-Operators
     organization: Cac-Demo-Org
     description: "Users who can launch the WF-Launcher workflow"
+    member_users:
+      - wf-operator
 
   - name: WF-Approvers
     organization: Cac-Demo-Org
     description: "Users who review and approve workflow gate nodes"
+    member_users:
+      - wf-approver

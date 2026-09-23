@@ -6,7 +6,7 @@ controller_workflows:
       Survey → Decision Engine → Human Approval → API Launch → Poll to completion.
     organization: Cac-Demo-Org
     allow_simultaneous: false
-    ask_variables_on_launch: true
+    ask_variables_on_launch: false
     destroy_current_nodes: true
     extra_vars:
       site_id: ""
@@ -75,8 +75,10 @@ controller_workflows:
         approval_node:
           name: "Confirm Target Job Template"
           description: >-
-            Review the decision output from node-100 to confirm which job template will be
-            launched. Check the job output for 'Target JT' before approving.
+            Before approving: click the completed 'WF-Decision - Route Request' node in the
+            workflow visualizer and open its job output. The last task shows the requester,
+            change ticket, and the exact Job Template that will be launched. Approve only
+            after confirming that information.
           timeout: 3600
         success_nodes:
           - node-300-launch
