@@ -10,7 +10,7 @@ aap_hostname: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_
 
 # aap_username: admin
 # aap_password: aapadmin
-# aap_hostname: https://aap25.lab.iamgini.com
+# aap_hostname: https://aap.lab.gineesh.com
 aap_validate_certs: false
 
 export_dir: controller_config_export
